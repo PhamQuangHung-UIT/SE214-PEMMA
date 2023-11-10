@@ -2,8 +2,8 @@ import 'package:budget_buddy/login/login_service.dart';
 import 'login_service.dart';
 
 class LoginController {
-  String? _username = '';
-  String? _password = '';
+  var _username = '';
+  var _password = '';
 
   var service = LoginService();
 
