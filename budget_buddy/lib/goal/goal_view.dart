@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
 import 'dart:ffi';
-
 import 'package:budget_buddy/goal/goal_model.dart';
 import 'package:budget_buddy/goal/goal_tile.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,18 @@ class Budget extends StatefulWidget {
 
 class _BudgetState extends State<Budget> {
   String balance = "9,999,999 đ";
-
+  List<Goal> goalList = [
+    Goal(
+        name: "Iphone 15 Pro Max",
+        imagePath: "assets/images/smartphone.png",
+        price: 35000000,
+        fundedAmount: 17000000),
+    Goal(
+        name: "Iphone 15 Pro Max",
+        imagePath: "assets/images/smartphone.png",
+        price: 35000000,
+        fundedAmount: 17000000),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,12 +109,7 @@ class _BudgetState extends State<Budget> {
                       )),
                   Container(
                       margin: EdgeInsets.fromLTRB(2, 0, 3, 20),
-                      child: GoalTile(
-                          goal: Goal(
-                              fundedAmount: 17500000,
-                              name: "Iphone 15 Pro Max",
-                              imagePath: "lib/images/smartphone.png",
-                              price: 35000000)))
+                      child: GoalTile(goal: goalList[0]))
                 ],
               ),
             )
