@@ -21,10 +21,15 @@ class _BudgetState extends State<Budget> {
         price: 35000000,
         fundedAmount: 17000000),
     Goal(
-        name: "Iphone 15 Pro Max",
+        name: "Ipad Pro",
         imagePath: "assets/images/smartphone.png",
-        price: 35000000,
-        fundedAmount: 17000000),
+        price: 45000000,
+        fundedAmount: 15000000),
+    Goal(
+        name: "Macbook Pro",
+        imagePath: "assets/images/smartphone.png",
+        price: 45000000,
+        fundedAmount: 15000000),
   ];
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class _BudgetState extends State<Budget> {
         backgroundColor: Colors.white,
         body: Container(
             child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               padding: EdgeInsets.fromLTRB(28, 49.5, 24, 27),
@@ -73,7 +78,7 @@ class _BudgetState extends State<Budget> {
                     ),
                   ),
                   Container(
-                      margin: EdgeInsets.fromLTRB(3, 0, 0, 16),
+                      margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -108,8 +113,15 @@ class _BudgetState extends State<Budget> {
                         ],
                       )),
                   Container(
-                      margin: EdgeInsets.fromLTRB(2, 0, 3, 20),
-                      child: GoalTile(goal: goalList[0]))
+                      margin: EdgeInsets.fromLTRB(2, 0, 0, 0),
+                      height: 235,
+                      child: ListView.builder(
+                        padding: EdgeInsets.only(top: 10),
+                        itemCount: goalList.length,
+                        itemBuilder: (context, index) {
+                          return GoalTile(goal: goalList[index]);
+                        },
+                      ))
                 ],
               ),
             )
