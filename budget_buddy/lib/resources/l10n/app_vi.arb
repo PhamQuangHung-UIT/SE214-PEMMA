@@ -1,0 +1,19 @@
+{
+    "welcome_title":"Chào mừng đến với\nBudget Buddy!",
+    "get_started":"Bắt đầu",
+    "login_title":"Chào mừng bạn!",
+    "email":"Email",
+    "password":"Mật khẩu",
+    "login_uppercase":"ĐĂNG NHẬP",
+    "forgot_password":"Quên mật khẩu?",
+    "email_empty_message":"Email không được để trống.",
+    "invalid_email":"Email không hợp lệ",
+    "email_or_password_incorrect":"Email hoặc mật khẩu không đúng",
+    "user_not_found_dialog_msg":"Tài khoản email này chưa được đăng ký. Bạn có muốn đăng ký tài khoản mới cho email này không?",
+    "sign_up":"Đăng ký",
+    "cancel_btn":"Hủy",
+    "home_navigation_bar":"Trang chủ",
+    "report_navigation_bar":"Báo cáo",
+    "budget_navigation_bar":"Ngân quỹ",
+    "profile_navigation_bar":"Cá nhân"
+}

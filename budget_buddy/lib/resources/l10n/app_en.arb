@@ -1,0 +1,19 @@
+{
+    "welcome_title":"Welcome to\nBudget Buddy!",
+    "get_started":"Get started",
+    "login_title":"Welcome, buddy!",
+    "email":"Email",
+    "password":"Password",
+    "login_uppercase":"LOGIN",
+    "forgot_password":"Forgot password?",
+    "email_empty_message":"The email must not be empty.",
+    "invalid_email":"Invalid email",
+    "email_or_password_incorrect":"Email or password was incorrect",
+    "user_not_found_dialog_msg":"The email address has not been signed up yet. Would you like to sign up a new account with this email address?",
+    "sign_up":"Sign up",
+    "cancel_btn":"Cancel",
+    "home_navigation_bar":"Home",
+    "report_navigation_bar":"Report",
+    "budget_navigation_bar":"Budget",
+    "profile_navigation_bar":"Profile"
+}
