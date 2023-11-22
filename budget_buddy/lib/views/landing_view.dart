@@ -1,6 +1,6 @@
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
-import 'package:budget_buddy/view/login_view.dart';
+import 'package:budget_buddy/views/login_view.dart';
 import 'package:flutter/material.dart';
 
 class LandingView extends StatelessWidget {

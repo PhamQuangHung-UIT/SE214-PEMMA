@@ -1,12 +1,12 @@
 import 'package:budget_buddy/data_sources/repositories/login_repository.dart';
-import 'package:budget_buddy/view/landing_view.dart';
-import 'package:budget_buddy/view/login_view.dart';
+import 'package:budget_buddy/views/landing_view.dart';
+import 'package:budget_buddy/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'resources/utils/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:budget_buddy/view/home_view.dart';
+import 'package:budget_buddy/views/home_view.dart';
 import 'package:budget_buddy/resources/theme/app_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

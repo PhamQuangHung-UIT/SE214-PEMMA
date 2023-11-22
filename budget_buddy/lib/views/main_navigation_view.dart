@@ -1,4 +1,4 @@
-import 'package:budget_buddy/view/profile_view.dart';
+import 'package:budget_buddy/views/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/resources/widget/custom_bottom_bar.dart';
