@@ -6,48 +6,32 @@ import 'package:budget_buddy/resources/widget/custom_bottom_bar.dart';
 class MainNavigationView extends StatelessWidget {
   MainNavigationView({Key? key}) : super(key: key);
 
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  final _pageController = PageController(initialPage: 0, keepPage: true);
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
     return Scaffold(
-        body: Navigator(
-            key: navigatorKey,
-            initialRoute: '/home',
-            onGenerateRoute: (routeSetting) => PageRouteBuilder(
-                pageBuilder: (ctx, ani, ani1) => getCurrentPage(routeSetting.name!),
-                transitionDuration: const Duration())),
+        body: PageView(controller: _pageController, children: const [
+          ProfileView(),
+        ]),
         bottomNavigationBar: CustomBottomBar(onChanged: (BottomBarEnum type) {
-          Navigator.pushNamed(navigatorKey.currentContext!, getCurrentRoute(type));
+          _pageController.animateToPage(getCurrentPage(type),
+              duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
         }));
   }
 
   ///Handling route based on bottom click actions
-  String getCurrentRoute(BottomBarEnum type) {
+  int getCurrentPage(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.report:
-        return "/report";
+        return 1;
       case BottomBarEnum.budget:
-        return "/budget";
+        return 2;
       case BottomBarEnum.profile:
-        return "/profile";
+        return 3;
       default:
-        return "/home";
-    }
-  }
-
-  ///Handling page based on route
-  Widget getCurrentPage(String currentRoute) {
-    switch (currentRoute) {
-      case '/profile':
-        return ProfileView();
-      case '/report':
-        return SizedBox();
-      case '/budget':
-        return SizedBox();
-      default:
-        return SizedBox();
+        return 0;
     }
   }
 }

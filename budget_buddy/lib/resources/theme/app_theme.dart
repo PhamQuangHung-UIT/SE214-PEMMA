@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static const green800 = Color(0xFF03A700);
 
-  static final grey400 = Colors.grey[400];
+  static final grey400 = Colors.grey.shade400;
 
   static var lightTheme = ThemeData(
       elevatedButtonTheme: ElevatedButtonThemeData(
