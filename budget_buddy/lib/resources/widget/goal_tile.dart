@@ -1,4 +1,4 @@
-import 'package:budget_buddy/goal/goal_model.dart';
+import 'package:budget_buddy/models/goal_model.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:intl/intl.dart';
