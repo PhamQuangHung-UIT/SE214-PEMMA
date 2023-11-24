@@ -1,4 +1,5 @@
 import 'package:budget_buddy/models/budget_model.dart';
+import 'package:budget_buddy/resources/widget/category_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:intl/intl.dart';
@@ -17,23 +18,7 @@ class _BudgetTileState extends State<BudgetTile> {
     return Container(
       margin: EdgeInsets.fromLTRB(0.h, 0.v, 9.h, 15.v),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(
-          margin: EdgeInsets.fromLTRB(0.h, 0.v, 13.h, 10.v),
-          padding: EdgeInsets.fromLTRB(8.h, 7.v, 8.h, 7.v),
-          height: 48.v,
-          width: 48.h,
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(360)),
-          child: Center(
-              child: SizedBox(
-                  child: Image.asset(
-            widget.budget.imagePath,
-            fit: BoxFit.cover,
-            width: 30.adaptSize,
-            height: 30.adaptSize,
-          ))),
-        ),
+        CategoryIcon(imagePath: widget.budget.imagePath),
         Center(
           child: Container(
             width: 186.h,

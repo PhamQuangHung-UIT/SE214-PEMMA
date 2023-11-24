@@ -16,10 +16,12 @@ class MainNavigationView extends StatelessWidget {
             key: navigatorKey,
             initialRoute: '/home',
             onGenerateRoute: (routeSetting) => PageRouteBuilder(
-                pageBuilder: (ctx, ani, ani1) => getCurrentPage(routeSetting.name!),
+                pageBuilder: (ctx, ani, ani1) =>
+                    getCurrentPage(routeSetting.name!),
                 transitionDuration: const Duration())),
         bottomNavigationBar: CustomBottomBar(onChanged: (BottomBarEnum type) {
-          Navigator.pushNamed(navigatorKey.currentContext!, getCurrentRoute(type));
+          Navigator.pushNamed(
+              navigatorKey.currentContext!, getCurrentRoute(type));
         }));
   }
 

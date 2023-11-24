@@ -18,5 +18,8 @@
     "profile_navigation_bar":"Cá nhân",
     "budget":"Ngân sách",
     "balance":"SỐ DƯ",
-    "goal":"Mục tiêu"
+    "goal":"Mục tiêu",
+    "add_goal_title":"Mục tiêu mới",
+    "newgoal_goal_name_hint":"Tên mục tiêu",
+    "newgoal_goal_budget_hint":"Số tiền"
 }

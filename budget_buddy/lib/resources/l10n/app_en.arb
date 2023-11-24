@@ -18,5 +18,8 @@
     "profile_navigation_bar":"Profile",
     "budget":"Budget",
     "balance":"BALANCE",
-    "goal":"Goal"
+    "goal":"Goal",
+    "add_goal_title":"New Goal",
+    "newgoal_goal_name_hint":"Goal name",
+    "newgoal_goal_budget_hint":"Budget"
 }

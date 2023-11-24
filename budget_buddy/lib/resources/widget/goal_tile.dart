@@ -1,5 +1,6 @@
 import 'package:budget_buddy/models/goal_model.dart';
 import 'package:budget_buddy/resources/app_export.dart';
+import 'package:budget_buddy/resources/widget/category_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:intl/intl.dart';
@@ -19,23 +20,7 @@ class _GoalTileState extends State<GoalTile> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: EdgeInsets.fromLTRB(0.h, 0.v, 13.h, 10.v),
-            padding: EdgeInsets.fromLTRB(8.h, 7.v, 8.h, 7.v),
-            height: 48.v,
-            width: 48.h,
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(360)),
-            child: Center(
-                child: SizedBox(
-                    child: Image.asset(
-              widget.goal.imagePath,
-              fit: BoxFit.cover,
-              width: 30.adaptSize,
-              height: 30.adaptSize,
-            ))),
-          ),
+          CategoryIcon(imagePath: widget.goal.imagePath),
           Container(
             margin: EdgeInsets.fromLTRB(0.h, 3.v, 0.h, 0.v),
             width: 272.h,
