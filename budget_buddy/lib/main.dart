@@ -49,7 +49,8 @@ class MainApp extends StatelessWidget {
             // Đã đăng nhập, vào màn hình chính
             return const HomeView();
           },
-        ));
+        )
+    );
   }
 
   // Run all async task and return first run state and current login user
