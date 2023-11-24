@@ -1,4 +1,5 @@
 import 'package:budget_buddy/models/goal_model.dart';
+import 'package:budget_buddy/resources/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:intl/intl.dart';
@@ -14,15 +15,15 @@ class _GoalTileState extends State<GoalTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+      margin: EdgeInsets.fromLTRB(0.h, 0.v, 0.h, 10.v),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.fromLTRB(0, 0, 13, 10),
-            padding: EdgeInsets.fromLTRB(8, 7, 8, 7),
-            height: 48,
-            width: 48,
+            margin: EdgeInsets.fromLTRB(0.h, 0.v, 13.h, 10.v),
+            padding: EdgeInsets.fromLTRB(8.h, 7.v, 8.h, 7.v),
+            height: 48.v,
+            width: 48.h,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.circular(360)),
@@ -31,34 +32,34 @@ class _GoalTileState extends State<GoalTile> {
                     child: Image.asset(
               widget.goal.imagePath,
               fit: BoxFit.cover,
-              width: 32,
-              height: 32,
+              width: 30.adaptSize,
+              height: 30.adaptSize,
             ))),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(0, 3, 0, 0),
-            width: 272,
+            margin: EdgeInsets.fromLTRB(0.h, 3.v, 0.h, 0.v),
+            width: 272.h,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
+                  margin: EdgeInsets.fromLTRB(0.h, 0.v, 0.h, 12.v),
                   child: Text(
                     widget.goal.name,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 18.fSize,
                       fontWeight: FontWeight.w500,
-                      height: 1.2175,
+                      height: 1.2175.v,
                       color: Color(0xff000000),
                     ),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 1, 5),
-                  width: 270,
-                  height: 4,
+                  margin: EdgeInsets.fromLTRB(0.h, 0.v, 1.h, 5.v),
+                  width: 270.h,
+                  height: 4.v,
                   child: LinearPercentIndicator(
-                    width: 270,
+                    width: 270.h,
                     percent: widget.goal.fundedAmount / widget.goal.price,
                     backgroundColor: Color(0xffB7B7B7),
                     animation: true,
@@ -67,36 +68,36 @@ class _GoalTileState extends State<GoalTile> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(1, 0, 0, 0),
-                  width: 264,
+                  margin: EdgeInsets.fromLTRB(1.h, 0.v, 0.h, 0.v),
+                  width: 264.h,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        margin: EdgeInsets.fromLTRB(9, 0, 74, 1),
+                        margin: EdgeInsets.fromLTRB(9.h, 0.v, 74.h, 1.v),
                         child: Text(
                           NumberFormat.decimalPatternDigits(
                                   locale: 'en_us', decimalDigits: 0)
                               .format(widget.goal.fundedAmount),
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.fSize,
                             fontWeight: FontWeight.w600,
-                            height: 1.2175,
+                            height: 1.2175.v,
                             color: Color(0xff00bd40),
                           ),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.fromLTRB(0, 1, 0, 0),
+                        margin: EdgeInsets.fromLTRB(0.h, 1.v, 0.h, 0.v),
                         child: Text(
                           NumberFormat.decimalPatternDigits(
                                   locale: 'en_us', decimalDigits: 0)
                               .format(widget.goal.price),
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.fSize,
                             fontWeight: FontWeight.w600,
-                            height: 1.2175,
+                            height: 1.2175.v,
                             color: Color(0xff00bd40),
                           ),
                         ),

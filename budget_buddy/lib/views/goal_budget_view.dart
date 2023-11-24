@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
 import 'dart:ffi';
+import 'package:budget_buddy/models/budget_model.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/models/goal_model.dart';
+import 'package:budget_buddy/resources/widget/budget_tile.dart';
 import 'package:budget_buddy/resources/widget/goal_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,43 @@ class BudgetView extends StatefulWidget {
 
 class _BudgetViewState extends State<BudgetView> {
   String balance = "9,999,999 đ";
+  List<Budget> budgetList = [
+    Budget(
+        userid: "",
+        categoryName: "Food",
+        imagePath: "assets/images/restaurant.png",
+        budget: 0,
+        spentAmount: 0,
+        isEveryMonth: false),
+    Budget(
+        userid: "",
+        categoryName: "Fuel",
+        imagePath: "assets/images/fuel.png",
+        budget: 0,
+        spentAmount: 0,
+        isEveryMonth: false),
+    Budget(
+        userid: "",
+        categoryName: "Clothes",
+        imagePath: "assets/images/casual-t-shirt-.png",
+        budget: 0,
+        spentAmount: 0,
+        isEveryMonth: false),
+    Budget(
+        userid: "",
+        categoryName: "Shopping",
+        imagePath: "assets/images/shopping-bag.png",
+        budget: 0,
+        spentAmount: 0,
+        isEveryMonth: false),
+    Budget(
+        userid: "",
+        categoryName: "Electricity bill",
+        imagePath: "assets/images/electricity-bill.png",
+        budget: 0,
+        spentAmount: 0,
+        isEveryMonth: false),
+  ];
   List<Goal> goalList = [
     Goal(
         userid: "",
@@ -45,64 +84,66 @@ class _BudgetViewState extends State<BudgetView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: EdgeInsets.fromLTRB(28, 49.5, 24, 27),
+                padding: EdgeInsets.fromLTRB(28.h, 49.5.v, 24.h, 27.v),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Center(
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(0, 0, 4, 12),
+                        margin: EdgeInsets.fromLTRB(0.h, 0.v, 4.h, 12.v),
                         child: Text(AppLocalizations.of(context)!.budget,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 24.fSize,
                               fontWeight: FontWeight.bold,
                             )),
                       ),
                     ),
                     Center(
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(0, 0, 8, 1),
+                        margin: EdgeInsets.fromLTRB(0.h, 0.v, 8.h, 1.v),
                         child: Text(
-                          "BALANCE",
+                          AppLocalizations.of(context)!.balance,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w400),
+                              fontSize: 15.fSize, fontWeight: FontWeight.w400),
                         ),
                       ),
                     ),
                     Center(
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(0, 0, 9, 10),
+                        margin: EdgeInsets.fromLTRB(0.h, 0.v, 9.h, 10.v),
                         child: Text(
                           balance,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 20.fSize, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
                     Container(
-                        margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                        margin: EdgeInsets.fromLTRB(3.h, 0.v, 0.h, 0.v),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Center(
                               child: Container(
-                                margin: EdgeInsets.fromLTRB(0, 0, 203, 0),
+                                margin:
+                                    EdgeInsets.fromLTRB(0.h, 0.v, 203.h, 0.v),
                                 child: Text(
-                                  "Goals",
+                                  AppLocalizations.of(context)!.goal,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 24,
+                                      fontSize: 24.fSize,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
                             Container(
-                                margin: EdgeInsets.fromLTRB(0, 0.5, 0, 0),
-                                width: 63,
-                                height: 34,
+                                margin:
+                                    EdgeInsets.fromLTRB(0.h, 0.5.v, 0.h, 0.v),
+                                width: 63.h,
+                                height: 34.v,
                                 decoration: BoxDecoration(
                                     border:
                                         Border.all(color: Color(0xff03a700)),
@@ -112,7 +153,7 @@ class _BudgetViewState extends State<BudgetView> {
                                   child: Text(
                                     "ADD",
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 16.fSize,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
                                   ),
@@ -120,28 +161,40 @@ class _BudgetViewState extends State<BudgetView> {
                           ],
                         )),
                     Container(
-                        margin: EdgeInsets.fromLTRB(2, 0, 0, 0),
-                        height: 235,
+                        margin: EdgeInsets.fromLTRB(2.h, 0.v, 0.h, 0.v),
+                        height: 230.v,
                         child: ListView.builder(
-                          padding: EdgeInsets.only(top: 10),
+                          padding: EdgeInsets.only(top: 10.v),
                           itemCount: goalList.length,
                           itemBuilder: (context, index) {
                             return GoalTile(goal: goalList[index]);
                           },
                         )),
-                    Center(
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(0, 0, 162, 18),
-                        child: Text(
-                          'Expense caps',
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
-                              height: 1.2175,
-                              color: Color(0xff000000)),
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0.h, 10.v, 0.h, 5.v),
+                          child: Text(
+                            AppLocalizations.of(context)!.budget,
+                            style: TextStyle(
+                                fontSize: 24.fSize,
+                                fontWeight: FontWeight.w700,
+                                height: 1.2175.v,
+                                color: Color(0xff000000)),
+                          ),
                         ),
-                      ),
-                    )
+                      ],
+                    ),
+                    Container(
+                        margin: EdgeInsets.fromLTRB(2.h, 0.v, 0.h, 0.v),
+                        height: 350.v,
+                        child: ListView.builder(
+                          padding: EdgeInsets.only(top: 10.v),
+                          itemCount: budgetList.length,
+                          itemBuilder: (context, index) {
+                            return BudgetTile(budget: budgetList[index]);
+                          },
+                        )),
                   ],
                 ),
               )

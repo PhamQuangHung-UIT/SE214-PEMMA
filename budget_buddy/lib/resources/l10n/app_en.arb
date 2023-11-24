@@ -17,5 +17,6 @@
     "budget_navigation_bar":"Budget",
     "profile_navigation_bar":"Profile",
     "budget":"Budget",
-    "balance":"BALANCE"
+    "balance":"BALANCE",
+    "goal":"Goal"
 }
