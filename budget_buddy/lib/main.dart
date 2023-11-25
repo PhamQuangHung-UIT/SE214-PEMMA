@@ -1,4 +1,5 @@
 import 'package:budget_buddy/data_sources/repositories/login_repository.dart';
+import 'package:budget_buddy/views/add_budget_view.dart';
 import 'package:budget_buddy/views/add_goal_view.dart';
 import 'package:budget_buddy/views/goal_budget_view.dart';
 import 'package:budget_buddy/views/landing_view.dart';
@@ -33,7 +34,7 @@ class MainApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        home: AddGoalView());
+        home: AddBudgetView());
   }
 }
 

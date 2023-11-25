@@ -7,6 +7,7 @@ import 'package:budget_buddy/models/goal_model.dart';
 import 'package:budget_buddy/resources/widget/budget_tile.dart';
 import 'package:budget_buddy/resources/widget/goal_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class BudgetView extends StatefulWidget {
   const BudgetView({super.key});
@@ -16,7 +17,8 @@ class BudgetView extends StatefulWidget {
 }
 
 class _BudgetViewState extends State<BudgetView> {
-  String balance = "9,999,999 đ";
+  double balance = 9999999;
+  var formatter = NumberFormat('#,000');
   List<Budget> budgetList = [
     Budget(
         userid: "",
@@ -112,9 +114,11 @@ class _BudgetViewState extends State<BudgetView> {
                     ),
                     Center(
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(0.h, 0.v, 9.h, 10.v),
+                        margin: EdgeInsets.fromLTRB(0.h, 0.v, 0.h, 10.v),
                         child: Text(
-                          balance,
+                          formatter.format(balance) +
+                              " " +
+                              AppLocalizations.of(context)!.currency_icon,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 20.fSize, fontWeight: FontWeight.bold),

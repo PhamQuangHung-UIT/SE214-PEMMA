@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:budget_buddy/resources/widget/category_icon.dart';
+import 'package:budget_buddy/resources/widget/custom_dropdown.dart';
 import 'package:budget_buddy/resources/widget/custom_textfied.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
@@ -18,10 +19,8 @@ class _AddGoalViewState extends State<AddGoalView> {
   final budgetController = TextEditingController();
 
   final timeController = TextEditingController();
-
-  List<String> times = ['day', 'month', 'year'];
-
-  String? selectedTime = 'day';
+  List<String> times = ['Day', 'Month', 'Year'];
+  String? selectedTime = 'Day';
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class _AddGoalViewState extends State<AddGoalView> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          AppLocalizations.of(context)!.add_goal_title,
+          AppLocalizations.of(context)!.add_budget_title,
           style: TextStyle(fontSize: 20.fSize, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Color(0xff03a700),
@@ -93,27 +92,7 @@ class _AddGoalViewState extends State<AddGoalView> {
                   SizedBox(
                     width: 20,
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 14, right: 7),
-                    decoration: BoxDecoration(
-                        color: Color(0xfff5f5f5),
-                        borderRadius: BorderRadius.circular(15.0),
-                        border: Border.all(color: Color(0xffcdcdcd))),
-                    child: DropdownButton<String>(
-                        value: selectedTime,
-                        items: times
-                            .map((time) => DropdownMenuItem<String>(
-                                value: time,
-                                child: Text(
-                                  time,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                )))
-                            .toList(),
-                        onChanged: (time) =>
-                            setState(() => selectedTime = time)),
-                  ),
+                  CustomDropdown(items: times, selectedItem: selectedTime)
                 ],
               ),
             )
