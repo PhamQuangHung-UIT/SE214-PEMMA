@@ -1,6 +1,8 @@
 import 'package:budget_buddy/data_sources/repositories/login_repository.dart';
 import 'package:budget_buddy/views/landing_view.dart';
 import 'package:budget_buddy/views/login_view.dart';
+import 'package:budget_buddy/views/event_new_view.dart';
+import 'package:budget_buddy/views/event_edit_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -34,7 +36,8 @@ class MainApp extends StatelessWidget {
         home: FutureBuilder<List<Object?>>(
           future: getFirstRunAndLoginUser(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active && snapshot.data == null) {
+            if (snapshot.connectionState == ConnectionState.active &&
+                snapshot.data == null) {
               return const Center(child: CircularProgressIndicator());
             }
             bool firstRun = snapshot.data![0] as bool;
