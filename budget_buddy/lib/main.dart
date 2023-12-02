@@ -2,7 +2,6 @@ import 'package:budget_buddy/data_sources/repositories/login_repository.dart';
 import 'package:budget_buddy/presenters/profile_presenter.dart';
 import 'package:budget_buddy/views/landing_view.dart';
 import 'package:budget_buddy/views/login_view.dart';
-import 'package:budget_buddy/views/sign_up_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

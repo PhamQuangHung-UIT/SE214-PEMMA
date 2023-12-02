@@ -25,5 +25,16 @@
     "email_vertification_msg_1":"Một email xác thực đã được gửi đến cho bạn. Vui lòng kiểm tra",
     "your_inbox":"hộp thư của bạn",
     "email_vertification_msg_2":"để thiết lập lại mật khẩu",
-    "resend_uppercase":"GỬI LẠI"
+    "resend_uppercase":"GỬI LẠI",
+    "budget":"Ngân sách",
+    "balance":"SỐ DƯ",
+    "goal":"Mục tiêu",
+    "add_goal_title":"Mục tiêu mới",
+    "newgoal_goal_name_hint":"Tên mục tiêu",
+    "newgoal_goal_budget_hint":"Số tiền",
+    "add_budget_title":"Ngân sách mới",
+    "set_budget_description":"Đặt một ngân sách cho loại chi tiêu này.",
+     "is_every_month_option":"Mọi tháng",
+    "this_month_only_option":"Chỉ tháng này",
+    "currency_icon":"đ"
 }
