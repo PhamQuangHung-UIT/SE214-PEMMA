@@ -1,44 +1,45 @@
 name: budget_buddy
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.1.2 <4.0.0'
+    sdk: ">=3.1.2 <4.0.0"
 
 dependencies:
-  email_validator: ^2.1.17
-  firebase_auth: ^4.12.1
-  firebase_core: ^2.21.0
-  flutter:
-    sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-  google_fonts: ^6.1.0
-  intl: any
-  shared_preferences: ^2.2.2
+    percent_indicator: ^4.0.1
+    email_validator: ^2.1.17
+    firebase_auth: ^4.12.1
+    firebase_core: ^2.21.0
+    flutter:
+        sdk: flutter
+    flutter_localizations:
+        sdk: flutter
+    google_fonts: ^6.1.0
+    intl: any
+    shared_preferences: ^2.2.2
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^2.0.0
+    flutter_test:
+        sdk: flutter
+    flutter_lints: ^2.0.0
 
 flutter:
-  generate: true
-  uses-material-design: true
-  assets:
-    - assets/
-    - assets/images/
-  fonts: 
-    - family: Montserrat
-      fonts: 
-        - asset: assets/fonts/MontserratRomanBold.ttf
-          weight: 700
-        - asset: assets/fonts/MontserratRomanMedium.ttf
-          weight: 500
-        - asset: assets/fonts/MontserratRomanSemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/MontserratRomanRegular.ttf
-          weight: 400
-        - asset: assets/fonts/MontserratRomanLight.ttf
-          weight: 300
+    generate: true
+    uses-material-design: true
+    assets:
+        - assets/
+        - assets/images/
+    fonts:
+        - family: Montserrat
+          fonts:
+              - asset: assets/fonts/MontserratRomanBold.ttf
+                weight: 700
+              - asset: assets/fonts/MontserratRomanMedium.ttf
+                weight: 500
+              - asset: assets/fonts/MontserratRomanSemiBold.ttf
+                weight: 600
+              - asset: assets/fonts/MontserratRomanRegular.ttf
+                weight: 400
+              - asset: assets/fonts/MontserratRomanLight.ttf
+                weight: 300
