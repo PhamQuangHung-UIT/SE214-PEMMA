@@ -1,15 +1,15 @@
+import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
 import 'package:budget_buddy/resources/widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
-import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
 
-class ChangePasswordScreen extends StatelessWidget {
-  ChangePasswordScreen({Key? key})
+class ForgotPasswordScreen extends StatelessWidget {
+  ForgotPasswordScreen({Key? key})
       : super(
           key: key,
         );
 
-  final TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,38 +37,37 @@ class ChangePasswordScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 5.h),
                   child: Text(
-                    "Change Password",
+                    "Forgot Password",
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
                 SizedBox(height: 10.v),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: 313.h,
-                    margin: EdgeInsets.only(
-                      left: 5.h,
-                      right: 12.h,
+                Container(
+                  width: 292.h,
+                  margin: EdgeInsets.only(
+                    left: 5.h,
+                    right: 32.h,
+                  ),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: AppLocalizations.of(context)!.please_enter,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const TextSpan(text: ' '),
+                        TextSpan(
+                          text: AppLocalizations.of(context)!.your_email,
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppTheme.green800),
+                        ),
+                        const TextSpan(text: ' '),
+                        TextSpan(
+                          text: AppLocalizations.of(context)!.to_reset_your_password,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ],
                     ),
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Please enter your ",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          TextSpan(
-                            text: "email",
-                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppTheme.green800),
-                          ),
-                          TextSpan(
-                            text: " to change your password.",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          )
-                        ],
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
+                    textAlign: TextAlign.left,
                   ),
                 ),
                 SizedBox(height: 28.v),
@@ -82,6 +81,7 @@ class ChangePasswordScreen extends StatelessWidget {
                     hintText: "Email",
                     textInputAction: TextInputAction.done,
                     textInputType: TextInputType.emailAddress,
+                    obscureText: true,
                   ),
                 ),
                 SizedBox(height: 42.v),
