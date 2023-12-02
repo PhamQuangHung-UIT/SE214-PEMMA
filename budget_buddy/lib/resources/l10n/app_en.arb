@@ -5,7 +5,9 @@
     "email":"Email",
     "password":"Password",
     "login_uppercase":"LOGIN",
+    "or":"or",
     "forgot_password":"Forgot password?",
+    "dont_have_an_account":"Don’t have an account?",
     "email_empty_message":"The email must not be empty.",
     "invalid_email":"Invalid email",
     "email_or_password_incorrect":"Email or password was incorrect",
@@ -15,5 +17,13 @@
     "home_navigation_bar":"Home",
     "report_navigation_bar":"Report",
     "budget_navigation_bar":"Budget",
-    "profile_navigation_bar":"Profile"
+    "profile_navigation_bar":"Profile",
+    "email_sent":"Email sent!",
+    "please_enter":"Please enter",
+    "your_email":"your email",
+    "to_reset_your_password":"to reset your password.",
+    "email_vertification_msg_1":"An email to change password has been sent to you. Please check",
+    "your_inbox":"your inbox",
+    "email_vertification_msg_2":"to change your password.",
+    "resend_uppercase":"RESEND"
 }

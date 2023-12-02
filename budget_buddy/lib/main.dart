@@ -1,6 +1,8 @@
 import 'package:budget_buddy/data_sources/repositories/login_repository.dart';
+import 'package:budget_buddy/presenters/profile_presenter.dart';
 import 'package:budget_buddy/views/landing_view.dart';
 import 'package:budget_buddy/views/login_view.dart';
+import 'package:budget_buddy/views/sign_up_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,17 +15,38 @@ import 'package:firebase_auth/firebase_auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MainApp());
+  var profilePresenter = ProfilePresenter();
+  await profilePresenter.loadSettings();
+  runApp(MainApp(profilePresenter));
 }
 
 // The initial widget for theme, configuration and more
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MainApp extends StatefulWidget {
+  const MainApp(this.presenter, {super.key});
+
+  final ProfilePresenter presenter;
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> implements MainAppViewContract {
+  late Locale currentLocale;
+
+  late ProfilePresenter _presenter;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = widget.presenter;
+    currentLocale = _presenter.currentLocale;
+    _presenter.mainAppViewContract = this;
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: AppTheme.lightTheme,
+        locale: currentLocale,
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: const [
           AppLocalizations.delegate,
@@ -40,7 +63,7 @@ class MainApp extends StatelessWidget {
             bool firstRun = snapshot.data![0] as bool;
             User? user = snapshot.data![1] as User?;
             if (firstRun) {
-              return const LandingView();
+              return const LoginView();
             }
             if (user == null) {
               //Chưa đăng nhập
@@ -59,5 +82,12 @@ class MainApp extends StatelessWidget {
     bool firstRun = await futureFirstRun;
     User? user = await futureLoginUser.first;
     return [firstRun, user];
+  }
+
+  @override
+  void onUpdateLocaleSuccess(Locale newLocale) {
+    setState(() {
+      currentLocale = newLocale;
+    });
   }
 }
