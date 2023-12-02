@@ -20,13 +20,17 @@ class _CustomDropdownState extends State<CustomDropdown> {
           borderRadius: BorderRadius.circular(15.0),
           border: Border.all(color: Color(0xffcdcdcd))),
       child: DropdownButton<String>(
+          underline: Container(),
           value: widget.selectedItem,
           items: widget.items
               .map((item) => DropdownMenuItem<String>(
                   value: item,
                   child: Text(
                     item,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
                   )))
               .toList(),
           onChanged: (time) => setState(() => widget.selectedItem = time)),

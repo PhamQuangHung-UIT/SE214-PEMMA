@@ -22,8 +22,22 @@ class LoginPresenter {
   Future<void> loginWithPassword(String username, String password) async {
     assert(username.isNotEmpty && password.isNotEmpty);
     assert(username.length >= 6 && password.length >= 6);
-    _repos
+    await _repos
         .loginWithPassword(username, password)
+        .then((value) => viewContract?.onLoginSuccess())
+        .catchError((error) => viewContract?.onLoginError(error as FirebaseAuthException));
+  }
+
+  Future<void> loginWithGoogle() async {
+    await _repos
+        .loginWithGoogle()
+        .then((value) => viewContract?.onLoginSuccess())
+        .catchError((error) => viewContract?.onLoginError(error as FirebaseAuthException));
+  }
+
+  Future<void> loginWithFacebook() async {
+    await _repos
+        .loginWithFacebook()
         .then((value) => viewContract?.onLoginSuccess())
         .catchError((error) => viewContract?.onLoginError(error as FirebaseAuthException));
   }

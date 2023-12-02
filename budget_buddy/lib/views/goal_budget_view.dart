@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
-import 'dart:ffi';
 import 'package:budget_buddy/models/budget_model.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/models/goal_model.dart';
 import 'package:budget_buddy/resources/widget/budget_tile.dart';
 import 'package:budget_buddy/resources/widget/goal_tile.dart';
+import 'package:budget_buddy/views/add_goal_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -56,26 +56,7 @@ class _BudgetViewState extends State<BudgetView> {
         spentAmount: 0,
         isEveryMonth: false),
   ];
-  List<Goal> goalList = [
-    Goal(
-        userid: "",
-        name: "Iphone 15 Pro Max",
-        imagePath: "assets/images/smartphone.png",
-        price: 35000000,
-        fundedAmount: 17000000),
-    Goal(
-        userid: "",
-        name: "Ipad Pro",
-        imagePath: "assets/images/smartphone.png",
-        price: 45000000,
-        fundedAmount: 15000000),
-    Goal(
-        userid: "",
-        name: "Macbook Pro",
-        imagePath: "assets/images/smartphone.png",
-        price: 45000000,
-        fundedAmount: 15000000),
-  ];
+  List<Goal> goalList = [];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -143,25 +124,35 @@ class _BudgetViewState extends State<BudgetView> {
                                 ),
                               ),
                             ),
-                            Container(
-                                margin:
-                                    EdgeInsets.fromLTRB(0.h, 0.5.v, 0.h, 0.v),
-                                width: 63.h,
-                                height: 34.v,
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0xff03a700)),
-                                    color: Color(0xff03a700),
-                                    borderRadius: BorderRadius.circular(7)),
-                                child: Center(
-                                  child: Text(
-                                    "ADD",
-                                    style: TextStyle(
-                                        fontSize: 16.fSize,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                ))
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddGoalView()),
+                                );
+                              },
+                              child: Container(
+                                  margin:
+                                      EdgeInsets.fromLTRB(0.h, 0.5.v, 0.h, 0.v),
+                                  width: 63.h,
+                                  height: 34.v,
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Color(0xff03a700)),
+                                      color: Color(0xff03a700),
+                                      borderRadius: BorderRadius.circular(7)),
+                                  child: Center(
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .add_button_title,
+                                      style: TextStyle(
+                                          fontSize: 16.fSize,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  )),
+                            )
                           ],
                         )),
                     Container(
@@ -191,7 +182,7 @@ class _BudgetViewState extends State<BudgetView> {
                     ),
                     Container(
                         margin: EdgeInsets.fromLTRB(2.h, 0.v, 0.h, 0.v),
-                        height: 350.v,
+                        height: 270.v,
                         child: ListView.builder(
                           padding: EdgeInsets.only(top: 10.v),
                           itemCount: budgetList.length,

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 
-class CategoryIcon extends StatelessWidget {
+class GoalIcon extends StatelessWidget {
   final String imagePath;
-  CategoryIcon({super.key, required this.imagePath});
+  const GoalIcon({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 48,
-      width: 48,
+      padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(360)),
       child: Center(
           child: SizedBox(
-              child: Image.asset(
+              child: Image.network(
         imagePath,
         fit: BoxFit.cover,
         width: 30.adaptSize,

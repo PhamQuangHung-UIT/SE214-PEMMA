@@ -45,7 +45,7 @@ class _GoalTileState extends State<GoalTile> {
                   height: 4.v,
                   child: LinearPercentIndicator(
                     width: 270.h,
-                    percent: widget.goal.fundedAmount / widget.goal.price,
+                    percent: widget.goal.fundAmount / widget.goal.goalAmount,
                     backgroundColor: Color(0xffB7B7B7),
                     animation: true,
                     animationDuration: 1000,
@@ -64,7 +64,7 @@ class _GoalTileState extends State<GoalTile> {
                         child: Text(
                           NumberFormat.decimalPatternDigits(
                                   locale: 'en_us', decimalDigits: 0)
-                              .format(widget.goal.fundedAmount),
+                              .format(widget.goal.fundAmount),
                           style: TextStyle(
                             fontSize: 16.fSize,
                             fontWeight: FontWeight.w600,
@@ -78,7 +78,7 @@ class _GoalTileState extends State<GoalTile> {
                         child: Text(
                           NumberFormat.decimalPatternDigits(
                                   locale: 'en_us', decimalDigits: 0)
-                              .format(widget.goal.price),
+                              .format(widget.goal.goalAmount),
                           style: TextStyle(
                             fontSize: 16.fSize,
                             fontWeight: FontWeight.w600,

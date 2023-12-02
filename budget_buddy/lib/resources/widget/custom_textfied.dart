@@ -16,7 +16,8 @@ class MyTextField extends StatelessWidget {
     return SizedBox(
         width: width,
         child: TextField(
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+          style: TextStyle(
+              fontSize: 13, fontWeight: FontWeight.w700, color: Colors.black),
           controller: controller,
           decoration: InputDecoration(
               hintText: hintText,

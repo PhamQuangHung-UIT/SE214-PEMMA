@@ -7,17 +7,21 @@ environment:
     sdk: ">=3.1.2 <4.0.0"
 
 dependencies:
-    percent_indicator: ^4.0.1
     email_validator: ^2.1.17
     firebase_auth: ^4.12.1
     firebase_core: ^2.21.0
     flutter:
         sdk: flutter
+    flutter_facebook_auth: ^6.0.3
     flutter_localizations:
         sdk: flutter
     google_fonts: ^6.1.0
+    google_sign_in: ^6.1.6
     intl: any
     shared_preferences: ^2.2.2
+    percent_indicator: ^4.0.1
+    firebase_storage: ^11.5.3
+    cloud_firestore: ^4.13.3
 
 dev_dependencies:
     flutter_test:

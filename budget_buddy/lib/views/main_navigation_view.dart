@@ -1,37 +1,57 @@
+import 'package:budget_buddy/views/goal_budget_view.dart';
 import 'package:budget_buddy/views/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/resources/widget/custom_bottom_bar.dart';
 
 class MainNavigationView extends StatelessWidget {
-  MainNavigationView({Key? key}) : super(key: key);
-
-  final _pageController = PageController(initialPage: 0, keepPage: true);
+  const MainNavigationView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
-    return Scaffold(
-        body: PageView(controller: _pageController, children: const [
-          ProfileView(),
-        ]),
-        bottomNavigationBar: CustomBottomBar(onChanged: (BottomBarEnum type) {
-          _pageController.animateToPage(getCurrentPage(type),
-              duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
-        }));
+    return SafeArea(
+        child: Scaffold(
+            body: Navigator(
+                initialRoute: '/home',
+                onGenerateRoute: (routeSetting) => PageRouteBuilder(
+                    pageBuilder: (ctx, ani, ani1) =>
+                        getCurrentPage(routeSetting.name!),
+                    transitionDuration: const Duration(milliseconds: 300))),
+            bottomNavigationBar: CustomBottomBar(onChanged: (type) {
+              Navigator.pushNamed(context, getCurrentRoute(type));
+            })));
   }
 
   ///Handling route based on bottom click actions
-  int getCurrentPage(BottomBarEnum type) {
+  String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
+      case BottomBarEnum.home:
+        return "/home";
       case BottomBarEnum.report:
-        return 1;
+        return "/report";
       case BottomBarEnum.budget:
-        return 2;
+        return "/budget";
       case BottomBarEnum.profile:
-        return 3;
+        return "/profile";
       default:
-        return 0;
+        return "/new_transaction";
+    }
+  }
+
+  ///Handling page based on route
+  Widget getCurrentPage(String currentRoute) {
+    switch (currentRoute) {
+      case '/home':
+        return const BudgetView();
+      case '/report':
+        return const ProfileView();
+      case '/budget':
+        return const ProfileView();
+      case '/profile':
+        return const ProfileView();
+      default:
+        return const ProfileView();
     }
   }
 }

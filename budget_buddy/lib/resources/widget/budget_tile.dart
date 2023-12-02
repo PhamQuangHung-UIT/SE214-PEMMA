@@ -19,6 +19,9 @@ class _BudgetTileState extends State<BudgetTile> {
       margin: EdgeInsets.fromLTRB(0.h, 0.v, 9.h, 15.v),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         CategoryIcon(imagePath: widget.budget.imagePath),
+        SizedBox(
+          width: 10,
+        ),
         Center(
           child: Container(
             width: 186.h,
