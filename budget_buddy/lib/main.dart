@@ -19,68 +19,49 @@ void main() async {
   runApp(const MainApp());
 }
 
-// code để test chạy UI, sau khi dùng sẽ xóa và uncommand code chính
+//The initial widget for theme, configuration and more
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: 'Montserrat'),
+        theme: AppTheme.lightTheme,
+        supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        home: AddBudgetView());
+        home: FutureBuilder<List<Object?>>(
+          future: getFirstRunAndLoginUser(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active &&
+                snapshot.data == null) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            bool firstRun = snapshot.data![0] as bool;
+            User? user = snapshot.data![1] as User?;
+            if (firstRun) {
+              return const LandingView();
+            }
+            if (user == null) {
+              //Chưa đăng nhập
+              return const LoginView();
+            }
+            // Đã đăng nhập, vào màn hình chính
+            return const HomeView();
+          },
+        ));
+  }
+
+  // Run all async task and return first run state and current login user
+  Future<List<Object?>> getFirstRunAndLoginUser() async {
+    var futureFirstRun = LoginRepository().isFirstTime();
+    var futureLoginUser = FirebaseAuth.instance.authStateChanges();
+    bool firstRun = await futureFirstRun;
+    User? user = await futureLoginUser.first;
+    return [firstRun, user];
   }
 }
-
-// The initial widget for theme, configuration and more
-// class MainApp extends StatelessWidget {
-//   const MainApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//         theme: AppTheme.lightTheme,
-//         supportedLocales: AppLocalizations.supportedLocales,
-//         localizationsDelegates: const [
-//           AppLocalizations.delegate,
-//           GlobalMaterialLocalizations.delegate,
-//           GlobalWidgetsLocalizations.delegate,
-//           GlobalCupertinoLocalizations.delegate,
-//         ],
-//         home: FutureBuilder<List<Object?>>(
-//           future: getFirstRunAndLoginUser(),
-//           builder: (context, snapshot) {
-//             if (snapshot.connectionState == ConnectionState.active &&
-//                 snapshot.data == null) {
-//               return const Center(child: CircularProgressIndicator());
-//             }
-//             bool firstRun = snapshot.data![0] as bool;
-//             User? user = snapshot.data![1] as User?;
-//             if (firstRun) {
-//               return const LandingView();
-//             }
-//             if (user == null) {
-//               //Chưa đăng nhập
-//               return const LoginView();
-//             }
-//             // Đã đăng nhập, vào màn hình chính
-//             return const HomeView();
-//           },
-//         ));
-//   }
-
-//   // Run all async task and return first run state and current login user
-//   Future<List<Object?>> getFirstRunAndLoginUser() async {
-//     var futureFirstRun = LoginRepository().isFirstTime();
-//     var futureLoginUser = FirebaseAuth.instance.authStateChanges();
-//     bool firstRun = await futureFirstRun;
-//     User? user = await futureLoginUser.first;
-//     return [firstRun, user];
-//   }
-// }
