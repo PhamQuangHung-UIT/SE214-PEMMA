@@ -34,7 +34,7 @@ class _AddGoalViewState extends State<AddGoalView> {
   String imagePath =
       "https://firebasestorage.googleapis.com/v0/b/budget-buddy-se214.appspot.com/o/goal_icons%2Fsmartphone.png?alt=media&token=1951d101-b024-4b8c-864a-9f6da8158e9b";
   List<String> times = ['Day', 'Month', 'Year'];
-  String? selectedTime = 'Day';
+  String selectedTime = 'Day';
 
   List<String> imageUrls = [];
 
@@ -63,6 +63,24 @@ class _AddGoalViewState extends State<AddGoalView> {
     }
   }
 
+  Timestamp addDaysToTimestamp(int number, String period) {
+    int daysToAdd = 0;
+    if (period == "Day") {
+      daysToAdd = number * 1;
+    }
+    if (period == "Month") {
+      daysToAdd = number * 30;
+    }
+    if (period == "Year") {
+      daysToAdd = number * 365;
+    }
+
+    DateTime now = DateTime.now();
+    DateTime futureDate = now.add(Duration(days: daysToAdd));
+    Timestamp futureTimestamp = Timestamp.fromDate(futureDate);
+    return futureTimestamp;
+  }
+
   //add new goal to firestore
   Future<void> addGoalToFirestore() async {
     try {
@@ -75,7 +93,8 @@ class _AddGoalViewState extends State<AddGoalView> {
         imagePath: imagePath,
         goalAmount: double.parse(budgetController.text),
         fundAmount: 0,
-        dateEnd: Timestamp.now(),
+        dateEnd:
+            addDaysToTimestamp(int.parse(timeController.text), selectedTime),
       );
 
       // await FirebaseFirestore.instance.collection('Goal');
