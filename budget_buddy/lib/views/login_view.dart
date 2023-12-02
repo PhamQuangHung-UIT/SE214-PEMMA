@@ -1,5 +1,6 @@
 import 'package:budget_buddy/presenters/login_presenter.dart';
 import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
+import 'package:budget_buddy/resources/widget/custom_text_form_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
 
   @override
   Widget build(BuildContext context) {
+    mediaQueryData = MediaQuery.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Form(
@@ -76,41 +78,39 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
                 ),
               ),
               SizedBox(height: 38.v),
-              TextFormField(
+              CustomTextFormField(
                 controller: emailController,
-                decoration: InputDecoration(
-                    hintText: 'Email',
-                    errorText: emailErrorText,
-                    contentPadding: EdgeInsets.only(left: 15.h, top: 14.v, bottom: 14.v)),
-                keyboardType: TextInputType.emailAddress,
+                hintText: 'Email',
+                errorText: emailErrorText,
+                contentPadding: EdgeInsets.only(left: 15.h, top: 14.v, bottom: 14.v),
+                textInputType: TextInputType.emailAddress,
                 validator: emailInputValidator,
               ),
               SizedBox(height: 36.v),
-              TextFormField(
+              CustomTextFormField(
                 controller: passwordController,
-                decoration: InputDecoration(
-                    errorText: passwordErrorText,
-                    hintText: AppLocalizations.of(context)!.password,
-                    suffixIcon: Container(
-                      margin: EdgeInsets.fromLTRB(30.h, 11.v, 16.h, 9.v),
-                      child: InkWell(
-                        onTap: _changeHidePasswordState,
-                        child: Image.asset(
-                          'assets/images/hide.png',
-                          height: 25.adaptSize,
-                          width: 25.adaptSize,
-                        ),
-                      ),
+                errorText: passwordErrorText,
+                hintText: AppLocalizations.of(context)!.password,
+                suffix: Container(
+                  margin: EdgeInsets.fromLTRB(30.h, 11.v, 16.h, 9.v),
+                  child: InkWell(
+                    onTap: _changeHidePasswordState,
+                    child: Image.asset(
+                      isPasswordHiding ? 'assets/images/hide.png' : 'assets/images/view.png',
+                      height: 25.adaptSize,
+                      width: 25.adaptSize,
                     ),
-                    suffixIconConstraints: BoxConstraints(maxHeight: 45.v),
-                    contentPadding: EdgeInsets.only(
-                      left: 15.h,
-                      top: 14.v,
-                      bottom: 14.v,
-                    )),
+                  ),
+                ),
+                suffixConstraints: BoxConstraints(maxHeight: 45.v),
+                contentPadding: EdgeInsets.only(
+                  left: 15.h,
+                  top: 14.v,
+                  bottom: 14.v,
+                ),
                 textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.visiblePassword,
-                obscureText: true,
+                textInputType: TextInputType.visiblePassword,
+                obscureText: isPasswordHiding,
               ),
               SizedBox(height: 8.v),
               Align(
@@ -124,8 +124,8 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
 
               //Login button
               CustomElevatedButton(
-                text: AppLocalizations.of(context)!.login_uppercase, 
-                onPressed: () => _presenter!.loginWithPassword(emailController.text, passwordController.text)),
+                  text: AppLocalizations.of(context)!.login_uppercase,
+                  onPressed: () => _presenter!.loginWithPassword(emailController.text, passwordController.text)),
 
               SizedBox(height: 34.v),
               Padding(
@@ -252,7 +252,6 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
                 ));
         break;
       default:
-
         break;
     }
   }
