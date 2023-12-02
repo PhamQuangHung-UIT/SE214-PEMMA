@@ -25,5 +25,16 @@
     "email_vertification_msg_1":"An email to change password has been sent to you. Please check",
     "your_inbox":"your inbox",
     "email_vertification_msg_2":"to change your password.",
-    "resend_uppercase":"RESEND"
+    "resend_uppercase":"RESEND",
+    "budget":"Budget",
+    "balance":"BALANCE",
+    "goal":"Goal",
+    "add_goal_title":"New Goal",
+    "newgoal_goal_name_hint":"Goal name",
+    "newgoal_goal_budget_hint":"Budget",
+    "add_budget_title":"New Budget",
+    "set_budget_description":"Set a budget for this category.",
+    "is_every_month_option":"Every month",
+    "this_month_only_option":"This month only",
+    "currency_icon":"$"
 }
