@@ -15,5 +15,9 @@
     "home_navigation_bar":"Trang chủ",
     "report_navigation_bar":"Báo cáo",
     "budget_navigation_bar":"Ngân quỹ",
-    "profile_navigation_bar":"Cá nhân"
+    "profile_navigation_bar":"Cá nhân",
+    "add_event_title":"Tạo sự kiện mới",
+    "add_event_hint":"Tên sự kiện mới",
+    "edit_event_title":"Chỉnh sửa sự kiện",
+    "edit_event_hint":"Tên sự kiện sau khi thay đổi"
 }

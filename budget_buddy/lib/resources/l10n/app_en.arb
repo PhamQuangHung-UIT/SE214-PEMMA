@@ -15,5 +15,9 @@
     "home_navigation_bar":"Home",
     "report_navigation_bar":"Report",
     "budget_navigation_bar":"Budget",
-    "profile_navigation_bar":"Profile"
+    "profile_navigation_bar":"Profile",
+    "add_event_hint":"New event name",
+    "add_event_title":"New Event", 
+    "edit_event_title":"Edit Event",
+    "edit_event_hint":"Edit Event Name"
 }

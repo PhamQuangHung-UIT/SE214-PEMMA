@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:budget_buddy/resources/widget/category_icon.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
+import 'package:budget_buddy/resources/widget/category_icon.dart';
 
-class AddNewEvent extends StatelessWidget {
-  const AddNewEvent({super.key});
+//
+import 'package:budget_buddy/resources/widget/category_icon.dart';
+
+class EditEventView extends StatefulWidget {
+  const EditEventView({super.key});
+
+  @override
+  State<EditEventView> createState() => _EditEventViewState();
+}
+
+class _EditEventViewState extends State<EditEventView> {
+  final eventController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +25,7 @@ class AddNewEvent extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            'New Event',
+            AppLocalizations.of(context)!.add_event_title,
             style: TextStyle(fontSize: 20.fSize, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.green,
@@ -26,7 +36,7 @@ class AddNewEvent extends StatelessWidget {
               IconButton(onPressed: () {}, icon: Icon(Icons.close, size: 30)),
         ),
         body: Container(
-          margin: EdgeInsets.fromLTRB(16.h, 19.v, 16.h, 19.v),
+          margin: EdgeInsets.fromLTRB(16.h, 19.v, 15.h, 0.v),
           padding: EdgeInsets.fromLTRB(20.h, 17.v, 24.h, 26.v),
           width: 359.h,
           height: 274.v,
@@ -41,6 +51,7 @@ class AddNewEvent extends StatelessWidget {
               ),
             ],
           ),
+
           //Component
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,23 +61,7 @@ class AddNewEvent extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      margin: EdgeInsets.fromLTRB(0.h, 0.v, 13.h, 10.v),
-                      padding: EdgeInsets.fromLTRB(8.h, 7.v, 8.h, 7.v),
-                      height: 48.v,
-                      width: 48.h,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(24.v)),
-                      child: Center(
-                          child: SizedBox(
-                              child: Image.asset(
-                        './assets/images/sort.png',
-                        fit: BoxFit.cover,
-                        width: 30.adaptSize,
-                        height: 30.adaptSize,
-                      ))),
-                    ),
+                    CategoryIcon(imagePath: "assets/images/plane.png"),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -76,7 +71,8 @@ class AddNewEvent extends StatelessWidget {
                             width: 220.h,
                             child: TextField(
                               decoration: InputDecoration(
-                                hintText: 'Event name',
+                                hintText: AppLocalizations.of(context)!
+                                    .add_event_title,
                                 hintStyle: TextStyle(
                                   fontSize: 16.fSize,
                                   color: Colors.grey,
@@ -102,26 +98,8 @@ class AddNewEvent extends StatelessWidget {
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(
-                                        0.h, 0.v, 13.h, 10.v),
-                                    padding:
-                                        EdgeInsets.fromLTRB(8.h, 7.v, 8.h, 7.v),
-                                    height: 48.v,
-                                    width: 48.h,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.black),
-                                        borderRadius:
-                                            BorderRadius.circular(24.v)),
-                                    child: Center(
-                                        child: SizedBox(
-                                            child: Image.asset(
-                                      './assets/images/sort.png',
-                                      fit: BoxFit.cover,
-                                      width: 30.adaptSize,
-                                      height: 30.adaptSize,
-                                    ))),
-                                  ),
+                                  CategoryIcon(
+                                      imagePath: "assets/images/calendar.png"),
 
                                   //Date
                                   Container(
@@ -145,64 +123,6 @@ class AddNewEvent extends StatelessWidget {
                                               fontSize: 24.fSize,
                                               fontFamily: 'Montserrat',
                                               fontWeight: FontWeight.normal,
-                                              color: Colors.black),
-                                        ),
-                                      ))),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0.h, 10.v, 0.h, 5.v),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(
-                                        0.h, 0.v, 13.h, 10.v),
-                                    padding:
-                                        EdgeInsets.fromLTRB(8.h, 7.v, 8.h, 7.v),
-                                    height: 48.v,
-                                    width: 48.h,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.black),
-                                        borderRadius:
-                                            BorderRadius.circular(24.v)),
-                                    child: Center(
-                                        child: SizedBox(
-                                            child: Image.asset(
-                                      './assets/images/sort.png',
-                                      fit: BoxFit.cover,
-                                      width: 30.adaptSize,
-                                      height: 30.adaptSize,
-                                    ))),
-                                  ),
-
-                                  //Date
-                                  Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          0.h, 0.v, 13.h, 10.v),
-                                      padding: EdgeInsets.fromLTRB(
-                                          8.h, 7.v, 8.h, 7.v),
-                                      height: 48.v,
-                                      width: 100.h,
-                                      decoration: BoxDecoration(
-                                          border: null,
-                                          borderRadius:
-                                              BorderRadius.circular(24.v)),
-                                      child: Center(
-                                          child: TextButton(
-                                        onPressed: () {},
-                                        child: Text(
-                                          ('ChooseColor'),
-                                          style: TextStyle(
-                                              fontSize: 24.fSize,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Montserrat',
                                               color: Colors.black),
                                         ),
                                       ))),
