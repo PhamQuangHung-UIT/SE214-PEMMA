@@ -1,10 +1,10 @@
 name: budget_buddy
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.1.2 <4.0.0'
+    sdk: ">=3.1.2 <4.0.0"
 
 dependencies:
   email_validator: ^2.1.17
@@ -12,33 +12,36 @@ dependencies:
   firebase_core: ^2.21.0
   flutter:
     sdk: flutter
+  flutter_facebook_auth: ^6.0.3
   flutter_localizations:
     sdk: flutter
   google_fonts: ^6.1.0
+  google_sign_in: ^6.1.6
   intl: any
   shared_preferences: ^2.2.2
+  percent_indicator: ^4.0.1
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^2.0.0
+    flutter_test:
+        sdk: flutter
+    flutter_lints: ^2.0.0
 
 flutter:
-  generate: true
-  uses-material-design: true
-  assets:
-    - assets/
-    - assets/images/
-  fonts: 
-    - family: Montserrat
-      fonts: 
-        - asset: assets/fonts/MontserratRomanBold.ttf
-          weight: 700
-        - asset: assets/fonts/MontserratRomanMedium.ttf
-          weight: 500
-        - asset: assets/fonts/MontserratRomanSemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/MontserratRomanRegular.ttf
-          weight: 400
-        - asset: assets/fonts/MontserratRomanLight.ttf
-          weight: 300
+    generate: true
+    uses-material-design: true
+    assets:
+        - assets/
+        - assets/images/
+    fonts:
+        - family: Montserrat
+          fonts:
+              - asset: assets/fonts/MontserratRomanBold.ttf
+                weight: 700
+              - asset: assets/fonts/MontserratRomanMedium.ttf
+                weight: 500
+              - asset: assets/fonts/MontserratRomanSemiBold.ttf
+                weight: 600
+              - asset: assets/fonts/MontserratRomanRegular.ttf
+                weight: 400
+              - asset: assets/fonts/MontserratRomanLight.ttf
+                weight: 300
