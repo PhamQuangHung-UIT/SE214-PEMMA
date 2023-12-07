@@ -1,4 +1,5 @@
 import 'package:budget_buddy/data_sources/repositories/login_repository.dart';
+import 'package:budget_buddy/views/category_view.dart';
 import 'package:budget_buddy/views/landing_view.dart';
 import 'package:budget_buddy/views/login_view.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,8 @@ class MainApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        home: FutureBuilder<List<Object?>>(
+        home: const CategoryView()
+        /*home: FutureBuilder<List<Object?>>(
           future: getFirstRunAndLoginUser(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active && snapshot.data == null) {
@@ -49,7 +51,7 @@ class MainApp extends StatelessWidget {
             // Đã đăng nhập, vào màn hình chính
             return const HomeView();
           },
-        )
+        )*/
     );
   }
 
