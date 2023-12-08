@@ -34,7 +34,7 @@ void dispose(){
               indicatorColor: Colors.white,
                 tabs: [
                   Tab(
-                    text: 'Outcome',),
+                    text: 'Outcome'),
                   Tab(
                       text:'Income')
                 ],
@@ -63,8 +63,8 @@ void dispose(){
           ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.add),
         backgroundColor: Colors.green,
+        child: Icon(Icons.add),
       ),
     );
   }
