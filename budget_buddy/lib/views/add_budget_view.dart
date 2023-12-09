@@ -14,9 +14,10 @@ class AddBudgetView extends StatefulWidget {
 
 class _AddBudgetViewState extends State<AddBudgetView> {
   final budgetController = TextEditingController();
-  List<String> options = ['This month only', 'Every month'];
-  String? selectedOption = 'This month only';
+  List<String> times = ['Day', 'Month', 'Year'];
+  String? selectedTime = 'Day';
   double balance = 9999999;
+  final timeController = TextEditingController();
   var formatter = NumberFormat('#,000');
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _AddBudgetViewState extends State<AddBudgetView> {
         margin: EdgeInsets.fromLTRB(16.h, 19.v, 15.h, 0.v),
         padding: EdgeInsets.fromLTRB(20.h, 17.v, 24.h, 26.v),
         width: 359.h,
-        height: 274.v,
+        height: 268.v,
         decoration: BoxDecoration(
           color: Color(0xffffffff),
           borderRadius: BorderRadius.circular(7),
@@ -62,6 +63,7 @@ class _AddBudgetViewState extends State<AddBudgetView> {
                 children: [
                   CategoryIcon(imagePath: "assets/images/restaurant.png"),
                   Container(
+                    margin: EdgeInsets.only(left: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -101,9 +103,27 @@ class _AddBudgetViewState extends State<AddBudgetView> {
                   controller: budgetController),
             ),
             Container(
-              margin: EdgeInsets.only(top: 15, right: 23),
-              child:
-                  CustomDropdown(items: options, selectedItem: selectedOption),
+              margin: EdgeInsets.fromLTRB(62.h, 15.v, 5.h, 0.v),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  MyTextField(
+                      width: 61, hintText: "", controller: timeController),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  CustomDropdown(
+                    items: times,
+                    selectedItem: selectedTime,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedTime =
+                            newValue; // Cập nhật giá trị selectedTime
+                      });
+                    },
+                  )
+                ],
+              ),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0.h, 20.v, 2.5.h, 0.v),

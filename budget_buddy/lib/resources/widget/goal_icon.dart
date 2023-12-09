@@ -14,7 +14,7 @@ class GoalIcon extends StatelessWidget {
           borderRadius: BorderRadius.circular(360)),
       child: Center(
           child: SizedBox(
-              child: Image.network(
+              child: Image.asset(
         imagePath,
         fit: BoxFit.cover,
         width: 30.adaptSize,

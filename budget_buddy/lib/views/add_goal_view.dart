@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'package:budget_buddy/models/goal_model.dart';
 import 'package:budget_buddy/resources/widget/category_icon.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,7 +21,6 @@ class _AddGoalViewState extends State<AddGoalView> {
   @override
   void initState() {
     super.initState();
-    loadImageFromFirebase();
   }
 
   final goalNameController = TextEditingController();
@@ -31,12 +29,22 @@ class _AddGoalViewState extends State<AddGoalView> {
 
   final timeController = TextEditingController();
 
-  String imagePath =
-      "https://firebasestorage.googleapis.com/v0/b/budget-buddy-se214.appspot.com/o/goal_icons%2Fsmartphone.png?alt=media&token=1951d101-b024-4b8c-864a-9f6da8158e9b";
+  String imagePath = "assets/images/smartphone.png";
   List<String> times = ['Day', 'Month', 'Year'];
-  String selectedTime = 'Day';
+  String? selectedTime = 'Day';
 
-  List<String> imageUrls = [];
+  List<String> imageUrls = [
+    "assets/images/building.png",
+    "assets/images/cosmetics.png",
+    "assets/images/giftbox.png",
+    "assets/images/key.png",
+    "assets/images/car.png",
+    "assets/images/laptop.png",
+    "assets/images/plane.png",
+    "assets/images/real_estate.png",
+    "assets/images/smartphone.png",
+    "assets/images/tablet.png",
+  ];
 
   //choose icon
   void updateSelectedIcon(String Path) {
@@ -45,25 +53,7 @@ class _AddGoalViewState extends State<AddGoalView> {
     });
   }
 
-  //load icon images from Firebase Storage
-  Future<void> loadImageFromFirebase() async {
-    Reference folderRef = FirebaseStorage.instance.ref().child('goal_icons');
-
-    try {
-      final ListResult result = await folderRef.listAll();
-
-      for (Reference ref in result.items) {
-        String url = await ref.getDownloadURL();
-        setState(() {
-          imageUrls.add(url);
-        });
-      }
-    } catch (e) {
-      print('Error loading images: $e');
-    }
-  }
-
-  Timestamp addDaysToTimestamp(int number, String period) {
+  Timestamp addDaysToTimestamp(int number, String? period) {
     int daysToAdd = 0;
     if (period == "Day") {
       daysToAdd = number * 1;
@@ -83,22 +73,45 @@ class _AddGoalViewState extends State<AddGoalView> {
 
   //add new goal to firestore
   Future<void> addGoalToFirestore() async {
-    try {
-      String userId = FirebaseAuth.instance.currentUser!.uid;
-
-      Goal newGoal = Goal(
-        userId: userId,
-        goalId: FirebaseFirestore.instance.collection('Goal').doc().id,
-        name: goalNameController.text,
-        imagePath: imagePath,
-        goalAmount: double.parse(budgetController.text),
-        fundAmount: 0,
-        dateEnd:
-            addDaysToTimestamp(int.parse(timeController.text), selectedTime),
+    if (goalNameController.text.isEmpty ||
+        budgetController.text.isEmpty ||
+        timeController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Vui lòng nhập đầy đủ thông tin mục tiêu!',
+            style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w500,
+                fontSize: 16),
+          ),
+          duration: Duration(seconds: 2), // Thời gian hiển thị SnackBar
+        ),
       );
+    } else {
+      try {
+        String userId = FirebaseAuth.instance.currentUser!.uid;
 
-      // await FirebaseFirestore.instance.collection('Goal');
-    } catch (e) {}
+        Goal newGoal = Goal(
+          userId: userId,
+          goalId: FirebaseFirestore.instance.collection('Goal').doc().id,
+          name: goalNameController.text,
+          imagePath: imagePath,
+          goalAmount: double.parse(budgetController.text),
+          fundAmount: 0,
+          dateEnd:
+              addDaysToTimestamp(int.parse(timeController.text), selectedTime),
+        );
+
+        CollectionReference goalsCollection =
+            FirebaseFirestore.instance.collection('goals');
+        await goalsCollection.doc(newGoal.goalId).set(newGoal.toMap());
+        print("Add goal successfully with id: " + newGoal.goalId);
+        Navigator.pop(context);
+      } catch (e) {
+        print("Error adding goal to Firestore: $e");
+      }
+    }
   }
 
   @override
@@ -110,12 +123,13 @@ class _AddGoalViewState extends State<AddGoalView> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          AppLocalizations.of(context)!.add_budget_title,
+          AppLocalizations.of(context)!.add_goal_title,
           style: TextStyle(fontSize: 20.fSize, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Color(0xff03a700),
         actions: <Widget>[
-          IconButton(onPressed: () {}, icon: Icon(Icons.check, size: 30)),
+          IconButton(
+              onPressed: addGoalToFirestore, icon: Icon(Icons.check, size: 30)),
         ],
         leading: IconButton(
             onPressed: () {
@@ -180,7 +194,16 @@ class _AddGoalViewState extends State<AddGoalView> {
                       SizedBox(
                         width: 20,
                       ),
-                      CustomDropdown(items: times, selectedItem: selectedTime)
+                      CustomDropdown(
+                        items: times,
+                        selectedItem: selectedTime,
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedTime =
+                                newValue; // Cập nhật giá trị selectedTime
+                          });
+                        },
+                      )
                     ],
                   ),
                 )

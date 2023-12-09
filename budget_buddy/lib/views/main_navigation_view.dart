@@ -1,3 +1,4 @@
+import 'package:budget_buddy/views/add_budget_view.dart';
 import 'package:budget_buddy/views/goal_budget_view.dart';
 import 'package:budget_buddy/views/profile_view.dart';
 import 'package:flutter/material.dart';

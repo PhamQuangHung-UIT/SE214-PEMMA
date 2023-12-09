@@ -17,4 +17,28 @@ class Goal {
       required this.goalAmount,
       required this.fundAmount,
       required this.dateEnd});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'userId': userId,
+      'goalId': goalId,
+      'name': name,
+      'imagePath': imagePath,
+      'goalAmount': goalAmount,
+      'fundAmount': fundAmount,
+      'dateEnd': dateEnd,
+      // Các trường dữ liệu khác nếu có
+    };
+  }
+
+  Goal.fromMap(Map<String, dynamic> map)
+      : userId = map['userId'],
+        goalId = map['goalId'],
+        name = map['name'],
+        imagePath = map['imagePath'],
+        goalAmount =
+            (map['goalAmount'] ?? 0).toDouble(), // Chuyển đổi sang double
+        fundAmount =
+            (map['fundAmount'] ?? 0).toDouble(), // Chuyển đổi sang double
+        dateEnd = map['dateEnd'];
 }

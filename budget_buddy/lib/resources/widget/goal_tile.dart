@@ -16,19 +16,19 @@ class _GoalTileState extends State<GoalTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0.h, 0.v, 0.h, 10.v),
+      margin: EdgeInsets.only(bottom: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CategoryIcon(imagePath: widget.goal.imagePath),
           Container(
-            margin: EdgeInsets.fromLTRB(0.h, 3.v, 0.h, 0.v),
-            width: 272.h,
+            width: 285.h,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(0.h, 0.v, 0.h, 12.v),
+                  padding: EdgeInsets.only(left: 9),
                   child: Text(
                     widget.goal.name,
                     style: TextStyle(
@@ -39,12 +39,12 @@ class _GoalTileState extends State<GoalTile> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 5,
+                ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(0.h, 0.v, 1.h, 5.v),
-                  width: 270.h,
-                  height: 4.v,
+                  width: 285.h,
                   child: LinearPercentIndicator(
-                    width: 270.h,
                     percent: widget.goal.fundAmount / widget.goal.goalAmount,
                     backgroundColor: Color(0xffB7B7B7),
                     animation: true,
@@ -52,47 +52,44 @@ class _GoalTileState extends State<GoalTile> {
                     progressColor: Color(0xff00BD40),
                   ),
                 ),
+                SizedBox(
+                  height: 5,
+                ), // Added SizedBox for spacing
                 Container(
-                  margin: EdgeInsets.fromLTRB(1.h, 0.v, 0.h, 0.v),
-                  width: 264.h,
+                  padding: EdgeInsets.symmetric(horizontal: 9),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        margin: EdgeInsets.fromLTRB(9.h, 0.v, 74.h, 1.v),
-                        child: Text(
-                          NumberFormat.decimalPatternDigits(
-                                  locale: 'en_us', decimalDigits: 0)
-                              .format(widget.goal.fundAmount),
-                          style: TextStyle(
-                            fontSize: 16.fSize,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2175.v,
-                            color: Color(0xff00bd40),
-                          ),
+                      Text(
+                        NumberFormat.decimalPatternDigits(
+                          locale: 'en_us',
+                          decimalDigits: 0,
+                        ).format(widget.goal.fundAmount),
+                        style: TextStyle(
+                          fontSize: 16.fSize,
+                          fontWeight: FontWeight.w600,
+                          height: 1.2175.v,
+                          color: Color(0xff00bd40),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0.h, 1.v, 0.h, 0.v),
-                        child: Text(
-                          NumberFormat.decimalPatternDigits(
-                                  locale: 'en_us', decimalDigits: 0)
-                              .format(widget.goal.goalAmount),
-                          style: TextStyle(
-                            fontSize: 16.fSize,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2175.v,
-                            color: Color(0xff00bd40),
-                          ),
+                      Text(
+                        NumberFormat.decimalPatternDigits(
+                          locale: 'en_us',
+                          decimalDigits: 0,
+                        ).format(widget.goal.goalAmount),
+                        style: TextStyle(
+                          fontSize: 16.fSize,
+                          fontWeight: FontWeight.w600,
+                          height: 1.2175.v,
+                          color: Color(0xff00bd40),
                         ),
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
