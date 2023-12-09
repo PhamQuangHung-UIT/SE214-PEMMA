@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:budget_buddy/models/goal_model.dart';
+import 'package:budget_buddy/presenters/goal_presenter.dart';
 import 'package:budget_buddy/resources/widget/category_icon.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:budget_buddy/resources/widget/custom_dropdown.dart';
@@ -23,6 +24,7 @@ class _AddGoalViewState extends State<AddGoalView> {
     super.initState();
   }
 
+  final GoalPresenter _goalPresenter = GoalPresenter();
   final goalNameController = TextEditingController();
 
   final budgetController = TextEditingController();
@@ -71,6 +73,16 @@ class _AddGoalViewState extends State<AddGoalView> {
     return futureTimestamp;
   }
 
+  void addNewGoal(Goal newGoal) {
+    _goalPresenter.addGoal(
+      newGoal,
+      () {},
+      (error) {
+        // Xử lý lỗi khi thêm mới Goal
+      },
+    );
+  }
+
   //add new goal to firestore
   Future<void> addGoalToFirestore() async {
     if (goalNameController.text.isEmpty ||
@@ -103,10 +115,7 @@ class _AddGoalViewState extends State<AddGoalView> {
               addDaysToTimestamp(int.parse(timeController.text), selectedTime),
         );
 
-        CollectionReference goalsCollection =
-            FirebaseFirestore.instance.collection('goals');
-        await goalsCollection.doc(newGoal.goalId).set(newGoal.toMap());
-        print("Add goal successfully with id: " + newGoal.goalId);
+        addNewGoal(newGoal);
         Navigator.pop(context);
       } catch (e) {
         print("Error adding goal to Firestore: $e");

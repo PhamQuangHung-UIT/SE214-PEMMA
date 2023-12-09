@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
 import 'package:budget_buddy/models/budget_model.dart';
+import 'package:budget_buddy/presenters/goal_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/models/goal_model.dart';
 import 'package:budget_buddy/resources/widget/budget_tile.dart';
@@ -19,6 +20,7 @@ class BudgetView extends StatefulWidget {
 }
 
 class _BudgetViewState extends State<BudgetView> {
+  final GoalPresenter _goalPresenter = GoalPresenter();
   double balance = 9999999;
   var formatter = NumberFormat('#,000');
   List<Budget> budgetList = [
@@ -58,73 +60,48 @@ class _BudgetViewState extends State<BudgetView> {
         spentAmount: 0,
         isEveryMonth: false),
   ];
-  List<Goal> goalList = [
-    // Goal(
-    //     userId: "",
-    //     goalId: "",
-    //     name: "Car",
-    //     imagePath: "assets/images/car.png",
-    //     goalAmount: 50000,
-    //     fundAmount: 0,
-    //     dateEnd: Timestamp.now()),
-    // Goal(
-    //     userId: "",
-    //     goalId: "",
-    //     name: "Car",
-    //     imagePath: "assets/images/car.png",
-    //     goalAmount: 50000,
-    //     fundAmount: 0,
-    //     dateEnd: Timestamp.now()),
-    // Goal(
-    //     userId: "",
-    //     goalId: "",
-    //     name: "Car",
-    //     imagePath: "assets/images/car.png",
-    //     goalAmount: 50000,
-    //     fundAmount: 0,
-    //     dateEnd: Timestamp.now()),
-    // Goal(
-    //     userId: "",
-    //     goalId: "",
-    //     name: "Car",
-    //     imagePath: "assets/images/car.png",
-    //     goalAmount: 50000,
-    //     fundAmount: 10000,
-    //     dateEnd: Timestamp.now()),
-  ];
+  List<Goal> goalList = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       String userId = user.uid;
-      print("userID: " + userId);
-      // Gọi hàm lấy danh sách Goals với userId như tham số
-      fetchGoalsFromFirestore(userId);
+      _goalPresenter.fetchGoals(
+        userId,
+        (goals) {
+          setState(() {
+            goalList.clear();
+            goalList.addAll(goals);
+          });
+        },
+        (error) {
+          // Handle error when fetching goals
+        },
+      );
     } else {
-      // Người dùng chưa đăng nhập, xử lý tương ứng
+      // Handle user not logged in
     }
   }
 
-  void fetchGoalsFromFirestore(String userId) {
-    FirebaseFirestore.instance
-        .collection('goals')
-        .where('userId', isEqualTo: userId)
-        .snapshots()
-        .listen((QuerySnapshot snapshot) {
-      setState(() {
-        goalList.clear();
+  // void fetchGoalsFromFirestore(String userId) {
+  //   FirebaseFirestore.instance
+  //       .collection('goals')
+  //       .where('userId', isEqualTo: userId)
+  //       .snapshots()
+  //       .listen((QuerySnapshot snapshot) {
+  //     setState(() {
+  //       goalList.clear();
 
-        snapshot.docs.forEach((DocumentSnapshot document) {
-          Goal goal = Goal.fromMap(document.data() as Map<String, dynamic>);
-          goalList.add(goal);
-          print("Lấy dữ liệu thành công! " + goal.goalId);
-        });
-      });
-    });
-  }
+  //       snapshot.docs.forEach((DocumentSnapshot document) {
+  //         Goal goal = Goal.fromMap(document.data() as Map<String, dynamic>);
+  //         goalList.add(goal);
+  //         print("Lấy dữ liệu thành công! " + goal.goalId);
+  //       });
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
