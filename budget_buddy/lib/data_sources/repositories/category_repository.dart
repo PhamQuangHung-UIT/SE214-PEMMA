@@ -2,14 +2,7 @@ import 'package:budget_buddy/data_sources/category_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CategoryRepository{
-  late List<MyCategory> categories;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  /*Future<List<Category>> fetchCategories(String userID) async {
-   final snapshot = await _firestore.collection('categories').where('userID', isEqualTo: userID).get();
-   final list = snapshot.docs.map((e) => Category.fromSnapshot(e)).toList();
-   return list;
-  }*/
   Future<void> addCategory(MyCategory newCategory) async {
     try {
       CollectionReference categoriesCollection = _firestore.collection('categories');

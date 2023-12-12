@@ -1,15 +1,75 @@
+import 'package:budget_buddy/data_sources/category_model.dart';
+import 'package:budget_buddy/presenters/category_presenter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 
 class AddCategoryView extends StatefulWidget {
-  const AddCategoryView({super.key});
-
+  MyCategory? existingCategory;
+  AddCategoryView({super.key});
+  AddCategoryView.existingCategory(MyCategory category, {super.key}){
+    existingCategory = category;
+  }
   @override
   State<AddCategoryView> createState() => _AddCategoryViewState();
 }
+class _AddCategoryViewState extends State<AddCategoryView>{
+  final CategoryPresenter _categoryPresenter = CategoryPresenter();
+  late String userID;
+  bool _isIncome = true;
+  TextEditingController _cName = TextEditingController();
+  List<String> iconIPList = [
+    "assets/images/restaurant.png",
+    "assets/images/fuel.png",
+    "assets/images/plane.png",
+    "assets/images/shopping-bag.png",
+    "assets/images/wages.png"
+  ];
+  String _categoryIP = "assets/images/electricity-bill.png";
+  @override
+  void initState() {
+    if(widget.existingCategory!= null){
+      _cName.text = widget.existingCategory!.cName;
+      _categoryIP = widget.existingCategory!.cImagePath;
+      _isIncome = widget.existingCategory!.isIncome;
+    }
+    super.initState();
+  }
+  @override
+  void dispose() {
+    widget.existingCategory = null;
+    super.dispose();
+  }
+  void _pressedAddCategory() {
+    String uID = FirebaseAuth.instance.currentUser!.uid;
+    String? cID;
+    if(widget.existingCategory==null){
+       cID = FirebaseFirestore.instance.collection('categories').doc().id;
+    }
+    else
+      {
+        cID = widget.existingCategory!.categoryID;
+      }
 
-class _AddCategoryViewState extends State<AddCategoryView> {
-  String dropdownvalue = 'Income';
+    MyCategory newCategory = MyCategory(
+        categoryID: cID,
+        userID: uID,
+        cName: _cName.value.text,
+        cImagePath: _categoryIP,
+        isIncome:_isIncome);
+    addNewCategory(newCategory);
+    print("Added new Category");
+    Navigator.pop(context);
+  }
+
+  void addNewCategory(MyCategory newCategory) {
+    _categoryPresenter.addCategories(newCategory,
+            () => {},
+            (error) => {
+          //Xu li loi
+        });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +80,8 @@ class _AddCategoryViewState extends State<AddCategoryView> {
           backgroundColor: Colors.green,
           actions: [
             IconButton(
-                onPressed: () {}, icon: Image.asset('assets/images/check.png'))
+                icon: Image.asset('assets/images/check.png'),
+                onPressed: _pressedAddCategory )
           ],
         ),
         body: Column(
@@ -29,7 +90,6 @@ class _AddCategoryViewState extends State<AddCategoryView> {
               alignment: Alignment.centerLeft,
               decoration: BoxDecoration(
                 color: AppTheme.grey400,
-                borderRadius: BorderRadius.circular(5),
               ),
               child: Column(
                 children: [
@@ -45,7 +105,7 @@ class _AddCategoryViewState extends State<AddCategoryView> {
                               border: Border.all(width: 1)),
                           padding: const EdgeInsets.all(10),
                           child: ImageIcon(
-                            AssetImage('assets/images/restaurant.png'),
+                            AssetImage(_categoryIP),
                             color: Colors.black,
                             size: 35,
                           ),
@@ -53,10 +113,11 @@ class _AddCategoryViewState extends State<AddCategoryView> {
                         const SizedBox(width: 25),
                         Expanded(
                           child: TextField(
+                            controller: _cName,
                             style: TextStyle(
                               color: Colors.black,
                             ),
-                            obscureText: true,
+                            obscureText: false,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -82,13 +143,13 @@ class _AddCategoryViewState extends State<AddCategoryView> {
                         ),
                         child: DropdownButton(
                             items:const [
-                              DropdownMenuItem(child: Text('Income'), value: 'Income'),
-                              DropdownMenuItem(child: Text('Outcome'),value: 'Outcome')
+                              DropdownMenuItem(child: Text('Income'), value: true),
+                              DropdownMenuItem(child: Text('Outcome'),value: false)
                             ],
-                            value: dropdownvalue,
+                            value: _isIncome,
                             onChanged: (value){
                             setState(() {
-                              dropdownvalue = value!;
+                              _isIncome = value!;
                             });
                             },
                           style: TextStyle(
@@ -100,37 +161,46 @@ class _AddCategoryViewState extends State<AddCategoryView> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Text('Choose an icon for your category', style: TextStyle(
-                    fontSize: 20
-                  ),),
                 ],
               )
             ),
-            Container(
-                child: Flexible(
-                    child: GridView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: 6,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 5),
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(18),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(width: 1)),
-                              padding: const EdgeInsets.all(7),
-                              child: ImageIcon(
-                                AssetImage('assets/images/restaurant.png'),
-                                color: Colors.black,
-                                size: 50,
-                              ),
-                            ),
-                          );
-                        }))
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.grey400,
+                  border: Border(top: BorderSide(color: Theme.of(context).dividerColor,width: 2)),
+                ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      const Text('Choose an icon for your category',
+                      style: TextStyle(fontSize: 20)),
+                      const SizedBox(height: 10),
+                      GridView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: iconIPList.length,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 5),
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(width: 1)),
+                                child: IconButton(
+                                  icon: Image.asset(iconIPList[index]), onPressed: () {
+                                    setState(() {
+                                      _categoryIP = iconIPList[index];
+                                    });
+                                },),
+                                ),
+                            );
+                          }),
+                  ])
+              ),
             ),
           ],
         )

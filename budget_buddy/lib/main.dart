@@ -34,8 +34,8 @@ class MainApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        home: const CategoryComponent(new CategoryPresenter(userID))
-        /*home: FutureBuilder<List<Object?>>(
+        /*home: const CategoryView()*/
+        home: FutureBuilder<List<Object?>>(
           future: getFirstRunAndLoginUser(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active && snapshot.data == null) {
@@ -53,7 +53,7 @@ class MainApp extends StatelessWidget {
             // Đã đăng nhập, vào màn hình chính
             return const HomeView();
           },
-        )*/
+        )
     );
   }
 
