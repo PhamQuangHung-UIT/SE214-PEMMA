@@ -44,7 +44,7 @@ class CustomCategoryWidget extends StatelessWidget {
               alignment: Alignment.centerRight,
               widthFactor: 50,
               child: ImageIcon(
-                AssetImage('assets/images/pen.png'),
+                AssetImage("assets/images/pen-1.png"),
                 color: Colors.black,
                 size: 10,
               ),

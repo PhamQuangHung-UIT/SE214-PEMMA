@@ -1,4 +1,5 @@
 import 'package:budget_buddy/data_sources/repositories/login_repository.dart';
+import 'package:budget_buddy/presenters/category_presenter.dart';
 import 'package:budget_buddy/views/add_category_view.dart';
 import 'package:budget_buddy/views/category_view.dart';
 import 'package:budget_buddy/views/landing_view.dart';
@@ -33,7 +34,7 @@ class MainApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        home: const AddCategoryView()
+        home: const CategoryComponent(new CategoryPresenter(userID))
         /*home: FutureBuilder<List<Object?>>(
           future: getFirstRunAndLoginUser(),
           builder: (context, snapshot) {

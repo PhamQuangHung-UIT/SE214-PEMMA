@@ -1,25 +1,39 @@
+import 'package:budget_buddy/data_sources/category_model.dart';
+import 'package:budget_buddy/presenters/category_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/resources/widget/custom_category_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-class CategoryView extends StatefulWidget {
-  const CategoryView({super.key});
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class CategoryView{
+  void updateCategoryList(Stream<List<MyCategory>> categoryList){}
+}
+class CategoryComponent extends StatefulWidget {
+  final CategoryContract presenter;
+  const CategoryComponent(this.presenter, {super.key});
 
   @override
-  State<CategoryView> createState() => _CategoryViewState();
+  State<CategoryComponent> createState() => _CategoryComponentState();
 }
-
-class _CategoryViewState extends State<CategoryView> with SingleTickerProviderStateMixin{
+class _CategoryComponentState extends State<CategoryComponent> with SingleTickerProviderStateMixin implements CategoryView{
   late TabController _tabController;
-  final items = <String> ['Food'];
+  late Stream<List<MyCategory>> _stream;
+  var db = FirebaseFirestore.instance.collection("categories").snapshots();
 @override
 void initState(){
   super.initState();
+  //widget.presenter.categoryView = this;
   _tabController = TabController(length: 2, vsync: this);
 }
 @override
 void dispose(){
   _tabController.dispose();
   super.dispose();
+}
+@override
+void updateCategoryList(Stream<List<MyCategory>> categoryList){
+    _stream = categoryList;
 }
   @override
   Widget build(BuildContext context) {
@@ -45,17 +59,29 @@ void dispose(){
             children: [
               Column(
                 children: [
-                  Expanded(child: ListView.builder(
-                    itemCount: items.length,
-                      itemBuilder: (context,index){
-                      return CustomCategoryWidget(
-                        CategoryName: items[index],
-                        ImagePath: 'assets/images/restaurant.png',
-                        IsIncome: false,
-                      );
-                    }
-                        )
-                        )
+                  StreamBuilder(
+                      stream: _stream,
+                      builder:(context,snapshot){
+                        if (snapshot.hasError) {
+                          return const Text('Something went wrong');
+                        }
+
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Text("Loading");
+                        }
+                        List<MyCategory>? categories = snapshot.data!;
+                        return ListView.builder(
+                          itemCount: categories.length,
+                            itemBuilder: (context,index){
+                            if(!categories[index].isIncome){
+                              return CustomCategoryWidget(
+                                  CategoryName: categories[index].cName,
+                                  ImagePath: categories[index].cImagePath,
+                                  IsIncome: categories[index].isIncome);}
+                            },
+                        );
+                      },
+                  )
                 ],
               ),
               Text('Hello')
