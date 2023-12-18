@@ -38,5 +38,9 @@
     "this_month_only_option":"This month only",
     "currency_icon":"$",
     "add_button_title":"ADD",
-    "goal_choose_icon":"Choose an icon for your goal"
+    "goal_choose_icon":"Choose an icon for your goal",
+    "hello":"Hello",
+    "recent_transaction":"Recent transaction",
+    "view_all":"View all",
+    "categories_title":"Categories"
 }

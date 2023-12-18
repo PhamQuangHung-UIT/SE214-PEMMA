@@ -85,24 +85,6 @@ class _BudgetViewState extends State<BudgetView> {
     }
   }
 
-  // void fetchGoalsFromFirestore(String userId) {
-  //   FirebaseFirestore.instance
-  //       .collection('goals')
-  //       .where('userId', isEqualTo: userId)
-  //       .snapshots()
-  //       .listen((QuerySnapshot snapshot) {
-  //     setState(() {
-  //       goalList.clear();
-
-  //       snapshot.docs.forEach((DocumentSnapshot document) {
-  //         Goal goal = Goal.fromMap(document.data() as Map<String, dynamic>);
-  //         goalList.add(goal);
-  //         print("Lấy dữ liệu thành công! " + goal.goalId);
-  //       });
-  //     });
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

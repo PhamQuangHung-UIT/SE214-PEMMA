@@ -46,7 +46,7 @@ class MainNavigationView extends StatelessWidget {
   Widget getCurrentPage(String currentRoute) {
     switch (currentRoute) {
       case '/home':
-        return const CategoryView();
+        return const HomeView();
       case '/report':
         return const ProfileView();
       case '/budget':

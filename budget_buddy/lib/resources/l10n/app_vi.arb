@@ -38,5 +38,9 @@
     "this_month_only_option":"Chỉ tháng này",
     "currency_icon":"đ",
     "add_button_title":"THÊM",
-    "goal_choose_icon":"Chọn một biểu tượng cho mục tiêu của bạn"
+    "goal_choose_icon":"Chọn một biểu tượng cho mục tiêu của bạn",
+    "hello":"Xin chào",
+    "recent_transaction":"Lịch sử giao dịch",
+    "view_all":"Xem tất cả",
+    "categories_title":"Loại chi tiêu"
 }
