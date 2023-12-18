@@ -57,15 +57,30 @@ class _AddCategoryViewState extends State<AddCategoryView> {
       cID = widget.existingCategory!.categoryID;
     }
 
-    MyCategory newCategory = MyCategory(
-        categoryID: cID,
-        userID: uID,
-        cName: _cName.value.text,
-        cImagePath: _categoryIP,
-        isIncome: _isIncome);
-    addNewCategory(newCategory);
-    print("Added new Category");
-    Navigator.pop(context);
+    if (_cName.value.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Vui lòng nhập tên loại chi tiêu!',
+            style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w500,
+                fontSize: 16.fSize),
+          ),
+          duration: Duration(seconds: 2), // Thời gian hiển thị SnackBar
+        ),
+      );
+    } else {
+      MyCategory newCategory = MyCategory(
+          categoryID: cID,
+          userID: uID,
+          cName: _cName.value.text,
+          cImagePath: _categoryIP,
+          isIncome: _isIncome);
+      addNewCategory(newCategory);
+      print("Added new Category");
+      Navigator.pop(context);
+    }
   }
 
   void addNewCategory(MyCategory newCategory) {

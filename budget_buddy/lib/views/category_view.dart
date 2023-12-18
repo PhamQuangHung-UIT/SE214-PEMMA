@@ -133,6 +133,57 @@ class _CategoryViewState extends State<CategoryView>
 class CustomCategoryWidget extends StatelessWidget {
   final MyCategory category;
   const CustomCategoryWidget({super.key, required this.category});
+
+  void _confirmDeleteCategory(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            AppLocalizations.of(context)!.category_confirm_delete_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Text(AppLocalizations.of(context)!.category_confirm_delete),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _deleteCategoryOnFirestore(context);
+                Navigator.of(context).pop();
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteCategoryOnFirestore(BuildContext context) {
+    FirebaseFirestore.instance
+        .collection('categories')
+        .doc(category.categoryID)
+        .delete()
+        .then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Category deleted successfully'),
+        ),
+      );
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to delete category'),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -142,10 +193,15 @@ class CustomCategoryWidget extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: 10),
-          const ImageIcon(
-            AssetImage('assets/images/minus.png'),
-            color: Colors.green,
-            size: 15,
+          GestureDetector(
+            onTap: () {
+              _confirmDeleteCategory(context);
+            },
+            child: const ImageIcon(
+              AssetImage('assets/images/minus.png'),
+              color: Colors.green,
+              size: 15,
+            ),
           ),
           const SizedBox(width: 10),
           Container(

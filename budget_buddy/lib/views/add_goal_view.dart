@@ -95,7 +95,7 @@ class _AddGoalViewState extends State<AddGoalView> {
             style: TextStyle(
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.w500,
-                fontSize: 16),
+                fontSize: 16.fSize),
           ),
           duration: Duration(seconds: 2), // Thời gian hiển thị SnackBar
         ),
