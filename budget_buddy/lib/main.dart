@@ -1,5 +1,8 @@
 import 'package:budget_buddy/data_sources/repositories/login_repository.dart';
 import 'package:budget_buddy/presenters/profile_presenter.dart';
+import 'package:budget_buddy/presenters/category_presenter.dart';
+import 'package:budget_buddy/views/add_category_view.dart';
+import 'package:budget_buddy/views/category_view.dart';
 import 'package:budget_buddy/views/landing_view.dart';
 import 'package:budget_buddy/views/login_view.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +57,7 @@ class _MainAppState extends State<MainApp> implements MainAppViewContract {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
+        /*home: const CategoryView()*/
         home: FutureBuilder<List<Object?>>(
           future: getFirstRunAndLoginUser(),
           builder: (context, snapshot) {
