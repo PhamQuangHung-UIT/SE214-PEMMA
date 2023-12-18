@@ -7,6 +7,7 @@ import 'package:budget_buddy/models/goal_model.dart';
 import 'package:budget_buddy/resources/widget/budget_tile.dart';
 import 'package:budget_buddy/resources/widget/goal_tile.dart';
 import 'package:budget_buddy/views/add_goal_view.dart';
+import 'package:budget_buddy/views/fund_goal_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class BudgetView extends StatefulWidget {
 
 class _BudgetViewState extends State<BudgetView> {
   final GoalPresenter _goalPresenter = GoalPresenter();
-  double balance = 9999999;
+  double balance = 0;
   var formatter = NumberFormat('#,000');
   List<Budget> budgetList = [
     Budget(
@@ -62,6 +63,29 @@ class _BudgetViewState extends State<BudgetView> {
   ];
   List<Goal> goalList = [];
 
+  void fetchUserData(String userId) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .where("userId", isEqualTo: userId)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Lấy dữ liệu từ querySnapshot
+        double storedBalance =
+            (querySnapshot.docs[0]['balance'] as num).toDouble();
+
+        setState(() {
+          balance = storedBalance;
+        });
+      } else {
+        print("Document not found!");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -80,6 +104,7 @@ class _BudgetViewState extends State<BudgetView> {
           // Handle error when fetching goals
         },
       );
+      fetchUserData(userId);
     } else {
       // Handle user not logged in
     }
@@ -90,11 +115,11 @@ class _BudgetViewState extends State<BudgetView> {
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors.white,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Container(
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
                   padding: EdgeInsets.fromLTRB(28.h, 49.5.v, 24.h, 27.v),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -187,7 +212,7 @@ class _BudgetViewState extends State<BudgetView> {
                           )),
                       goalList.isEmpty
                           ? Container(
-                              height: 230.v,
+                              height: 250.v,
                               child: Center(
                                 child: Text(
                                   "Có vẻ bạn chưa thêm mục tiêu nào cả, hãy thêm mục tiêu để theo dõi nhé!",
@@ -199,12 +224,23 @@ class _BudgetViewState extends State<BudgetView> {
                               ),
                             )
                           : Container(
-                              height: 230.v,
+                              height: 250.v,
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: goalList.length,
                                 itemBuilder: (context, index) {
-                                  return GoalTile(goal: goalList[index]);
+                                  return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FundGoalView(
+                                                    goal: goalList[index],
+                                                  )),
+                                        );
+                                      },
+                                      child: GoalTile(goal: goalList[index]));
                                 },
                               )),
                       Row(
@@ -223,7 +259,7 @@ class _BudgetViewState extends State<BudgetView> {
                         ],
                       ),
                       Container(
-                          height: 270.v,
+                          height: 300.v,
                           child: ListView.builder(
                             shrinkWrap: true,
                             itemCount: budgetList.length,
@@ -234,8 +270,8 @@ class _BudgetViewState extends State<BudgetView> {
                     ],
                   ),
                 ),
-              )
-            ],
+              ],
+            ),
           )),
     );
   }

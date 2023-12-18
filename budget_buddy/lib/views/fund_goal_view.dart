@@ -1,0 +1,440 @@
+import 'dart:collection';
+import 'dart:ffi';
+import 'package:budget_buddy/models/goal_model.dart';
+import 'package:budget_buddy/resources/widget/custom_textfied.dart';
+import 'package:budget_buddy/resources/widget/goal_icon.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:budget_buddy/resources/app_export.dart';
+import 'package:intl/intl.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+
+class FundGoalView extends StatefulWidget {
+  Goal goal;
+  FundGoalView({super.key, required this.goal});
+
+  @override
+  State<FundGoalView> createState() => _FundGoalViewState();
+}
+
+class _FundGoalViewState extends State<FundGoalView> {
+  late Future<DocumentSnapshot<Map<String, dynamic>>?> goalData;
+  final fundController = TextEditingController();
+  var formatter = NumberFormat('#,000');
+  double balance = 0;
+
+  void updateGoal() async {
+    if (fundController.text.isNotEmpty) {
+      double fundAmount = double.parse(fundController.text);
+
+      if (fundAmount <= widget.goal.goalAmount) {
+        try {
+          User? user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            String userId = user.uid;
+
+            await FirebaseFirestore.instance
+                .collection('goals')
+                .where('goalId', isEqualTo: widget.goal.goalId)
+                .limit(1)
+                .get()
+                .then((querySnapshot) {
+              if (querySnapshot.size > 0) {
+                var goalDoc = querySnapshot.docs.first;
+                double currentFundAmount =
+                    (goalDoc['fundAmount'] as num).toDouble();
+
+                // Cập nhật fundAmount mới trong goal
+                goalDoc.reference.update({
+                  'fundAmount': currentFundAmount + fundAmount,
+                });
+              }
+            });
+          }
+        } catch (e) {
+          print("Error updating goal: $e");
+          // Xử lý lỗi khi cập nhật goal
+        }
+
+        // Cập nhật trong collection "users"
+        try {
+          User? user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            String userId = user.uid;
+
+            await FirebaseFirestore.instance
+                .collection('users')
+                .where('userId', isEqualTo: userId)
+                .limit(1)
+                .get()
+                .then((querySnapshot) {
+              if (querySnapshot.size > 0) {
+                var userDoc = querySnapshot.docs.first;
+                double currentUserBalance =
+                    (userDoc['balance'] as num).toDouble();
+
+                // Cập nhật balance mới trong users
+                userDoc.reference.update({
+                  'balance': currentUserBalance - fundAmount,
+                });
+              }
+            });
+          }
+        } catch (e) {
+          print("Error updating user balance: $e");
+          // Xử lý lỗi khi cập nhật balance người dùng
+        }
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Số dư được nhập vượt quá số tiền mục tiêu!',
+            style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w500,
+                fontSize: 16.fSize),
+          ),
+          duration: Duration(seconds: 2),
+        ));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'Vui lòng nhập số dư được thêm cho mục tiêu!',
+          style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w500,
+              fontSize: 16.fSize),
+        ),
+        duration: Duration(seconds: 2),
+      ));
+    }
+  }
+
+  void fetchUserData(String userId) {
+    FirebaseFirestore.instance
+        .collection("users")
+        .where("userId", isEqualTo: userId)
+        .snapshots() // Sử dụng snapshots để lắng nghe thay đổi
+        .listen((QuerySnapshot querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        // Lấy dữ liệu từ querySnapshot
+        double storedBalance =
+            (querySnapshot.docs[0]['balance'] as num).toDouble();
+
+        setState(() {
+          balance = storedBalance;
+        });
+      } else {
+        print("Document not found!");
+      }
+    }, onError: (error) {
+      print("Error: $error");
+    });
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>?> fetchGoalData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      fetchUserData(user.uid);
+      try {
+        String userId = user.uid;
+        QuerySnapshot<Map<String, dynamic>> querySnapshot =
+            await FirebaseFirestore.instance
+                .collection('goals')
+                .where('goalId', isEqualTo: widget.goal.goalId)
+                .limit(1)
+                .get();
+
+        if (querySnapshot.size > 0) {
+          return querySnapshot.docs.first;
+        } else {
+          throw 'No matching document found';
+        }
+      } catch (e) {
+        throw e;
+      }
+    }
+    return null;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    goalData = fetchGoalData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+            backgroundColor: Color(0xffDEDEDE),
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                AppLocalizations.of(context)!.fund_goal_title,
+                style:
+                    TextStyle(fontSize: 20.fSize, fontWeight: FontWeight.bold),
+              ),
+              backgroundColor: Color(0xff03a700),
+              actions: <Widget>[
+                IconButton(
+                    onPressed: () {
+                      updateGoal();
+                    },
+                    icon: Icon(Icons.check, size: 30.adaptSize)),
+              ],
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.close, size: 30.adaptSize)),
+            ),
+            body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>?>(
+                future: goalData,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data == null) {
+                    return Center(child: Text('No data available'));
+                  } else {
+                    // Lấy thông tin từ snapshot và hiển thị lên các Text
+                    var userData =
+                        snapshot.data!.data() as Map<String, dynamic>?;
+                    if (userData != null) {
+                      String goalName = userData['name'];
+                      double goalAmount =
+                          (userData['goalAmount'] as num).toDouble();
+                      String imagePath = userData['imagePath'];
+                      double fundAmount =
+                          (userData['fundAmount'] as num).toDouble();
+                      Timestamp dateEnd = userData['dateEnd'];
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 15.h, right: 15.h, top: 20.v),
+                            width: double.infinity,
+                            height: 324.v,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(7),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color(0x3f000000),
+                                    offset: Offset(0, 4),
+                                    blurRadius: 2,
+                                  )
+                                ]),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 20.h, right: 24.h, top: 17.v),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      GoalIcon(imagePath: imagePath),
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: 13.v,
+                                            bottom: 14.v,
+                                            left: 15.h),
+                                        width: 248.h,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Color(0xff000000)),
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Text(
+                                          goalName,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 11.v,
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 87.h,
+                                    ),
+                                    MyTextField(
+                                        width: 248.h,
+                                        hintText: "Fund your goal",
+                                        controller: fundController),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 28.v,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 87.h, right: 28.h),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!.balance,
+                                        style: TextStyle(
+                                            fontSize: 15.fSize,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        formatter.format(balance) +
+                                            " " +
+                                            AppLocalizations.of(context)!
+                                                .currency_icon,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 32.v,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 87.h),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                          height: 26.v,
+                                          width: 26.h,
+                                          child: Image.asset(
+                                              "assets/images/calendar-1.png")),
+                                      SizedBox(
+                                        width: 13.h,
+                                      ),
+                                      Text(
+                                        "256 days left",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 34.v),
+                                  child: Container(
+                                    width: 320.h,
+                                    child: LinearPercentIndicator(
+                                      percent: fundAmount / goalAmount,
+                                      backgroundColor: Color(0xffB7B7B7),
+                                      animation: true,
+                                      animationDuration: 1000,
+                                      progressColor: Color(0xff00BD40),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5.v,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 28.h),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        NumberFormat.decimalPatternDigits(
+                                          locale: 'en_us',
+                                          decimalDigits: 0,
+                                        ).format(fundAmount),
+                                        style: TextStyle(
+                                          fontSize: 16.fSize,
+                                          fontWeight: FontWeight.w600,
+                                          height: 1.2175.v,
+                                          color: Color(0xff00bd40),
+                                        ),
+                                      ),
+                                      Text(
+                                        NumberFormat.decimalPatternDigits(
+                                          locale: 'en_us',
+                                          decimalDigits: 0,
+                                        ).format(goalAmount),
+                                        style: TextStyle(
+                                          fontSize: 16.fSize,
+                                          fontWeight: FontWeight.w600,
+                                          height: 1.2175.v,
+                                          color: Color(0xff00bd40),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 33.v, left: 44.h, right: 44.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: 132.h,
+                                  height: 56.v,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.white),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Center(
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .edit_goal_button,
+                                      style: TextStyle(
+                                          fontSize: 14.fSize,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 132.h,
+                                  height: 56.v,
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Color(0xffff0000)),
+                                      color: Color(0xffff0000),
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Center(
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .delete_goal_button,
+                                      style: TextStyle(
+                                          fontSize: 14.fSize,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      );
+                    }
+                    return Container();
+                  }
+                })));
+  }
+}

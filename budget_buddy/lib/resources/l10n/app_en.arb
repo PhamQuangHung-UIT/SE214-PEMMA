@@ -29,7 +29,7 @@
     "budget":"Budget",
     "balance":"BALANCE",
     "goal":"Goal",
-    "add_goal_title":"New Goal",
+    "add_goal_title":"Goal Detail",
     "newgoal_goal_name_hint":"Goal name",
     "newgoal_goal_budget_hint":"Budget",
     "add_budget_title":"New Budget",
@@ -47,5 +47,8 @@
     "categories_income":"Income",
     "categories_outcome":"Outcome",
     "category_confirm_delete_title":"Delete category",
-    "category_confirm_delete":"Are you sure you want to delete this category?"
+    "category_confirm_delete":"Are you sure you want to delete this category?",
+    "fund_goal_title":"Fund your goal",
+    "edit_goal_button":"Edit",
+    "delete_goal_button":"Delete"
 }

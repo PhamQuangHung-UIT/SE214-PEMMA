@@ -29,7 +29,7 @@
     "budget":"Ngân sách",
     "balance":"SỐ DƯ",
     "goal":"Mục tiêu",
-    "add_goal_title":"Mục tiêu mới",
+    "add_goal_title":"Chi tiết mục tiêu",
     "newgoal_goal_name_hint":"Tên mục tiêu",
     "newgoal_goal_budget_hint":"Số tiền",
     "add_budget_title":"Ngân sách mới",
@@ -47,5 +47,8 @@
     "categories_income":"Thu nhập",
     "categories_outcome":"Chi tiêu",
     "category_confirm_delete_title":"Xóa loại chi tiêu",
-    "category_confirm_delete":"Bạn có chắc chắn muốn xóa loại chi tiêu này không?"
+    "category_confirm_delete":"Bạn có chắc chắn muốn xóa loại chi tiêu này không?",
+    "fund_goal_title":"Thêm số dư cho mục tiêu",
+    "edit_goal_button":"Chỉnh sửa",
+    "delete_goal_button":"Xóa"
 }
