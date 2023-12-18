@@ -50,5 +50,11 @@
     "category_confirm_delete":"Are you sure you want to delete this category?",
     "fund_goal_title":"Fund your goal",
     "edit_goal_button":"Edit",
-    "delete_goal_button":"Delete"
+    "delete_goal_button":"Delete",
+    "goal_confirm_delete_title":"Delete goal",
+    "goal_confirm_delete":"Are you sure you want to delete this goal?",
+    "goal_delete_successfull":"Goal deleted successfully",
+    "goal_delete_fail":"Failed to delete goal",
+    "category_delete_successfull":"Category deleted successfully",
+    "category_delete_fail":"Failed to delete category"
 }

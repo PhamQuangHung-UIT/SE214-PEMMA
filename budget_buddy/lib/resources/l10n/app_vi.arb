@@ -50,5 +50,11 @@
     "category_confirm_delete":"Bạn có chắc chắn muốn xóa loại chi tiêu này không?",
     "fund_goal_title":"Thêm số dư cho mục tiêu",
     "edit_goal_button":"Chỉnh sửa",
-    "delete_goal_button":"Xóa"
+    "delete_goal_button":"Xóa",
+    "goal_confirm_delete_title":"Xóa mục tiêu",
+    "goal_confirm_delete":"Bạn có chắc chắn muốn xóa mục tiêu này không?",
+    "goal_delete_successfull":"Xóa mục tiêu thành công",
+    "goal_delete_fail":"Xóa mục tiêu thất bại",
+    "category_delete_successfull":"Xóa loại chi tiêu thành công",
+    "category_delete_fail":"Xóa loại chi tiêu thất bại"
 }

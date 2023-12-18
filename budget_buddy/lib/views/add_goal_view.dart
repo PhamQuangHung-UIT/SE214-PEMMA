@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:budget_buddy/models/budget_model.dart';
 import 'package:budget_buddy/models/goal_model.dart';
 import 'package:budget_buddy/presenters/goal_presenter.dart';
 import 'package:budget_buddy/resources/widget/category_icon.dart';
+import 'package:budget_buddy/views/goal_budget_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:budget_buddy/resources/widget/custom_dropdown.dart';
 import 'package:budget_buddy/resources/widget/custom_textfied.dart';
@@ -10,9 +12,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
+import 'package:intl/intl.dart';
 
 class AddGoalView extends StatefulWidget {
-  const AddGoalView({super.key});
+  Goal? existingGoal;
+  AddGoalView({super.key});
+  AddGoalView.existingGoal(Goal goal, {super.key}) {
+    existingGoal = goal;
+  }
 
   @override
   State<AddGoalView> createState() => _AddGoalViewState();
@@ -21,6 +28,12 @@ class AddGoalView extends StatefulWidget {
 class _AddGoalViewState extends State<AddGoalView> {
   @override
   void initState() {
+    if (widget.existingGoal != null) {
+      NumberFormat formatter = NumberFormat('000');
+      imagePath = widget.existingGoal!.imagePath;
+      goalNameController.text = widget.existingGoal!.name;
+      budgetController.text = formatter.format(widget.existingGoal!.goalAmount);
+    }
     super.initState();
   }
 
@@ -34,7 +47,7 @@ class _AddGoalViewState extends State<AddGoalView> {
   String imagePath = "assets/images/smartphone.png";
   List<String> times = ['Day', 'Month', 'Year'];
   String? selectedTime = 'Day';
-
+  var formatter = NumberFormat('#,000');
   List<String> imageUrls = [
     "assets/images/building.png",
     "assets/images/cosmetics.png",
@@ -103,20 +116,46 @@ class _AddGoalViewState extends State<AddGoalView> {
     } else {
       try {
         String userId = FirebaseAuth.instance.currentUser!.uid;
+        String? gID;
+        double fundAmount;
+        if (widget.existingGoal == null) {
+          gID = FirebaseFirestore.instance.collection('goals').doc().id;
+          fundAmount = 0;
+        } else {
+          gID = widget.existingGoal!.goalId;
+          fundAmount = widget.existingGoal!.fundAmount;
+        }
 
         Goal newGoal = Goal(
           userId: userId,
-          goalId: FirebaseFirestore.instance.collection('Goal').doc().id,
+          goalId: gID,
           name: goalNameController.text,
           imagePath: imagePath,
           goalAmount: double.parse(budgetController.text),
-          fundAmount: 0,
+          fundAmount: fundAmount,
           dateEnd:
               addDaysToTimestamp(int.parse(timeController.text), selectedTime),
         );
 
-        addNewGoal(newGoal);
-        Navigator.pop(context);
+        if (double.parse(budgetController.text) < fundAmount) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Số tiền của mục tiêu không thể nhỏ hơn số dư đã đưa vào mục tiêu: ' +
+                    formatter.format(fundAmount),
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.fSize),
+              ),
+              duration: Duration(seconds: 2), // Thời gian hiển thị SnackBar
+            ),
+          );
+        } else {
+          addNewGoal(newGoal);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const BudgetView()));
+        }
       } catch (e) {
         print("Error adding goal to Firestore: $e");
       }

@@ -172,13 +172,15 @@ class CustomCategoryWidget extends StatelessWidget {
         .then((value) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Category deleted successfully'),
+          content:
+              Text(AppLocalizations.of(context)!.category_delete_successfull),
         ),
       );
     }).catchError((error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to delete category'),
+          content:
+              Text(AppLocalizations.of(context)!.category_delete_successfull),
         ),
       );
     });

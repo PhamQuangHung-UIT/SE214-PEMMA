@@ -3,6 +3,8 @@ import 'dart:ffi';
 import 'package:budget_buddy/models/goal_model.dart';
 import 'package:budget_buddy/resources/widget/custom_textfied.dart';
 import 'package:budget_buddy/resources/widget/goal_icon.dart';
+import 'package:budget_buddy/views/add_goal_view.dart';
+import 'package:budget_buddy/views/goal_budget_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,68 +30,10 @@ class _FundGoalViewState extends State<FundGoalView> {
     if (fundController.text.isNotEmpty) {
       double fundAmount = double.parse(fundController.text);
 
-      if (fundAmount <= widget.goal.goalAmount) {
-        try {
-          User? user = FirebaseAuth.instance.currentUser;
-          if (user != null) {
-            String userId = user.uid;
-
-            await FirebaseFirestore.instance
-                .collection('goals')
-                .where('goalId', isEqualTo: widget.goal.goalId)
-                .limit(1)
-                .get()
-                .then((querySnapshot) {
-              if (querySnapshot.size > 0) {
-                var goalDoc = querySnapshot.docs.first;
-                double currentFundAmount =
-                    (goalDoc['fundAmount'] as num).toDouble();
-
-                // Cập nhật fundAmount mới trong goal
-                goalDoc.reference.update({
-                  'fundAmount': currentFundAmount + fundAmount,
-                });
-              }
-            });
-          }
-        } catch (e) {
-          print("Error updating goal: $e");
-          // Xử lý lỗi khi cập nhật goal
-        }
-
-        // Cập nhật trong collection "users"
-        try {
-          User? user = FirebaseAuth.instance.currentUser;
-          if (user != null) {
-            String userId = user.uid;
-
-            await FirebaseFirestore.instance
-                .collection('users')
-                .where('userId', isEqualTo: userId)
-                .limit(1)
-                .get()
-                .then((querySnapshot) {
-              if (querySnapshot.size > 0) {
-                var userDoc = querySnapshot.docs.first;
-                double currentUserBalance =
-                    (userDoc['balance'] as num).toDouble();
-
-                // Cập nhật balance mới trong users
-                userDoc.reference.update({
-                  'balance': currentUserBalance - fundAmount,
-                });
-              }
-            });
-          }
-        } catch (e) {
-          print("Error updating user balance: $e");
-          // Xử lý lỗi khi cập nhật balance người dùng
-        }
-        Navigator.pop(context);
-      } else {
+      if (widget.goal.fundAmount == widget.goal.goalAmount) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            'Số dư được nhập vượt quá số tiền mục tiêu!',
+            'Mục tiêu đã hoàn thành!',
             style: TextStyle(
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.w500,
@@ -97,6 +41,77 @@ class _FundGoalViewState extends State<FundGoalView> {
           ),
           duration: Duration(seconds: 2),
         ));
+      } else {
+        if (fundAmount < widget.goal.goalAmount) {
+          try {
+            User? user = FirebaseAuth.instance.currentUser;
+            if (user != null) {
+              String userId = user.uid;
+
+              await FirebaseFirestore.instance
+                  .collection('goals')
+                  .where('goalId', isEqualTo: widget.goal.goalId)
+                  .limit(1)
+                  .get()
+                  .then((querySnapshot) {
+                if (querySnapshot.size > 0) {
+                  var goalDoc = querySnapshot.docs.first;
+                  double currentFundAmount =
+                      (goalDoc['fundAmount'] as num).toDouble();
+
+                  // Cập nhật fundAmount mới trong goal
+                  goalDoc.reference.update({
+                    'fundAmount': currentFundAmount + fundAmount,
+                  });
+                }
+              });
+            }
+          } catch (e) {
+            print("Error updating goal: $e");
+            // Xử lý lỗi khi cập nhật goal
+          }
+
+          // Cập nhật trong collection "users"
+          try {
+            User? user = FirebaseAuth.instance.currentUser;
+            if (user != null) {
+              String userId = user.uid;
+
+              await FirebaseFirestore.instance
+                  .collection('users')
+                  .where('userId', isEqualTo: userId)
+                  .limit(1)
+                  .get()
+                  .then((querySnapshot) {
+                if (querySnapshot.size > 0) {
+                  var userDoc = querySnapshot.docs.first;
+                  double currentUserBalance =
+                      (userDoc['balance'] as num).toDouble();
+
+                  // Cập nhật balance mới trong users
+                  userDoc.reference.update({
+                    'balance': currentUserBalance - fundAmount,
+                  });
+                }
+              });
+            }
+          } catch (e) {
+            print("Error updating user balance: $e");
+            // Xử lý lỗi khi cập nhật balance người dùng
+          }
+          Navigator.pop(context);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              'Số dư được nhập vượt quá số tiền mục tiêu!',
+              style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16.fSize),
+            ),
+            duration: Duration(seconds: 2),
+          ));
+        }
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -166,6 +181,92 @@ class _FundGoalViewState extends State<FundGoalView> {
     goalData = fetchGoalData();
   }
 
+  void _confirmDeleteGoal(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            AppLocalizations.of(context)!.goal_confirm_delete_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Text(AppLocalizations.of(context)!.goal_confirm_delete),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _deleteGoalOnFirestore(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => BudgetView()));
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteGoalOnFirestore(BuildContext context) {
+    FirebaseFirestore.instance
+        .collection('goals')
+        .doc(widget.goal.goalId)
+        .delete()
+        .then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.goal_delete_successfull),
+        ),
+      );
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.goal_delete_fail),
+        ),
+      );
+    });
+  }
+
+  String calculateTimeDifference(Timestamp timeStamp) {
+    DateTime now = DateTime.now();
+    DateTime dateTime = timeStamp.toDate();
+
+    Duration difference = now.difference(dateTime);
+
+    int daysDifference = difference.inDays;
+
+    if (daysDifference == 0) {
+      return "Ended today";
+    } else if (daysDifference < 0) {
+      Duration absDifference = now.difference(dateTime).abs();
+      daysDifference = absDifference.inDays;
+      int monthsDifference = (daysDifference / 30).floor();
+      int yearsDifference = (daysDifference / 365).floor();
+      if (daysDifference < 30) {
+        return daysDifference == 1
+            ? '$daysDifference day left'
+            : '$daysDifference days left';
+      } else if (daysDifference < 365) {
+        return monthsDifference == 1
+            ? '$monthsDifference month left'
+            : '$monthsDifference months left';
+      } else {
+        return yearsDifference == 1
+            ? '$yearsDifference year left'
+            : '$yearsDifference years left';
+      }
+    } else {
+      Duration absDifference = now.difference(dateTime).abs();
+      daysDifference = absDifference.inDays;
+      return "Ended " + daysDifference.toString() + " days ago";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -213,7 +314,7 @@ class _FundGoalViewState extends State<FundGoalView> {
                       double fundAmount =
                           (userData['fundAmount'] as num).toDouble();
                       Timestamp dateEnd = userData['dateEnd'];
-
+                      String timeDifference = calculateTimeDifference(dateEnd);
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -324,7 +425,7 @@ class _FundGoalViewState extends State<FundGoalView> {
                                         width: 13.h,
                                       ),
                                       Text(
-                                        "256 days left",
+                                        timeDifference,
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400),
@@ -391,39 +492,56 @@ class _FundGoalViewState extends State<FundGoalView> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  width: 132.h,
-                                  height: 56.v,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.white),
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Center(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .edit_goal_button,
-                                      style: TextStyle(
-                                          fontSize: 14.fSize,
-                                          fontWeight: FontWeight.w700),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddGoalView.existingGoal(
+                                                    widget.goal)));
+                                  },
+                                  child: Container(
+                                    width: 132.h,
+                                    height: 56.v,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.white),
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Center(
+                                      child: Text(
+                                        AppLocalizations.of(context)!
+                                            .edit_goal_button,
+                                        style: TextStyle(
+                                            fontSize: 14.fSize,
+                                            fontWeight: FontWeight.w700),
+                                      ),
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  width: 132.h,
-                                  height: 56.v,
-                                  decoration: BoxDecoration(
-                                      border:
-                                          Border.all(color: Color(0xffff0000)),
-                                      color: Color(0xffff0000),
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Center(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .delete_goal_button,
-                                      style: TextStyle(
-                                          fontSize: 14.fSize,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.white),
+                                GestureDetector(
+                                  onTap: () {
+                                    _confirmDeleteGoal(context);
+                                  },
+                                  child: Container(
+                                    width: 132.h,
+                                    height: 56.v,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xffff0000)),
+                                        color: Color(0xffff0000),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Center(
+                                      child: Text(
+                                        AppLocalizations.of(context)!
+                                            .delete_goal_button,
+                                        style: TextStyle(
+                                            fontSize: 14.fSize,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 )

@@ -63,13 +63,12 @@ class _BudgetViewState extends State<BudgetView> {
   ];
   List<Goal> goalList = [];
 
-  void fetchUserData(String userId) async {
-    try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection("users")
-          .where("userId", isEqualTo: userId)
-          .get();
-
+  void fetchUserData(String userId) {
+    FirebaseFirestore.instance
+        .collection("users")
+        .where("userId", isEqualTo: userId)
+        .snapshots() // Sử dụng snapshots để lắng nghe thay đổi
+        .listen((QuerySnapshot querySnapshot) {
       if (querySnapshot.docs.isNotEmpty) {
         // Lấy dữ liệu từ querySnapshot
         double storedBalance =
@@ -81,9 +80,9 @@ class _BudgetViewState extends State<BudgetView> {
       } else {
         print("Document not found!");
       }
-    } catch (e) {
-      print("Error: $e");
-    }
+    }, onError: (error) {
+      print("Error: $error");
+    });
   }
 
   @override
