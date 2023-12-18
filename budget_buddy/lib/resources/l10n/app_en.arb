@@ -39,8 +39,11 @@
     "currency_icon":"$",
     "add_button_title":"ADD",
     "goal_choose_icon":"Choose an icon for your goal",
+    "category_choose_icon":"Choose an icon for your category",
     "hello":"Hello",
     "recent_transaction":"Recent transaction",
     "view_all":"View all",
-    "categories_title":"Categories"
+    "categories_title":"Categories",
+    "categories_income":"Income",
+    "categories_outcome":"Outcome"
 }

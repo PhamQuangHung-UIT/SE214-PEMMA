@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 
 class AddGoalView extends StatefulWidget {
-  AddGoalView({super.key});
+  const AddGoalView({super.key});
 
   @override
   State<AddGoalView> createState() => _AddGoalViewState();

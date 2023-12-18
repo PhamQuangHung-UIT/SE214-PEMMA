@@ -1,4 +1,6 @@
 import 'package:budget_buddy/views/add_budget_view.dart';
+import 'package:budget_buddy/views/add_category_view.dart';
+import 'package:budget_buddy/views/add_goal_view.dart';
 import 'package:budget_buddy/views/category_view.dart';
 import 'package:budget_buddy/views/goal_budget_view.dart';
 import 'package:budget_buddy/views/home_view.dart';
@@ -46,7 +48,7 @@ class MainNavigationView extends StatelessWidget {
   Widget getCurrentPage(String currentRoute) {
     switch (currentRoute) {
       case '/home':
-        return const HomeView();
+        return HomeView();
       case '/report':
         return const ProfileView();
       case '/budget':

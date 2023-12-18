@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:budget_buddy/resources/app_export.dart';
+import 'package:budget_buddy/views/category_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class _HomeViewState extends State<HomeView>
   void initState() {
     // TODO: implement initState
     super.initState();
+    isVisible = true;
     userData = fetchUserData();
   }
 
@@ -243,12 +245,21 @@ class _HomeViewState extends State<HomeView>
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500),
                                     ),
-                                    Text(
-                                      AppLocalizations.of(context)!.view_all,
-                                      style: TextStyle(
-                                          color: Color(0xff03a700),
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const CategoryView()));
+                                      },
+                                      child: Text(
+                                        AppLocalizations.of(context)!.view_all,
+                                        style: TextStyle(
+                                            color: Color(0xff03a700),
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500),
+                                      ),
                                     )
                                   ],
                                 ),

@@ -64,14 +64,22 @@ class _CategoryViewState extends State<CategoryView>
       backgroundColor: AppTheme.lightTheme.colorScheme.background,
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Categories'),
-        backgroundColor: Colors.green,
+        title: Text(
+          AppLocalizations.of(context)!.categories_title,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Color(0xff03a700),
+        iconTheme: IconThemeData(color: Colors.white, size: 28),
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
           tabs: [
-            Tab(text: 'OUTCOME(${cOutcome.length.toString()})'),
-            Tab(text: 'INCOME(${cIncome.length.toString()})')
+            Tab(
+                text: AppLocalizations.of(context)!.categories_outcome +
+                    '(${cOutcome.length.toString()})'),
+            Tab(
+                text: AppLocalizations.of(context)!.categories_income +
+                    '(${cIncome.length.toString()})')
           ],
         ),
       ),

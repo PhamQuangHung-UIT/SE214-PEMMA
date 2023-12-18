@@ -90,8 +90,7 @@ class _BudgetViewState extends State<BudgetView> {
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors.white,
-          body: Container(
-              child: Column(
+          body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
@@ -138,9 +137,9 @@ class _BudgetViewState extends State<BudgetView> {
                         ),
                       ),
                       Container(
-                          margin: EdgeInsets.fromLTRB(3.h, 0.v, 0.h, 0.v),
+                          margin: EdgeInsets.fromLTRB(0.h, 0.v, 8.h, 0.v),
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Center(
                                 child: Container(
@@ -186,15 +185,28 @@ class _BudgetViewState extends State<BudgetView> {
                               )
                             ],
                           )),
-                      Container(
-                          height: 230.v,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: goalList.length,
-                            itemBuilder: (context, index) {
-                              return GoalTile(goal: goalList[index]);
-                            },
-                          )),
+                      goalList.isEmpty
+                          ? Container(
+                              height: 230.v,
+                              child: Center(
+                                child: Text(
+                                  "Có vẻ bạn chưa thêm mục tiêu nào cả, hãy thêm mục tiêu để theo dõi nhé!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            )
+                          : Container(
+                              height: 230.v,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: goalList.length,
+                                itemBuilder: (context, index) {
+                                  return GoalTile(goal: goalList[index]);
+                                },
+                              )),
                       Row(
                         children: [
                           Container(
@@ -224,7 +236,7 @@ class _BudgetViewState extends State<BudgetView> {
                 ),
               )
             ],
-          ))),
+          )),
     );
   }
 }
