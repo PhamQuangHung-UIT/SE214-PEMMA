@@ -1,13 +1,10 @@
 import 'package:budget_buddy/data_sources/repositories/login_repository.dart';
-<<<<<<< HEAD
-import 'package:budget_buddy/views/event_main_view.dart';
-=======
 import 'package:budget_buddy/presenters/profile_presenter.dart';
->>>>>>> goal
 import 'package:budget_buddy/views/landing_view.dart';
 import 'package:budget_buddy/views/login_view.dart';
 import 'package:budget_buddy/views/event_new_view.dart';
 import 'package:budget_buddy/views/event_edit_view.dart';
+import 'package:budget_buddy/views/add_goal_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -70,11 +67,7 @@ class _MainAppState extends State<MainApp> implements MainAppViewContract {
             bool firstRun = snapshot.data![0] as bool;
             User? user = snapshot.data![1] as User?;
             if (firstRun) {
-<<<<<<< HEAD
-              return const MainEventView();
-=======
-              return const LoginView();
->>>>>>> goal
+              return AddGoalView();
             }
             if (user == null) {
               //Chưa đăng nhập

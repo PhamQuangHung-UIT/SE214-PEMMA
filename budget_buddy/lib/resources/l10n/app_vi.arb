@@ -18,12 +18,6 @@
     "report_navigation_bar":"Báo cáo",
     "budget_navigation_bar":"Ngân quỹ",
     "profile_navigation_bar":"Cá nhân",
-<<<<<<< HEAD
-    "add_event_title":"Tạo sự kiện mới",
-    "add_event_hint":"Tên sự kiện mới",
-    "edit_event_title":"Chỉnh sửa sự kiện",
-    "edit_event_hint":"Tên sự kiện sau khi thay đổi"
-=======
     "email_sent":"Email đã gửi!",
     "please_enter_your":"Vui lòng nhập",
     "your_email":"email của bạn",
@@ -62,6 +56,7 @@
     "goal_delete_successfull":"Xóa mục tiêu thành công",
     "goal_delete_fail":"Xóa mục tiêu thất bại",
     "category_delete_successfull":"Xóa loại chi tiêu thành công",
-    "category_delete_fail":"Xóa loại chi tiêu thất bại"
->>>>>>> goal
+    "category_delete_fail":"Xóa loại chi tiêu thất bại",
+    "add_event_title": "Thêm sự kiện",
+    "edit_event_title": "Chỉnh sửa sự kiện"
 }

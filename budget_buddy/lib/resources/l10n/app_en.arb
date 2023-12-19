@@ -18,12 +18,6 @@
     "report_navigation_bar":"Report",
     "budget_navigation_bar":"Budget",
     "profile_navigation_bar":"Profile",
-<<<<<<< HEAD
-    "add_event_hint":"New event name",
-    "add_event_title":"New Event", 
-    "edit_event_title":"Edit Event",
-    "edit_event_hint":"Edit Event Name"
-=======
     "email_sent":"Email sent!",
     "please_enter":"Please enter",
     "your_email":"your email",
@@ -62,6 +56,7 @@
     "goal_delete_successfull":"Goal deleted successfully",
     "goal_delete_fail":"Failed to delete goal",
     "category_delete_successfull":"Category deleted successfully",
-    "category_delete_fail":"Failed to delete category"
->>>>>>> goal
+    "category_delete_fail":"Failed to delete category",
+    "add_event_title": "New Event",
+    "edit_event_title": "Edit Event"
 }

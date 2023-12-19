@@ -25,7 +25,7 @@ class _EditEventViewState extends State<EditEventView> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            AppLocalizations.of(context)!.add_event_title,
+            AppLocalizations.of(context)!.edit_event_title,
             style: TextStyle(fontSize: 20.fSize, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.green,
