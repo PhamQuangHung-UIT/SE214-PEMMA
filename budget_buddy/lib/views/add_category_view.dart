@@ -1,4 +1,6 @@
 import 'package:budget_buddy/data_sources/category_model.dart';
+import 'package:budget_buddy/models/budget_model.dart';
+import 'package:budget_buddy/presenters/budget_presenter.dart';
 import 'package:budget_buddy/presenters/category_presenter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +19,7 @@ class AddCategoryView extends StatefulWidget {
 
 class _AddCategoryViewState extends State<AddCategoryView> {
   final CategoryPresenter _categoryPresenter = CategoryPresenter();
+  final BudgetPresenter _budgetPresenter = BudgetPresenter();
   late String userID;
   bool _isIncome = true;
   TextEditingController _cName = TextEditingController();
@@ -78,6 +81,27 @@ class _AddCategoryViewState extends State<AddCategoryView> {
           cImagePath: _categoryIP,
           isIncome: _isIncome);
       addNewCategory(newCategory);
+
+      if (_isIncome == false && cID != null) {
+        DateTime now = DateTime.now();
+        Timestamp nowTimestamp = Timestamp.fromDate(now);
+
+        Budget newBudget = Budget(
+            userId: uID,
+            budgetId: FirebaseFirestore.instance.collection('budgets').doc().id,
+            categoryId: cID,
+            spentAmount: 0,
+            expenseCap: 0,
+            dateStart: nowTimestamp,
+            dateEnd:
+                nowTimestamp); //Vì chưa tạo Budget nên chưa có ngày kết thúc
+        _budgetPresenter.addBudget(
+            newBudget,
+            () => {},
+            (error) => {
+                  //Xu li loi
+                });
+      }
       print("Added new Category");
       Navigator.pop(context);
     }

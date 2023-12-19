@@ -32,7 +32,7 @@
     "add_goal_title":"Goal Detail",
     "newgoal_goal_name_hint":"Goal name",
     "newgoal_goal_budget_hint":"Budget",
-    "add_budget_title":"New Budget",
+    "add_budget_title":"Budget detail",
     "set_budget_description":"Set a budget for this category.",
     "is_every_month_option":"Every month",
     "this_month_only_option":"This month only",

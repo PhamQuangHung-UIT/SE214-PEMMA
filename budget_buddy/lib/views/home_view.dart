@@ -77,7 +77,7 @@ class _HomeViewState extends State<HomeView>
                         snapshot.data!.data() as Map<String, dynamic>?;
                     if (userData != null) {
                       String fullName = userData['fullname'];
-                      int balance = userData['balance'];
+                      double balance = (userData['balance'] as num).toDouble();
 
                       return SafeArea(
                         child: SingleChildScrollView(

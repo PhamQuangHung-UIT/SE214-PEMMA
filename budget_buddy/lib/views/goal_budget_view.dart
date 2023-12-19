@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
 import 'package:budget_buddy/models/budget_model.dart';
+import 'package:budget_buddy/presenters/budget_presenter.dart';
 import 'package:budget_buddy/presenters/goal_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/models/goal_model.dart';
 import 'package:budget_buddy/resources/widget/budget_tile.dart';
 import 'package:budget_buddy/resources/widget/goal_tile.dart';
 import 'package:budget_buddy/views/add_goal_view.dart';
+import 'package:budget_buddy/views/category_view.dart';
 import 'package:budget_buddy/views/fund_goal_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,45 +24,10 @@ class BudgetView extends StatefulWidget {
 
 class _BudgetViewState extends State<BudgetView> {
   final GoalPresenter _goalPresenter = GoalPresenter();
+  final BudgetPresenter _budgetPresenter = BudgetPresenter();
   double balance = 0;
   var formatter = NumberFormat('#,000');
-  List<Budget> budgetList = [
-    Budget(
-        userid: "",
-        categoryName: "Food",
-        imagePath: "assets/images/restaurant.png",
-        budget: 0,
-        spentAmount: 0,
-        isEveryMonth: false),
-    Budget(
-        userid: "",
-        categoryName: "Fuel",
-        imagePath: "assets/images/fuel.png",
-        budget: 0,
-        spentAmount: 0,
-        isEveryMonth: false),
-    Budget(
-        userid: "",
-        categoryName: "Clothes",
-        imagePath: "assets/images/casual-t-shirt-.png",
-        budget: 0,
-        spentAmount: 0,
-        isEveryMonth: false),
-    Budget(
-        userid: "",
-        categoryName: "Shopping",
-        imagePath: "assets/images/shopping-bag.png",
-        budget: 0,
-        spentAmount: 0,
-        isEveryMonth: false),
-    Budget(
-        userid: "",
-        categoryName: "Electricity bill",
-        imagePath: "assets/images/electricity-bill.png",
-        budget: 0,
-        spentAmount: 0,
-        isEveryMonth: false),
-  ];
+  List<Budget> budgetList = [];
   List<Goal> goalList = [];
 
   void fetchUserData(String userId) {
@@ -103,6 +70,14 @@ class _BudgetViewState extends State<BudgetView> {
           // Handle error when fetching goals
         },
       );
+      _budgetPresenter.fetchBudgets(userId, (budgets) {
+        setState(() {
+          budgetList.clear();
+          budgetList.addAll(budgets);
+        });
+      }, (error) {
+        // Handle error when fetching budgets
+      });
       fetchUserData(userId);
     } else {
       // Handle user not logged in
@@ -257,15 +232,68 @@ class _BudgetViewState extends State<BudgetView> {
                           ),
                         ],
                       ),
-                      Container(
-                          height: 300.v,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: budgetList.length,
-                            itemBuilder: (context, index) {
-                              return BudgetTile(budget: budgetList[index]);
-                            },
-                          )),
+                      budgetList.isEmpty
+                          ? Container(
+                              height: 300.v,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Có vẻ bạn chưa thêm loại chi tiêu nào cả, hãy thêm loại chi tiêu để có thể đặt giới hạn nhé!",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 16.fSize,
+                                          height: 1.5,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    SizedBox(
+                                      height: 10.v,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CategoryView()));
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            height: 26.v,
+                                            width: 26.h,
+                                            child: Image.asset(
+                                                "assets/images/plus.png"),
+                                          ),
+                                          SizedBox(
+                                            width: 8.h,
+                                          ),
+                                          Text(
+                                            "Thêm ngay",
+                                            style: TextStyle(
+                                                color: Color(0xff03A700),
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Container(
+                              height: 300.v,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: budgetList.length,
+                                itemBuilder: (context, index) {
+                                  return BudgetTile(budget: budgetList[index]);
+                                },
+                              )),
                     ],
                   ),
                 ),
