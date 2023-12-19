@@ -10,15 +10,20 @@ class MainNavigationView extends StatelessWidget {
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
-        child: Scaffold(
-            body: Navigator(
-                initialRoute: '/home',
-                onGenerateRoute: (routeSetting) => PageRouteBuilder(
-                    pageBuilder: (ctx, ani, ani1) => getCurrentPage(routeSetting.name!),
-                    transitionDuration: const Duration(milliseconds: 300))),
-            bottomNavigationBar: CustomBottomBar(onChanged: (type) {
-              Navigator.pushNamed(context, getCurrentRoute(type));
-            })));
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: maxWidth),
+            child: Scaffold(
+                body: Navigator(
+                    initialRoute: '/home',
+                    onGenerateRoute: (routeSetting) => PageRouteBuilder(
+                        pageBuilder: (ctx, ani, ani1) => getCurrentPage(routeSetting.name!),
+                        transitionDuration: const Duration(milliseconds: 300))),
+                bottomNavigationBar: CustomBottomBar(onChanged: (type) {
+                  Navigator.pushNamed(context, getCurrentRoute(type));
+                })),
+          ),
+        ));
   }
 
   ///Handling route based on bottom click actions

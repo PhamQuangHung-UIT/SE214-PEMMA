@@ -18,9 +18,9 @@ class LoginRepository {
     prefs.setBool('firstTime', false);
   }
 
-  Future<void> loginWithPassword(String username, String password) async {
+  Future<void> loginWithPassword(String email, String password) async {
     var auth = FirebaseAuth.instance;
-    await auth.signInWithEmailAndPassword(email: username, password: password);
+    await auth.signInWithEmailAndPassword(email: email, password: password);
   }
 
   Future<void> loginWithGoogle() async {

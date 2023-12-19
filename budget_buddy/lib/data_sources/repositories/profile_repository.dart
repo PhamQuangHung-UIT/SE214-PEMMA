@@ -1,7 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileRepository {
+
+  Stream<User?> authStateChange() {
+    return FirebaseAuth.instance.authStateChanges();
+  }
+
   Future<void> updateLocale(Locale newLocale) async {
     var prefs = await SharedPreferences.getInstance();
     await prefs.setString('language', newLocale.languageCode);

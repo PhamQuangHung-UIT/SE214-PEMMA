@@ -41,13 +41,13 @@ class AppTheme {
   static final TextTheme textTheme = TextTheme(
       bodyLarge: TextStyle(
         color: Colors.black,
-        fontSize: 16.fSize,
+        fontSize: 20.fSize,
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w400,
       ),
       bodyMedium: TextStyle(
         color: Colors.black,
-        fontSize: 15.fSize,
+        fontSize: 16.fSize,
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w300,
       ),
