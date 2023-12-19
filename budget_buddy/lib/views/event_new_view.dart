@@ -36,10 +36,10 @@ class _AddEventViewState extends State<AddEventView> {
               IconButton(onPressed: () {}, icon: Icon(Icons.close, size: 30)),
         ),
         body: Container(
-          margin: EdgeInsets.fromLTRB(16.h, 19.v, 15.h, 0.v),
-          padding: EdgeInsets.fromLTRB(20.h, 17.v, 24.h, 26.v),
+          margin: EdgeInsets.fromLTRB(16.h, 30.v, 15.h, 0.v),
+          padding: EdgeInsets.fromLTRB(20.h, 30.v, 24.h, 26.v),
           width: 359.h,
-          height: 274.v,
+          height: 320.v,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(7),
@@ -61,7 +61,7 @@ class _AddEventViewState extends State<AddEventView> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CategoryIcon(imagePath: "assets/images/plane.png"),
+                    CategoryIcon(imagePath: "assets/images/calendar.png"),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -96,7 +96,7 @@ class _AddEventViewState extends State<AddEventView> {
                             Container(
                               margin: EdgeInsets.fromLTRB(0.h, 10.v, 0.h, 5.v),
                               child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   CategoryIcon(
                                       imagePath: "assets/images/calendar.png"),
@@ -104,9 +104,9 @@ class _AddEventViewState extends State<AddEventView> {
                                   //Date
                                   Container(
                                       margin: EdgeInsets.fromLTRB(
-                                          0.h, 0.v, 13.h, 10.v),
+                                          0.h, 0.v, 12.h, 10.v),
                                       padding: EdgeInsets.fromLTRB(
-                                          8.h, 7.v, 8.h, 7.v),
+                                          0.h, 0.v, 0.h, 0.v),
                                       height: 48.v,
                                       width: 100.h,
                                       decoration: BoxDecoration(
@@ -126,8 +126,40 @@ class _AddEventViewState extends State<AddEventView> {
                                               color: Colors.black),
                                         ),
                                       ))),
+
+                                  //end date time
                                 ],
                               ),
+                            ),
+                            Row(
+                              children: [
+                                CategoryIcon(
+                                    imagePath: "assets/images/calendar.png"),
+                                Container(
+                                    margin: EdgeInsets.fromLTRB(
+                                        0.h, 0.v, 12.h, 10.v),
+                                    padding:
+                                        EdgeInsets.fromLTRB(0.h, 0.v, 0.h, 0.v),
+                                    height: 48.v,
+                                    width: 100.h,
+                                    decoration: BoxDecoration(
+                                        border: null,
+                                        borderRadius:
+                                            BorderRadius.circular(24.v)),
+                                    child: Center(
+                                        child: TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        DateFormat('dd/MM/yyyy')
+                                            .format(DateTime.now()),
+                                        style: TextStyle(
+                                            fontSize: 24.fSize,
+                                            fontFamily: 'Montserrat',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black),
+                                      ),
+                                    ))),
+                              ],
                             ),
                           ],
                         ),

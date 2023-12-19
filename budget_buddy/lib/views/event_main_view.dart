@@ -3,6 +3,7 @@ import 'package:budget_buddy/resources/app_export.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:budget_buddy/resources/widget/category_icon.dart';
+import 'package:budget_buddy/views/event_new_view.dart';
 
 //
 import 'package:budget_buddy/resources/widget/category_icon.dart';
@@ -20,6 +21,16 @@ class _MainEventViewState extends State<MainEventView> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xffdedede),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddEventView()),
+            );
+          },
+          child: Icon(Icons.add),
+          backgroundColor: Colors.green,
+        ),
         appBar: AppBar(
           centerTitle: true,
           title: Text(
@@ -49,7 +60,7 @@ class _MainEventViewState extends State<MainEventView> {
                     //Calendar
                     Center(
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(0.h, 0.v, 119.h, 0.v),
+                        margin: EdgeInsets.fromLTRB(0.h, 0.v, 100.h, 0.v),
                         child: Text(
                           'Calendar',
                           textAlign: TextAlign.center,
@@ -66,7 +77,7 @@ class _MainEventViewState extends State<MainEventView> {
                     //Event list
                     Center(
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(0.h, 0.v, 119.h, 0.v),
+                        margin: EdgeInsets.fromLTRB(0.h, 0.v, 100.h, 0.v),
                         child: Text(
                           'Event list',
                           textAlign: TextAlign.center,

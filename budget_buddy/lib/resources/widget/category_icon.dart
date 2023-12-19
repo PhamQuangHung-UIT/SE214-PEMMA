@@ -8,7 +8,7 @@ class CategoryIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0.h, 0.v, 13.h, 10.v),
+      margin: EdgeInsets.fromLTRB(0.h, 13.v, 13.h, 13.v),
       padding: EdgeInsets.fromLTRB(8.h, 7.v, 8.h, 7.v),
       height: 48.v,
       width: 48.h,
