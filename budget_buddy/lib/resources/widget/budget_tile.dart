@@ -1,4 +1,5 @@
 import 'package:budget_buddy/models/budget_model.dart';
+import 'package:budget_buddy/presenters/category_presenter.dart';
 import 'package:budget_buddy/resources/widget/category_icon.dart';
 import 'package:budget_buddy/views/add_budget_view.dart';
 import 'package:budget_buddy/views/budget_detail_view.dart';
@@ -20,6 +21,8 @@ class _BudgetTileState extends State<BudgetTile> {
   String categoryName = "";
   String imagePath = "";
   String timeLeft = "";
+  CategoryPresenter _categoryPresenter = CategoryPresenter();
+
   String calculateTimeDifference(Timestamp timeStamp) {
     DateTime now = DateTime.now();
     DateTime dateTime = timeStamp.toDate();
@@ -55,34 +58,27 @@ class _BudgetTileState extends State<BudgetTile> {
     }
   }
 
-  void fetchCategoryData(String userId, String categoryId) {
-    FirebaseFirestore.instance
-        .collection("categories")
-        .where("userID", isEqualTo: userId)
-        .where("categoryID", isEqualTo: categoryId)
-        .snapshots()
-        .listen((QuerySnapshot querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        String cName = querySnapshot.docs[0]['cName'];
-        String cImagePath = querySnapshot.docs[0]['cImagePath'];
-
+  void _fetchCategoryData(String userId, String categoryId) {
+    _categoryPresenter.fetchCategoryData(
+      userId,
+      categoryId,
+      (categoryName, imagePath) {
         setState(() {
-          categoryName = cName;
-          imagePath = cImagePath;
+          this.categoryName = categoryName;
+          this.imagePath = imagePath;
         });
-      } else {
-        print("Document not found!");
-      }
-    }, onError: (error) {
-      print("Error: $error");
-    });
+      },
+      (error) {
+        print("Error: $error");
+      },
+    );
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchCategoryData(widget.budget.userId, widget.budget.categoryId);
+    _fetchCategoryData(widget.budget.userId, widget.budget.categoryId);
     timeLeft = calculateTimeDifference(widget.budget.dateEnd);
   }
 

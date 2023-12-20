@@ -1,5 +1,7 @@
 import 'package:budget_buddy/models/budget_model.dart';
 import 'package:budget_buddy/presenters/budget_presenter.dart';
+import 'package:budget_buddy/presenters/category_presenter.dart';
+import 'package:budget_buddy/presenters/user_presenter.dart';
 import 'package:budget_buddy/resources/widget/category_icon.dart';
 import 'package:budget_buddy/resources/widget/custom_dropdown.dart';
 import 'package:budget_buddy/resources/widget/custom_textfied.dart';
@@ -19,38 +21,33 @@ class AddBudgetView extends StatefulWidget {
 }
 
 class _AddBudgetViewState extends State<AddBudgetView> {
+  final CategoryPresenter _categoryPresenter = CategoryPresenter();
   final BudgetPresenter _budgetPresenter = BudgetPresenter();
+  final UserPresenter _userPresenter = UserPresenter();
   final budgetController = TextEditingController();
   List<String> times = ['Day', 'Month', 'Year'];
   String? selectedTime = 'Day';
-  double balance = 9999999;
+  double balance = 0;
   final timeController = TextEditingController();
   var formatter = NumberFormat('#,000');
 
   String categoryName = "";
   String imagePath = "";
 
-  void fetchCategoryData(String userId, String categoryId) {
-    FirebaseFirestore.instance
-        .collection("categories")
-        .where("userID", isEqualTo: userId)
-        .where("categoryID", isEqualTo: categoryId)
-        .snapshots()
-        .listen((QuerySnapshot querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        String cName = querySnapshot.docs[0]['cName'];
-        String cImagePath = querySnapshot.docs[0]['cImagePath'];
-
+  void _fetchCategoryData(String userId, String categoryId) {
+    _categoryPresenter.fetchCategoryData(
+      userId,
+      categoryId,
+      (categoryName, imagePath) {
         setState(() {
-          categoryName = cName;
-          imagePath = cImagePath;
+          this.categoryName = categoryName;
+          this.imagePath = imagePath;
         });
-      } else {
-        print("Document not found!");
-      }
-    }, onError: (error) {
-      print("Error: $error");
-    });
+      },
+      (error) {
+        print("Error: $error");
+      },
+    );
   }
 
   void addNewBudget(Budget newBudget) {
@@ -126,33 +123,30 @@ class _AddBudgetViewState extends State<AddBudgetView> {
     }
   }
 
-  void fetchUserData(String userId) {
-    FirebaseFirestore.instance
-        .collection("users")
-        .where("userId", isEqualTo: userId)
-        .snapshots() // Sử dụng snapshots để lắng nghe thay đổi
-        .listen((QuerySnapshot querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        // Lấy dữ liệu từ querySnapshot
-        double storedBalance =
-            (querySnapshot.docs[0]['balance'] as num).toDouble();
-
-        setState(() {
-          balance = storedBalance;
-        });
-      } else {
-        print("Document not found!");
-      }
-    }, onError: (error) {
-      print("Error: $error");
-    });
+  Future<void> _loadUserBalance(String userId) async {
+    try {
+      _userPresenter.listenUserBalance(
+        userId,
+        (double storedBalance) {
+          setState(() {
+            balance = storedBalance;
+          });
+        },
+        (String error) {
+          // Xử lý lỗi
+        },
+      );
+      ;
+    } catch (e) {
+      print("Error: $e");
+    }
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchCategoryData(widget.budget.userId, widget.budget.categoryId);
+    _fetchCategoryData(widget.budget.userId, widget.budget.categoryId);
 
     if (widget.budget.expenseCap == 0) {
       budgetController.text = "";
@@ -161,7 +155,7 @@ class _AddBudgetViewState extends State<AddBudgetView> {
 
       budgetController.text = formatter.format(widget.budget.expenseCap);
     }
-    fetchUserData(widget.budget.userId);
+    _loadUserBalance(widget.budget.userId);
   }
 
   Timestamp addDaysToTimestamp(int number, String? period) {

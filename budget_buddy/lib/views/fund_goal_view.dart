@@ -1,6 +1,8 @@
 import 'dart:collection';
 import 'dart:ffi';
 import 'package:budget_buddy/models/goal_model.dart';
+import 'package:budget_buddy/presenters/goal_presenter.dart';
+import 'package:budget_buddy/presenters/user_presenter.dart';
 import 'package:budget_buddy/resources/widget/custom_textfied.dart';
 import 'package:budget_buddy/resources/widget/goal_icon.dart';
 import 'package:budget_buddy/views/add_goal_view.dart';
@@ -21,10 +23,21 @@ class FundGoalView extends StatefulWidget {
 }
 
 class _FundGoalViewState extends State<FundGoalView> {
+  final UserPresenter _userPresenter = UserPresenter();
+  final GoalPresenter _goalPresenter = GoalPresenter();
+
   late Future<DocumentSnapshot<Map<String, dynamic>>?> goalData;
   final fundController = TextEditingController();
   var formatter = NumberFormat('#,000');
   double balance = 0;
+
+  Future<DocumentSnapshot<Map<String, dynamic>>?> fetchGoalData() async {
+    try {
+      return await _goalPresenter.fetchGoalData(widget.goal.goalId);
+    } catch (e) {
+      throw e;
+    }
+  }
 
   void updateGoal() async {
     if (fundController.text.isNotEmpty) {
@@ -44,56 +57,19 @@ class _FundGoalViewState extends State<FundGoalView> {
       } else {
         if (fundAmount < widget.goal.goalAmount) {
           try {
-            User? user = FirebaseAuth.instance.currentUser;
-            if (user != null) {
-              String userId = user.uid;
-
-              await FirebaseFirestore.instance
-                  .collection('goals')
-                  .where('goalId', isEqualTo: widget.goal.goalId)
-                  .limit(1)
-                  .get()
-                  .then((querySnapshot) {
-                if (querySnapshot.size > 0) {
-                  var goalDoc = querySnapshot.docs.first;
-                  double currentFundAmount =
-                      (goalDoc['fundAmount'] as num).toDouble();
-
-                  // Cập nhật fundAmount mới trong goal
-                  goalDoc.reference.update({
-                    'fundAmount': currentFundAmount + fundAmount,
-                  });
-                }
-              });
-            }
+            await _goalPresenter.updateGoalFundAmount(
+                widget.goal.goalId, fundAmount);
           } catch (e) {
             print("Error updating goal: $e");
-            // Xử lý lỗi khi cập nhật goal
           }
 
-          // Cập nhật trong collection "users"
+          // Cập nhật số dư trong collection "users"
           try {
             User? user = FirebaseAuth.instance.currentUser;
             if (user != null) {
               String userId = user.uid;
 
-              await FirebaseFirestore.instance
-                  .collection('users')
-                  .where('userId', isEqualTo: userId)
-                  .limit(1)
-                  .get()
-                  .then((querySnapshot) {
-                if (querySnapshot.size > 0) {
-                  var userDoc = querySnapshot.docs.first;
-                  double currentUserBalance =
-                      (userDoc['balance'] as num).toDouble();
-
-                  // Cập nhật balance mới trong users
-                  userDoc.reference.update({
-                    'balance': currentUserBalance - fundAmount,
-                  });
-                }
-              });
+              await _userPresenter.updateUserBalance(userId, fundAmount);
             }
           } catch (e) {
             print("Error updating user balance: $e");
@@ -127,58 +103,36 @@ class _FundGoalViewState extends State<FundGoalView> {
     }
   }
 
-  void fetchUserData(String userId) {
-    FirebaseFirestore.instance
-        .collection("users")
-        .where("userId", isEqualTo: userId)
-        .snapshots() // Sử dụng snapshots để lắng nghe thay đổi
-        .listen((QuerySnapshot querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        // Lấy dữ liệu từ querySnapshot
-        double storedBalance =
-            (querySnapshot.docs[0]['balance'] as num).toDouble();
-
-        setState(() {
-          balance = storedBalance;
-        });
-      } else {
-        print("Document not found!");
-      }
-    }, onError: (error) {
-      print("Error: $error");
-    });
-  }
-
-  Future<DocumentSnapshot<Map<String, dynamic>>?> fetchGoalData() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      fetchUserData(user.uid);
-      try {
-        String userId = user.uid;
-        QuerySnapshot<Map<String, dynamic>> querySnapshot =
-            await FirebaseFirestore.instance
-                .collection('goals')
-                .where('goalId', isEqualTo: widget.goal.goalId)
-                .limit(1)
-                .get();
-
-        if (querySnapshot.size > 0) {
-          return querySnapshot.docs.first;
-        } else {
-          throw 'No matching document found';
-        }
-      } catch (e) {
-        throw e;
-      }
+  Future<void> _loadUserBalance(String userId) async {
+    try {
+      _userPresenter.listenUserBalance(
+        userId,
+        (double storedBalance) {
+          setState(() {
+            balance = storedBalance;
+          });
+        },
+        (String error) {
+          // Xử lý lỗi
+        },
+      );
+      ;
+    } catch (e) {
+      print("Error: $e");
     }
-    return null;
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    goalData = fetchGoalData();
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      _loadUserBalance(user.uid);
+      goalData = fetchGoalData();
+    } else {
+      print("User not signed in!");
+    }
   }
 
   void _confirmDeleteGoal(BuildContext context) {
@@ -212,24 +166,21 @@ class _FundGoalViewState extends State<FundGoalView> {
     );
   }
 
-  void _deleteGoalOnFirestore(BuildContext context) {
-    FirebaseFirestore.instance
-        .collection('goals')
-        .doc(widget.goal.goalId)
-        .delete()
-        .then((value) {
+  void _deleteGoalOnFirestore(BuildContext context) async {
+    try {
+      await _goalPresenter.deleteGoal(widget.goal.goalId);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context)!.goal_delete_successfull),
         ),
       );
-    }).catchError((error) {
+    } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context)!.goal_delete_fail),
         ),
       );
-    });
+    }
   }
 
   String calculateTimeDifference(Timestamp timeStamp) {

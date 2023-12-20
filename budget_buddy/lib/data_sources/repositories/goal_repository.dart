@@ -30,4 +30,55 @@ class GoalRepository {
       print("Error adding goal: $e");
     }
   }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>?> fetchGoalData(
+      String goalId) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance
+              .collection('goals')
+              .where('goalId', isEqualTo: goalId)
+              .limit(1)
+              .get();
+
+      if (querySnapshot.size > 0) {
+        return querySnapshot.docs.first;
+      } else {
+        throw 'No matching document found';
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> deleteGoal(String goalId) async {
+    try {
+      await FirebaseFirestore.instance.collection('goals').doc(goalId).delete();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> updateGoalFundAmount(String goalId, double fundAmount) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance
+              .collection('goals')
+              .where('goalId', isEqualTo: goalId)
+              .limit(1)
+              .get();
+
+      if (querySnapshot.size > 0) {
+        var goalDoc = querySnapshot.docs.first;
+        double currentFundAmount = (goalDoc['fundAmount'] as num).toDouble();
+
+        // Update fundAmount within the goal
+        goalDoc.reference.update({
+          'fundAmount': currentFundAmount + fundAmount,
+        });
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 }

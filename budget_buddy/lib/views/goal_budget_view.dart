@@ -3,6 +3,7 @@
 import 'package:budget_buddy/models/budget_model.dart';
 import 'package:budget_buddy/presenters/budget_presenter.dart';
 import 'package:budget_buddy/presenters/goal_presenter.dart';
+import 'package:budget_buddy/presenters/user_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/models/goal_model.dart';
 import 'package:budget_buddy/resources/widget/budget_tile.dart';
@@ -25,32 +26,11 @@ class BudgetView extends StatefulWidget {
 class _BudgetViewState extends State<BudgetView> {
   final GoalPresenter _goalPresenter = GoalPresenter();
   final BudgetPresenter _budgetPresenter = BudgetPresenter();
+  final UserPresenter _userPresenter = UserPresenter();
   double balance = 0;
   var formatter = NumberFormat('#,000');
   List<Budget> budgetList = [];
   List<Goal> goalList = [];
-
-  void fetchUserData(String userId) {
-    FirebaseFirestore.instance
-        .collection("users")
-        .where("userId", isEqualTo: userId)
-        .snapshots() // Sử dụng snapshots để lắng nghe thay đổi
-        .listen((QuerySnapshot querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        // Lấy dữ liệu từ querySnapshot
-        double storedBalance =
-            (querySnapshot.docs[0]['balance'] as num).toDouble();
-
-        setState(() {
-          balance = storedBalance;
-        });
-      } else {
-        print("Document not found!");
-      }
-    }, onError: (error) {
-      print("Error: $error");
-    });
-  }
 
   @override
   void initState() {
@@ -78,9 +58,28 @@ class _BudgetViewState extends State<BudgetView> {
       }, (error) {
         // Handle error when fetching budgets
       });
-      fetchUserData(userId);
+      _loadUserBalance(userId);
     } else {
       // Handle user not logged in
+    }
+  }
+
+  Future<void> _loadUserBalance(String userId) async {
+    try {
+      _userPresenter.listenUserBalance(
+        userId,
+        (double storedBalance) {
+          setState(() {
+            balance = storedBalance;
+          });
+        },
+        (String error) {
+          // Xử lý lỗi
+        },
+      );
+      ;
+    } catch (e) {
+      print("Error: $e");
     }
   }
 

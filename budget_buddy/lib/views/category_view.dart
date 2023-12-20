@@ -132,6 +132,7 @@ class _CategoryViewState extends State<CategoryView>
 
 class CustomCategoryWidget extends StatelessWidget {
   final MyCategory category;
+
   const CustomCategoryWidget({super.key, required this.category});
 
   void _confirmDeleteCategory(BuildContext context) {
@@ -153,7 +154,7 @@ class CustomCategoryWidget extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                _deleteCategoryOnFirestore(context);
+                _deleteCategory(context);
                 Navigator.of(context).pop();
               },
               child: Text('Delete'),
@@ -164,26 +165,26 @@ class CustomCategoryWidget extends StatelessWidget {
     );
   }
 
-  void _deleteCategoryOnFirestore(BuildContext context) {
-    FirebaseFirestore.instance
-        .collection('categories')
-        .doc(category.categoryID)
-        .delete()
-        .then((value) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content:
-              Text(AppLocalizations.of(context)!.category_delete_successfull),
-        ),
-      );
-    }).catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content:
-              Text(AppLocalizations.of(context)!.category_delete_successfull),
-        ),
-      );
-    });
+  void _deleteCategory(BuildContext context) {
+    CategoryPresenter _categoryPresenter = CategoryPresenter();
+    _categoryPresenter.deleteCategory(
+      category.categoryID,
+      () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                Text(AppLocalizations.of(context)!.category_delete_successfull),
+          ),
+        );
+      },
+      (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(error),
+          ),
+        );
+      },
+    );
   }
 
   @override
