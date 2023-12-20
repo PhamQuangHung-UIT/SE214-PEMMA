@@ -56,5 +56,7 @@
     "goal_delete_successfull":"Xóa mục tiêu thành công",
     "goal_delete_fail":"Xóa mục tiêu thất bại",
     "category_delete_successfull":"Xóa loại chi tiêu thành công",
-    "category_delete_fail":"Xóa loại chi tiêu thất bại"
+    "category_delete_fail":"Xóa loại chi tiêu thất bại",
+    "budget_confirm_delete_title":"Xóa ngân sách",
+    "budget_confirm_delete":"Bạn có chắc chắn muốn xóa ngân sách này không?"
 }

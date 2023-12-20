@@ -266,7 +266,7 @@ class _AddBudgetViewState extends State<AddBudgetView> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 45.h),
+              margin: EdgeInsets.only(left: 42.h),
               child: MyTextField(
                   width: 248,
                   hintText: AppLocalizations.of(context)!.budget,

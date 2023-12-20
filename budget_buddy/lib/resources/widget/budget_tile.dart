@@ -1,6 +1,7 @@
 import 'package:budget_buddy/models/budget_model.dart';
 import 'package:budget_buddy/resources/widget/category_icon.dart';
 import 'package:budget_buddy/views/add_budget_view.dart';
+import 'package:budget_buddy/views/budget_detail_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
@@ -97,7 +98,7 @@ class _BudgetTileState extends State<BudgetTile> {
         widget.budget.expenseCap == 0
             ? Container(
                 width: 186.h,
-                margin: EdgeInsets.fromLTRB(0.h, 12.v, 0.h, 0.v),
+                margin: EdgeInsets.fromLTRB(5.h, 12.v, 0.h, 0.v),
                 child: Text(
                   categoryName,
                   style: TextStyle(
@@ -108,78 +109,100 @@ class _BudgetTileState extends State<BudgetTile> {
                   ),
                 ),
               )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding:
-                        EdgeInsets.only(left: 10.h, right: 10.h, bottom: 5.v),
-                    width: 285.h,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          categoryName,
-                          style: TextStyle(
-                            fontSize: 18.fSize,
-                            fontWeight: FontWeight.w500,
-                            height: 1.2175.v,
-                            color: Color(0xff000000),
+            : GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BudgetDetailView(
+                                budget: widget.budget,
+                              )));
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.only(left: 10.h, right: 10.h, bottom: 5.v),
+                      width: 285.h,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            categoryName,
+                            style: TextStyle(
+                              fontSize: 18.fSize,
+                              fontWeight: FontWeight.w500,
+                              height: 1.2175.v,
+                              color: Color(0xff000000),
+                            ),
                           ),
-                        ),
-                        Text(
-                          timeLeft,
-                          style: TextStyle(
-                              fontSize: 16.fSize, fontWeight: FontWeight.w500),
-                        )
-                      ],
+                          Text(
+                            timeLeft,
+                            style: TextStyle(
+                                fontSize: 16.fSize,
+                                fontWeight: FontWeight.w500),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 285.h,
-                    child: LinearPercentIndicator(
-                      percent:
-                          widget.budget.spentAmount / widget.budget.expenseCap,
-                      backgroundColor: Color(0xffB7B7B7),
-                      animation: true,
-                      animationDuration: 1000,
-                      progressColor: Color(0xff00BD40),
+                    Container(
+                      width: 285.h,
+                      child: LinearPercentIndicator(
+                        percent: widget.budget.spentAmount >=
+                                widget.budget.expenseCap
+                            ? widget.budget.expenseCap /
+                                widget.budget.expenseCap
+                            : widget.budget.spentAmount /
+                                widget.budget.expenseCap,
+                        backgroundColor: Color(0xffB7B7B7),
+                        animation: true,
+                        animationDuration: 1000,
+                        progressColor: widget.budget.spentAmount >=
+                                widget.budget.expenseCap
+                            ? Color(0xffFF1D1D)
+                            : Color(0xff00BD40),
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 285.h,
-                    padding: EdgeInsets.only(left: 10.h, right: 10.h, top: 7.v),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          NumberFormat.decimalPatternDigits(
-                            locale: 'en_us',
-                            decimalDigits: 0,
-                          ).format(widget.budget.spentAmount),
-                          style: TextStyle(
-                            fontSize: 16.fSize,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2175.v,
-                            color: Color(0xff00bd40),
+                    Container(
+                      width: 285.h,
+                      padding:
+                          EdgeInsets.only(left: 10.h, right: 10.h, top: 7.v),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            NumberFormat.decimalPatternDigits(
+                              locale: 'en_us',
+                              decimalDigits: 0,
+                            ).format(widget.budget.spentAmount),
+                            style: TextStyle(
+                              fontSize: 16.fSize,
+                              fontWeight: FontWeight.w600,
+                              height: 1.2175.v,
+                              color: widget.budget.spentAmount >=
+                                      widget.budget.expenseCap
+                                  ? Color(0xffFF1D1D)
+                                  : Color(0xff00bd40),
+                            ),
                           ),
-                        ),
-                        Text(
-                          NumberFormat.decimalPatternDigits(
-                            locale: 'en_us',
-                            decimalDigits: 0,
-                          ).format(widget.budget.expenseCap),
-                          style: TextStyle(
-                            fontSize: 16.fSize,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2175.v,
-                            color: Color(0xff00bd40),
+                          Text(
+                            NumberFormat.decimalPatternDigits(
+                              locale: 'en_us',
+                              decimalDigits: 0,
+                            ).format(widget.budget.expenseCap),
+                            style: TextStyle(
+                              fontSize: 16.fSize,
+                              fontWeight: FontWeight.w600,
+                              height: 1.2175.v,
+                              color: Color(0xff00bd40),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
         widget.budget.expenseCap == 0 ? Spacer() : SizedBox(),
         widget.budget.expenseCap == 0
