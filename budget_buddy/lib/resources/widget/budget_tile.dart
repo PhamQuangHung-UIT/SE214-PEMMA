@@ -120,7 +120,7 @@ class _BudgetTileState extends State<BudgetTile> {
                     Container(
                       padding:
                           EdgeInsets.only(left: 10.h, right: 10.h, bottom: 5.v),
-                      width: 285.h,
+                      width: 283.h,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -143,7 +143,7 @@ class _BudgetTileState extends State<BudgetTile> {
                       ),
                     ),
                     Container(
-                      width: 285.h,
+                      width: 283.h,
                       child: LinearPercentIndicator(
                         percent: widget.budget.spentAmount >=
                                 widget.budget.expenseCap
@@ -161,7 +161,7 @@ class _BudgetTileState extends State<BudgetTile> {
                       ),
                     ),
                     Container(
-                      width: 285.h,
+                      width: 283.h,
                       padding:
                           EdgeInsets.only(left: 10.h, right: 10.h, top: 7.v),
                       child: Row(
@@ -212,7 +212,7 @@ class _BudgetTileState extends State<BudgetTile> {
                               )));
                 },
                 child: Container(
-                    margin: EdgeInsets.fromLTRB(0.h, 10.v, 0.h, 0.v),
+                    margin: EdgeInsets.fromLTRB(0.h, 10.v, 10.h, 0.v),
                     child: SizedBox(
                         child: Image.asset(
                       "assets/images/plus.png",

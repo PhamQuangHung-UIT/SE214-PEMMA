@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:budget_buddy/presenters/user_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/views/category_view.dart';
+import 'package:budget_buddy/views/goal_budget_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -187,12 +188,15 @@ class _HomeViewState extends State<HomeView>
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500),
                           ),
-                          Text(
-                            AppLocalizations.of(context)!.view_all,
-                            style: TextStyle(
-                                color: Color(0xff03a700),
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Text(
+                              AppLocalizations.of(context)!.view_all,
+                              style: TextStyle(
+                                  color: Color(0xff03a700),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500),
+                            ),
                           )
                         ],
                       ),

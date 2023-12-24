@@ -205,7 +205,7 @@ class _AddBudgetViewState extends State<AddBudgetView> {
         margin: EdgeInsets.fromLTRB(16.h, 19.v, 15.h, 0.v),
         padding: EdgeInsets.fromLTRB(20.h, 17.v, 24.h, 26.v),
         width: 359.h,
-        height: 260.v,
+        height: 268.v,
         decoration: BoxDecoration(
           color: Color(0xffffffff),
           borderRadius: BorderRadius.circular(7),
@@ -260,7 +260,7 @@ class _AddBudgetViewState extends State<AddBudgetView> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 42.h),
+              margin: EdgeInsets.only(left: 53.h),
               child: MyTextField(
                   width: 248,
                   hintText: AppLocalizations.of(context)!.budget,

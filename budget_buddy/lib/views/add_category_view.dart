@@ -82,25 +82,28 @@ class _AddCategoryViewState extends State<AddCategoryView> {
           isIncome: _isIncome);
       addNewCategory(newCategory);
 
-      if (_isIncome == false && cID != null) {
-        DateTime now = DateTime.now();
-        Timestamp nowTimestamp = Timestamp.fromDate(now);
+      if (widget.existingCategory == null) {
+        if (_isIncome == false && cID != null) {
+          DateTime now = DateTime.now();
+          Timestamp nowTimestamp = Timestamp.fromDate(now);
 
-        Budget newBudget = Budget(
-            userId: uID,
-            budgetId: FirebaseFirestore.instance.collection('budgets').doc().id,
-            categoryId: cID,
-            spentAmount: 0,
-            expenseCap: 0,
-            dateStart: nowTimestamp,
-            dateEnd:
-                nowTimestamp); //Vì chưa tạo Budget nên chưa có ngày kết thúc
-        _budgetPresenter.addBudget(
-            newBudget,
-            () => {},
-            (error) => {
-                  //Xu li loi
-                });
+          Budget newBudget = Budget(
+              userId: uID,
+              budgetId:
+                  FirebaseFirestore.instance.collection('budgets').doc().id,
+              categoryId: cID,
+              spentAmount: 0,
+              expenseCap: 0,
+              dateStart: nowTimestamp,
+              dateEnd: nowTimestamp);
+          //Vì chưa tạo Budget nên chưa có ngày kết thúc
+          _budgetPresenter.addBudget(
+              newBudget,
+              () => {},
+              (error) => {
+                    //Xu li loi
+                  });
+        }
       }
       print("Added new Category");
       Navigator.pop(context);
