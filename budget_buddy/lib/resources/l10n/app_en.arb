@@ -1,31 +1,86 @@
 {
     "welcome_title":"Welcome to\nBudget Buddy!",
     "get_started":"Get started",
+    "page_404_not_found_title":"404 Not Found",
+    "page_404_not_found_body":"It looks like your requested page is not found or... may be ''disappeared'', buddy! Consider find the alternatives or report the bug via our email",
+    "unexpected_error_view_title":"Oops! Something''s wrong.",
+    "unexpected_error_view_body": "Hey bud, there is an unexpected error when trying to perform your requested operator. You could wait and try again.",
     "login_title":"Welcome, buddy!",
     "email":"Email",
     "password":"Password",
-    "login_uppercase":"LOGIN",
+    "confirm_password":"Confirm password",
+    "login":"Login",
     "or":"or",
     "forgot_password":"Forgot password?",
     "dont_have_an_account":"Don’t have an account?",
-    "email_empty_message":"The email must not be empty.",
+    "already_have_an_account":"Already have an account?",
+    "sign_up_title":"Create your \nnew account",
+    "email_verification_success_title":"Verify success!",
+    "email_verification_success_body":"You have successfully verify the email ",
+    "go_to_login":"Go to login",
+    "full_name":"Full name",
+    "email_already_in_use_msg":"The email is already in used",
+    "empty_fullname_msg":"The full name must not be empty.",
+    "password_not_match_msg":"The password and confirm password don''t match.",
+    "password_6_characters_msg":"The password must be at least 6 characters long",
     "invalid_email":"Invalid email",
     "email_or_password_incorrect":"Email or password was incorrect",
-    "user_not_found_dialog_msg":"The email address has not been signed up yet. Would you like to sign up a new account with this email address?",
+    "password_incorrect":"Incorrect password",
+    "unexpected_error_msg":"Unexpected error. Code: {code}",
+    "@unexpected_error_msg":{
+        "placeholders":{
+            "code":{}
+        }
+    },
     "sign_up":"Sign up",
     "cancel_btn":"Cancel",
+    "continue_uppercase":"CONTINUE",
+    "required_email_verification_title":"Email verification required",
+    "required_email_verification_body": "Your email is unverified. For security reason, we require that the email address has to be verified.",
     "home_navigation_bar":"Home",
     "report_navigation_bar":"Report",
     "budget_navigation_bar":"Budget",
     "profile_navigation_bar":"Profile",
+    "new_transaction":"New transaction",
+    "choose_date":"Choose date",
+    "choose_time":"Choose time",
+    "today":"Today",
+    "add_note":"Add note",
+    "network_issue_msg":"There is an issue with your network connectivity. Please try again later.",
+    "retry":"Retry",
+    "edit_profile":"Edit profile",
+    "language":"Language",
+    "current_language":"English",
+    "currency":"Currency",
+    "currency_text":"USD",
+    "log_out":"Log out",
+    "change_password":"Change password",
+    "log_out_confirm_msg":"Are you sure want to log out?",
+    "reinput_password_title":"Input password",
+    "reinput_password_body":"Please enter your password in order to begin the update email process.",
+    "update_email_verification_msg":"To complete the process of updating new email, please verify your new email address. We’ve sent a verification email to {email}. If you don’t receive the email within a few minutes, make sure to check your spam or junk folder.",
+    "@update_email_verification_msg":{
+        "placeholders":{
+            "email":{}
+        }
+    },
     "email_sent":"Email sent!",
+    "almost_done":"Almost done!",
+    "reset_password":"Reset password",
     "please_enter":"Please enter",
     "your_email":"your email",
     "to_reset_your_password":"to reset your password.",
-    "email_vertification_msg_1":"An email to change password has been sent to you. Please check",
-    "your_inbox":"your inbox",
-    "email_vertification_msg_2":"to change your password.",
+    "email_verification_msg":"To complete your sign up, please verify your email address. We’ve sent a verification email to {email}. If you don’t receive the email within a few minutes, make sure to check your spam or junk folder.",
+    "@email_verification_msg":{
+        "placeholders":{
+            "email":{}
+        }
+    },
+    "reset_password_msg":"We’ve sent you an email to reset your password. Please check your inbox for an email from us with a link to create a new password. If you don’t receive the email within a few minutes, make sure to check your spam or junk folder.",
     "resend_uppercase":"RESEND",
+    "create_new_password_title":"Create new password",
+    "create_new_password_msg":"Enter new password for ",
+    "create_new_password_success_msg":"You have success reset your account with new password.",
     "budget":"Budget",
     "balance":"BALANCE",
     "goal":"Goal",
@@ -36,5 +91,14 @@
     "set_budget_description":"Set a budget for this category.",
     "is_every_month_option":"Every month",
     "this_month_only_option":"This month only",
-    "currency_icon":"$"
+    "currency_icon":"$",
+    "languageString":"{language_name, select, vi{Tiếng Việt} other{English}}",
+    "@languageString":{
+        "translatable":"false",
+        "placeholders":{
+            "language_name":{
+                "type":"String"
+            }
+        }
+    }
 }

@@ -47,7 +47,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
         type: BottomBarEnum.profile,
       )
     ];
-
+    
     return Container(
         height: 72.v,
         decoration: BoxDecoration(

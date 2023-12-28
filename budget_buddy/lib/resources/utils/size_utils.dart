@@ -10,12 +10,13 @@ MediaQueryData mediaQueryData = MediaQueryData.fromView(PlatformDispatcher.insta
 const num figmaDesignWidth = 390;
 const num figmaDesignHeight = 844;
 const num figmaDesignStatusBar = 0;
+const double maxWidth = 640;
 
 ///This extension is used to set padding/margin (for the top and bottom side) & height of the screen or widget according to the Viewport height.
 extension ResponsiveExtension on num {
   ///This method is used to get device viewport width.
   get _width {
-    return mediaQueryData.size.width;
+    return mediaQueryData.size.width < maxWidth ? mediaQueryData.size.width : maxWidth;
   }
 
   ///This method is used to get device viewport height.
@@ -30,8 +31,7 @@ extension ResponsiveExtension on num {
   double get h => ((this * _width) / figmaDesignWidth);
 
   ///This method is used to set padding/margin (for the top and bottom side) & height of the screen or widget according to the Viewport height.
-  double get v =>
-      (this * _height) / (figmaDesignHeight - figmaDesignStatusBar);
+  double get v => (this * _height) / (figmaDesignHeight - figmaDesignStatusBar);
 
   ///This method is used to set smallest px in image height and width
   double get adaptSize {

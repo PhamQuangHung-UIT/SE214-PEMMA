@@ -1,0 +1,9 @@
+[{
+    "relation":["delegate_permission/common.handle_all_urls"],
+    "target": {
+        "namespace": "com.example.budget_buddy",
+        "package_name": "com.example.budget_buddy",
+        "sha256_cert_fingerprints":
+            ["CA:4D:76:DE:6C:F7:B4:7D:8B:FF:3C:2C:FB:5B:87:BC:8B:33:B8:F3:4A:5B:36:4A:55:81:27:6B:90:40:8E:0A"]
+    }
+}]
