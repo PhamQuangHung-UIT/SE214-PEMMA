@@ -1,17 +1,22 @@
 import 'package:budget_buddy/presenters/email_verification_success_presenter.dart';
 import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
-import 'package:budget_buddy/views/login_view.dart';
 import 'package:budget_buddy/views/unexpected_error_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
+import 'package:go_router/go_router.dart';
 
 class EmailVerificationSuccessView extends StatefulWidget {
   static String name = '/signUpSuccess';
 
+  final String mode;
+
   final String code;
 
-  const EmailVerificationSuccessView(this.code, {Key? key}) : super(key: key);
+  final String continueUrl;
+
+  const EmailVerificationSuccessView(this.mode, this.code, this.continueUrl, {Key? key})
+      : super(key: key);
 
   @override
   State<EmailVerificationSuccessView> createState() =>
@@ -34,7 +39,7 @@ class _EmailVerificationSuccessViewState
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
-    
+
     return FutureBuilder(
         future: _presenter.verifyEmail(widget.code),
         builder: (context, snapshot) {
@@ -72,7 +77,6 @@ class _EmailVerificationSuccessViewState
                         ),
                         SizedBox(height: 10.v),
                         SizedBox(
-                          width: double.maxFinite,
                           height: 30.v,
                           child: Text(
                             AppLocalizations.of(context)!
@@ -82,7 +86,7 @@ class _EmailVerificationSuccessViewState
                         ),
                         SizedBox(height: 20.v),
                         Container(
-                          width: 285.h,
+                          width: double.maxFinite,
                           margin: EdgeInsets.symmetric(horizontal: 13.h),
                           child: RichText(
                             text: TextSpan(
@@ -102,10 +106,10 @@ class _EmailVerificationSuccessViewState
                             ),
                           ),
                         ),
-                        const Spacer(),
+                        SizedBox(height: 120.v),
                         CustomElevatedButton(
-                          text: AppLocalizations.of(context)!.go_to_login,
-                          onPressed: goToLoginView,
+                          text: 'OK',
+                          onPressed: goToContinueUrl,
                         ),
                       ],
                     ),
@@ -118,7 +122,7 @@ class _EmailVerificationSuccessViewState
   }
 
   @override
-  void onVerifyFailed(FirebaseAuthException e) {
+  void onVerifyFailed(FirebaseException e) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) =>
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (_) => const UnexpectedErrorView())));
@@ -129,6 +133,8 @@ class _EmailVerificationSuccessViewState
     _email = email;
   }
 
-  void goToLoginView() => Navigator.of(context)
-      .pushNamedAndRemoveUntil(LoginView.name, (_) => false);
+  void goToContinueUrl() {
+    Uri continueUri = Uri.parse(widget.continueUrl);
+    context.go(continueUri.path);
+  }
 }

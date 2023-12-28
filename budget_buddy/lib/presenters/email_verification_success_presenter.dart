@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class EmailVerificationSuccessViewContract {
   void onVerifySuccess(String email);
-  void onVerifyFailed(FirebaseAuthException e);
+  void onVerifyFailed(FirebaseException e);
 }
 
 class EmailVerificationSuccessPresenter {

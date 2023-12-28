@@ -49,7 +49,7 @@ class AppTheme {
         color: Colors.black,
         fontSize: 16.fSize,
         fontFamily: 'Montserrat',
-        fontWeight: FontWeight.w300,
+        fontWeight: FontWeight.w400,
       ),
       headlineLarge: TextStyle(
         color: Colors.black,

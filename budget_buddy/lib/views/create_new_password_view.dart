@@ -2,7 +2,6 @@ import 'package:budget_buddy/presenters/create_new_password_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
 import 'package:budget_buddy/resources/widget/custom_text_form_field.dart';
-import 'package:budget_buddy/views/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -141,11 +140,11 @@ class _CreateNewPasswordViewState extends State<CreateNewPasswordView>
       confirmPasswordController.text, widget.actionCode);
 
   @override
-  void onCreateNewPasswordFalied(FirebaseAuthException e) {
+  void onCreateNewPasswordFalied(FirebaseException e) {
     switch (e.code) {
       case 'password-not-match':
         setState(() {
-          passwordError = '';
+          passwordError = AppLocalizations.of(context)!.password_not_match_msg;
         });
         break;
       default:
@@ -167,17 +166,17 @@ class _CreateNewPasswordViewState extends State<CreateNewPasswordView>
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.v)),
               content: Text(
                   AppLocalizations.of(context)!.create_new_password_success_msg,
-                  style: Theme.of(context).textTheme.bodyMedium),
+                  style: Theme.of(context).textTheme.bodyLarge),
               actions: [
                 CustomElevatedButton(
                   width: 70.h,
-                  text: AppLocalizations.of(context)!.go_to_login,
-                  buttonTextStyle: Theme.of(context).textTheme.labelLarge,
-                  onPressed: () => context.go(LoginView.name),
+                  text: 'OK',
+                  onPressed: () => context.pop(),
                 ),
               ],
-            ));
+            )).then((value) => context.go('/'));
   }
 }

@@ -30,19 +30,10 @@ class _SendVerificationEmailViewState extends State<SendVerificationEmailView> {
   @override
   void initState() {
     super.initState();
-    var profilePresenter = ProfilePresenter();
-    var languageCode = profilePresenter.currentLocale.languageCode;
+    continueUrl = Uri.https(DefaultFirebaseOptions.web.authDomain!,
+        widget.authType == AuthType.changeEmail ? '/profile' : LoginView.name);
 
-    continueUrl =
-        Uri.https(DefaultFirebaseOptions.web.authDomain!, LoginView.name);
-
-    if (widget.authType == AuthType.signUp) {
-      _presenter.sendVerificationEmail(
-          widget.email!, continueUrl.toString(), languageCode);
-    } else if (widget.authType == AuthType.resetPassword) {
-      _presenter.sendResetPasswordEmail(
-          widget.email!, continueUrl.toString(), languageCode);
-    }
+    resend();
   }
 
   @override
@@ -81,7 +72,10 @@ class _SendVerificationEmailViewState extends State<SendVerificationEmailView> {
                   widget.authType == AuthType.signUp
                       ? AppLocalizations.of(context)!
                           .email_verification_msg(widget.email!)
-                      : AppLocalizations.of(context)!.reset_password_msg,
+                      : widget.authType == AuthType.changeEmail
+                          ? AppLocalizations.of(context)!
+                              .update_email_verification_msg(widget.email!)
+                          : AppLocalizations.of(context)!.reset_password_msg,
                   style: Theme.of(context).textTheme.bodyLarge,
                   textAlign: TextAlign.justify,
                 ),
@@ -101,6 +95,10 @@ class _SendVerificationEmailViewState extends State<SendVerificationEmailView> {
 
   void resend() => switch (widget.authType) {
         AuthType.signUp => _presenter.sendVerificationEmail(
+            widget.email!,
+            continueUrl.toString(),
+            ProfilePresenter().currentLocale.languageCode),
+        AuthType.changeEmail => _presenter.sendUpdateEmailVerification(
             widget.email!,
             continueUrl.toString(),
             ProfilePresenter().currentLocale.languageCode),

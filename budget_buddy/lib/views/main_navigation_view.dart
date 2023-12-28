@@ -4,7 +4,9 @@ import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/resources/widget/custom_bottom_bar.dart';
 
 class MainNavigationView extends StatelessWidget {
-  const MainNavigationView({Key? key}) : super(key: key);
+  MainNavigationView({Key? key}) : super(key: key);
+
+  final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +17,13 @@ class MainNavigationView extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: maxWidth),
             child: Scaffold(
                 body: Navigator(
+                    key: navigatorKey,
                     initialRoute: '/home',
                     onGenerateRoute: (routeSetting) => PageRouteBuilder(
                         pageBuilder: (ctx, ani, ani1) => getCurrentPage(routeSetting.name!),
                         transitionDuration: const Duration(milliseconds: 300))),
                 bottomNavigationBar: CustomBottomBar(onChanged: (type) {
-                  Navigator.pushNamed(context, getCurrentRoute(type));
+                  navigatorKey.currentState!.pushNamed(getCurrentRoute(type));
                 })),
           ),
         ));

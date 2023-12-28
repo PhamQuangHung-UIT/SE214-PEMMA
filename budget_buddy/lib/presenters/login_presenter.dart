@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class LoginViewContract {
   void onLoginSuccess();
-  void onLoginError(FirebaseAuthException e);
+  void onLoginError(FirebaseException e);
   void onGetFirstRun(bool firstRun);
 }
 
@@ -13,11 +13,6 @@ class LoginPresenter {
   final LoginViewContract viewContract;
 
   LoginPresenter(this.viewContract);
-
-  Future<void> getFirstRun() async {
-    bool firstRun = await _repos.isFirstTime();
-    viewContract.onGetFirstRun(firstRun);
-  }
 
   Future<void> loginWithPassword(String email, String password) async {
     await _repos
