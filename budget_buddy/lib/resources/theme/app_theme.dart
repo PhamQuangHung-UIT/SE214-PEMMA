@@ -6,6 +6,8 @@ class AppTheme {
 
   static final grey400 = Colors.grey.shade400;
 
+  static const grey300 = Color(0XFFDEDEDE);
+
   static var lightTheme = ThemeData(
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -49,7 +51,7 @@ class AppTheme {
         color: Colors.black,
         fontSize: 16.fSize,
         fontFamily: 'Montserrat',
-        fontWeight: FontWeight.w300,
+        fontWeight: FontWeight.w400,
       ),
       headlineLarge: TextStyle(
         color: Colors.black,

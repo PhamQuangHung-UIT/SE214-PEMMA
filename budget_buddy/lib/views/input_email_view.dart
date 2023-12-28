@@ -10,7 +10,9 @@ import 'package:budget_buddy/resources/app_export.dart';
 class InputEmailView extends StatefulWidget {
   static const name = '/inputEmail';
 
-  const InputEmailView({Key? key})
+  final String? email;
+
+  const InputEmailView({Key? key, this.email})
       : super(
           key: key,
         );
@@ -21,7 +23,7 @@ class InputEmailView extends StatefulWidget {
 
 class _InputEmailViewState extends State<InputEmailView>
     implements InputEmailViewContract {
-  final TextEditingController emailController = TextEditingController();
+  late TextEditingController emailController;
 
   late InputEmailPresenter _presenter;
 
@@ -30,6 +32,7 @@ class _InputEmailViewState extends State<InputEmailView>
   @override
   void initState() {
     super.initState();
+    emailController = TextEditingController(text: widget.email);
     _presenter = InputEmailPresenter(this);
   }
 
@@ -59,7 +62,7 @@ class _InputEmailViewState extends State<InputEmailView>
                 Padding(
                   padding: EdgeInsets.only(left: 5.h),
                   child: Text(
-                    "Reset Password",
+                    AppLocalizations.of(context)!.reset_password,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
@@ -132,8 +135,7 @@ class _InputEmailViewState extends State<InputEmailView>
   void onCheckEmailExistedSuccess(String email) =>
       Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => SendVerificationEmailView(
-              authType: AuthType.resetPassword,
-              email: emailController.text)));
+              authType: AuthType.resetPassword, email: emailController.text)));
   @override
   void onCheckEmailExistedFailed(FirebaseAuthException e) {
     setState(() {

@@ -1,3 +1,4 @@
+import 'package:budget_buddy/presenters/profile_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
 import 'package:budget_buddy/views/sign_up_view.dart';
@@ -18,30 +19,33 @@ class LandingView extends StatelessWidget {
           child: Container(
             width: double.maxFinite,
             padding: EdgeInsets.symmetric(vertical: 158.v, horizontal: 54.h),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Logo
-                Image.asset(
-                  'assets/images/logo.png',
-                  alignment: Alignment.bottomCenter,
-                  height: 200,
-                ),
-              
-                // Title
-                Text(
-                  AppLocalizations.of(context)!.welcome_title,
-                  style: AppTheme.lightTheme.textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.w700),
-                  textAlign: TextAlign.center,
-                ),
-                //Space
-                const Spacer(),
-                // Button
-                CustomElevatedButton(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              // Logo
+              Image.asset(
+                'assets/images/logo.png',
+                alignment: Alignment.bottomCenter,
+                height: 200,
+              ),
+
+              // Title
+              Text(
+                AppLocalizations.of(context)!.welcome_title,
+                style: AppTheme.lightTheme.textTheme.headlineMedium!
+                    .copyWith(fontWeight: FontWeight.w700),
+                textAlign: TextAlign.center,
+              ),
+              //Space
+              const Spacer(),
+              // Button
+              CustomElevatedButton(
                   height: 58.v,
                   text: AppLocalizations.of(context)!.get_started,
-                  onPressed: () => context.push(SignUpView.name))
-              ]),
+                  onPressed: () {
+                    ProfilePresenter().removeFirstRunState();
+                    context.push(SignUpView.name);
+                  })
+            ]),
           ),
         ),
       ),

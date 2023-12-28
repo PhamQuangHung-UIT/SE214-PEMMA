@@ -13,7 +13,9 @@ class AuthView extends StatefulWidget {
 
   final String actionCode;
 
-  const AuthView(this.mode, this.actionCode, {super.key});
+  final String continueUrl;
+
+  const AuthView(this.mode, this.actionCode, this.continueUrl, {super.key});
 
   @override
   State<AuthView> createState() => _AuthViewState();
@@ -35,13 +37,16 @@ class _AuthViewState extends State<AuthView> {
         builder: (context, snapshot) {
           var dataMap = snapshot.data;
           if (dataMap != null && dataMap.isNotEmpty) {
+            dataMap.addAll({'continueUrl': widget.continueUrl});
             if (widget.mode == 'resetPassword') {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) =>
                   context.replace(Uri(
                           path: CreateNewPasswordView.name,
                           queryParameters: dataMap)
                       .toString()));
-            } else if (widget.mode == 'signIn' || widget.mode == 'verifyEmail') {
+            } else if (widget.mode == 'verifyEmail' ||
+                widget.mode == 'verifyAndChangeEmail') {
+              dataMap.addAll({'mode': widget.mode});
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) =>
                   context.replace(Uri(
                           path: EmailVerificationSuccessView.name,
@@ -62,4 +67,4 @@ class _AuthViewState extends State<AuthView> {
   }
 }
 
-enum AuthType { signUp, resetPassword }
+enum AuthType { signUp, resetPassword, changeEmail }

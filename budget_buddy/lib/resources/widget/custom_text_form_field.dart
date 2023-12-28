@@ -8,7 +8,7 @@ class CustomTextFormField extends StatelessWidget {
     this.width,
     this.controller,
     this.focusNode,
-    this.autofocus = true,
+    this.autofocus = false,
     this.textStyle,
     this.obscureText = false,
     this.textInputAction = TextInputAction.next,
@@ -40,7 +40,7 @@ class CustomTextFormField extends StatelessWidget {
 
   final FocusNode? focusNode;
 
-  final bool? autofocus;
+  final bool autofocus;
 
   final TextStyle? textStyle;
 
@@ -95,7 +95,7 @@ class CustomTextFormField extends StatelessWidget {
         child: TextFormField(
           controller: controller,
           focusNode: focusNode ?? FocusNode(),
-          autofocus: autofocus!,
+          autofocus: autofocus,
           style: textStyle ?? AppTheme.lightTheme.textTheme.bodyLarge,
           obscureText: obscureText!,
           textInputAction: textInputAction,
@@ -109,6 +109,7 @@ class CustomTextFormField extends StatelessWidget {
       );
   InputDecoration get decoration => InputDecoration(
         errorText: errorText,
+        errorStyle: AppTheme.lightTheme.textTheme.bodyLarge!.copyWith(color: AppTheme.colorScheme.error),
         hintText: hintText ?? "",
         hintStyle: hintStyle ?? AppTheme.lightTheme.textTheme.labelLarge,
         prefixIcon: prefix,

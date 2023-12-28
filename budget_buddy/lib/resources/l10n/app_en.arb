@@ -25,6 +25,7 @@
     "password_6_characters_msg":"The password must be at least 6 characters long",
     "invalid_email":"Invalid email",
     "email_or_password_incorrect":"Email or password was incorrect",
+    "password_incorrect":"Incorrect password",
     "unexpected_error_msg":"Unexpected error. Code: {code}",
     "@unexpected_error_msg":{
         "placeholders":{
@@ -34,12 +35,38 @@
     "sign_up":"Sign up",
     "cancel_btn":"Cancel",
     "continue_uppercase":"CONTINUE",
+    "required_email_verification_title":"Email verification required",
+    "required_email_verification_body": "Your email is unverified. For security reason, we require that the email address has to be verified.",
     "home_navigation_bar":"Home",
     "report_navigation_bar":"Report",
     "budget_navigation_bar":"Budget",
     "profile_navigation_bar":"Profile",
+    "new_transaction":"New transaction",
+    "choose_date":"Choose date",
+    "choose_time":"Choose time",
+    "today":"Today",
+    "add_note":"Add note",
+    "network_issue_msg":"There is an issue with your network connectivity. Please try again later.",
+    "retry":"Retry",
+    "edit_profile":"Edit profile",
+    "language":"Language",
+    "current_language":"English",
+    "currency":"Currency",
+    "currency_text":"USD",
+    "log_out":"Log out",
+    "change_password":"Change password",
+    "log_out_confirm_msg":"Are you sure want to log out?",
+    "reinput_password_title":"Input password",
+    "reinput_password_body":"Please enter your password in order to begin the update email process.",
+    "update_email_verification_msg":"To complete the process of updating new email, please verify your new email address. We’ve sent a verification email to {email}. If you don’t receive the email within a few minutes, make sure to check your spam or junk folder.",
+    "@update_email_verification_msg":{
+        "placeholders":{
+            "email":{}
+        }
+    },
     "email_sent":"Email sent!",
     "almost_done":"Almost done!",
+    "reset_password":"Reset password",
     "please_enter":"Please enter",
     "your_email":"your email",
     "to_reset_your_password":"to reset your password.",
@@ -64,5 +91,14 @@
     "set_budget_description":"Set a budget for this category.",
     "is_every_month_option":"Every month",
     "this_month_only_option":"This month only",
-    "currency_icon":"$"
+    "currency_icon":"$",
+    "languageString":"{language_name, select, vi{Tiếng Việt} other{English}}",
+    "@languageString":{
+        "translatable":"false",
+        "placeholders":{
+            "language_name":{
+                "type":"String"
+            }
+        }
+    }
 }

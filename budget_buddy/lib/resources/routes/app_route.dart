@@ -6,16 +6,15 @@ import 'package:budget_buddy/views/input_email_view.dart';
 import 'package:budget_buddy/views/landing_view.dart';
 import 'package:budget_buddy/views/login_view.dart';
 import 'package:budget_buddy/views/main_navigation_view.dart';
+import 'package:budget_buddy/views/requires_email_verification_view.dart';
 import 'package:budget_buddy/views/sign_up_view.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRoutes {
-  static GoRouter routes() => GoRouter(
-      initialLocation: getInitialRoute(),
-      routes: [
+  static GoRouter routes() => GoRouter(routes: [
         GoRoute(
             path: '/',
-            builder: (_, state) => const MainNavigationView(),
+            builder: (_, state) => MainNavigationView(),
             redirect: (context, state) => getInitialRoute()),
         GoRoute(
             path: LandingView.name, builder: (_, state) => const LandingView()),
@@ -32,18 +31,29 @@ class AppRoutes {
                 state.uri.queryParameters['actionCode']!)),
         GoRoute(
             path: EmailVerificationSuccessView.name,
-            builder: (_, state) => EmailVerificationSuccessView(state.uri.queryParameters['actionCode']!)),
+            builder: (_, state) => EmailVerificationSuccessView(
+                state.uri.queryParameters['mode']!,
+                state.uri.queryParameters['actionCode']!,
+                state.uri.queryParameters['continueUrl']!)),
         GoRoute(
             path: AuthView.name,
-            builder: (_, state) => AuthView(state.uri.queryParameters['mode']!,
-                state.uri.queryParameters['oobCode']!))
-      ],
-      debugLogDiagnostics: true);
+            builder: (_, state) => AuthView(
+                state.uri.queryParameters['mode']!,
+                state.uri.queryParameters['oobCode']!,
+                state.uri.queryParameters['continueUrl']!)),
+        GoRoute(
+            path: RequireEmailVerificationView.name,
+            builder: (_, state) =>
+                RequireEmailVerificationView(ProfilePresenter().user!.email!))
+      ], debugLogDiagnostics: true);
 
   static String? getInitialRoute() {
     var presenter = ProfilePresenter();
     if (presenter.firstRun) return LandingView.name;
     if (presenter.user == null) return LoginView.name;
+    if (!presenter.user!.emailVerified) {
+      return RequireEmailVerificationView.name;
+    }
     return null;
   }
 }

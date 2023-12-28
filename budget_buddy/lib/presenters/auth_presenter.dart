@@ -6,7 +6,8 @@ class AuthPresenter {
 
   AuthPresenter();
 
-  Future<Map<String, dynamic>> handleAuthData(String? mode, String? code) async {
+  Future<Map<String, dynamic>> handleAuthData(
+      String? mode, String? code) async {
     if (code == null || mode == null) {
       throw FirebaseAuthException(code: 'empty-code');
     }
@@ -19,7 +20,7 @@ class AuthPresenter {
           'actionCode': code,
         };
       case 'verifyEmail':
-      case 'signIn':
+      case 'verifyAndChangeEmail':
         await _repos.verifyActionCode(code);
         return {
           'actionCode': code,
