@@ -1,14 +1,12 @@
 import 'package:budget_buddy/presenters/edit_profile_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/resources/utils/firebase_options.dart';
-import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
 import 'package:budget_buddy/resources/widget/custom_text_form_field.dart';
 import 'package:budget_buddy/views/auth_view.dart';
 import 'package:budget_buddy/views/reinput_password_view.dart';
 import 'package:budget_buddy/views/send_verification_email_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class EditProfileView extends StatefulWidget {
   final String fullname;
