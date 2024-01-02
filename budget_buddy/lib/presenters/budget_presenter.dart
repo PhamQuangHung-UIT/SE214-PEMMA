@@ -28,4 +28,28 @@ class BudgetPresenter {
       onError("Error adding budget: $e");
     }
   }
+
+  Future<void> deleteBudget(String? categoryId, Function() onDeleteSuccess,
+      Function(String) onError) async {
+    try {
+      await _repository.deleteBudget(categoryId);
+      onDeleteSuccess();
+    } catch (error) {
+      onError('Error deleting budeget: $error');
+    }
+  }
+
+  void getBudgetIdWithCategoryId(String userId, String? categoryId,
+      Function(String) onDataFetched, Function(String) onError) {
+    _repository.getBudgetIdWithCategoryId(
+        userId, categoryId, onDataFetched, onError);
+  }
+
+  Future<void> updateSpentAmount(String budgetId, double amount) async {
+    try {
+      await _repository.updateSpentAmount(budgetId, amount);
+    } catch (e) {
+      throw "Error updating budget's spentAmount: $e";
+    }
+  }
 }

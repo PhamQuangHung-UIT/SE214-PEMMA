@@ -58,5 +58,17 @@
     "category_delete_successfull":"Xóa loại chi tiêu thành công",
     "category_delete_fail":"Xóa loại chi tiêu thất bại",
     "budget_confirm_delete_title":"Xóa ngân sách",
-    "budget_confirm_delete":"Bạn có chắc chắn muốn xóa ngân sách này không?"
+    "budget_confirm_delete":"Bạn có chắc chắn muốn xóa ngân sách này không?",
+    "transaction_title":"Giao dịch",
+    "transaction_note_hint_text":"Thêm ghi chú",
+    "add_more_category":"Hãy thêm loại chi tiêu để sử dụng!",
+    "no_category_available":"Hình như bạn chưa tạo loại chi tiêu nào cả, hãy tạo loại chi tiêu trước khi tạo giao dịch nhé!",
+    "please_enter_transaction_amount":"Vui lòng nhập số tiền giao dịch!",
+    "not_enough_balance":"Không đủ số dư!",
+    "recent_transaction_title":"Lịch sử giao dịch",
+    "transaction_info_title":"Chi tiết giao dịch",
+    "transaction_confirm_delete_title":"Xóa giao dịch",
+    "transaction_confirm_delete":"Bạn có chắc chắn muốn xóa giao dịch này không?",
+    "transaction_delete_successfull":"Xóa giao dịch thành công",
+    "transaction_delete_fail":"Xóa giao dịch thất bại"
 }

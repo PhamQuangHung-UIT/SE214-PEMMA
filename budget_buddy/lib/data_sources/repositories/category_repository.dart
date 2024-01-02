@@ -44,7 +44,7 @@ class CategoryRepository {
     }
   }
 
-  Future<void> fetchCategoryData(String userId, String categoryId,
+  Future<void> fetchCategoryData(String userId, String? categoryId,
       Function(String, String) onDataFetched, Function(String) onError) async {
     try {
       FirebaseFirestore.instance
@@ -57,6 +57,29 @@ class CategoryRepository {
           String cName = querySnapshot.docs[0]['cName'];
           String cImagePath = querySnapshot.docs[0]['cImagePath'];
           onDataFetched(cName, cImagePath);
+        } else {
+          onError("Document not found!");
+        }
+      }, onError: (error) {
+        onError("Error: $error");
+      });
+    } catch (error) {
+      onError("Error: $error");
+    }
+  }
+
+  Future<void> fetchCategoryType(String userId, String? categoryId,
+      Function(bool) onDataFetched, Function(String) onError) async {
+    try {
+      FirebaseFirestore.instance
+          .collection("categories")
+          .where("userID", isEqualTo: userId)
+          .where("categoryID", isEqualTo: categoryId)
+          .snapshots()
+          .listen((QuerySnapshot querySnapshot) {
+        if (querySnapshot.docs.isNotEmpty) {
+          bool isIncome = querySnapshot.docs[0]['isIncome'];
+          onDataFetched(isIncome);
         } else {
           onError("Document not found!");
         }

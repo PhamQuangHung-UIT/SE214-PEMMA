@@ -35,4 +35,24 @@ class UserPresenter {
       throw "Error updating user's balance: $e";
     }
   }
+
+  Future<void> updateUserBalanceAfterCreatingTransaction(
+      String userId, double amount, bool isIncome) async {
+    try {
+      await _repository.updateUserBalanceAfterCreatingTransaction(
+          userId, amount, isIncome);
+    } catch (e) {
+      throw "Error updating user's balance after creating a new transaction: $e";
+    }
+  }
+
+  Future<void> updateUserBalanceAfterDeletingTransaction(
+      String userId, double amount, bool isIncome) async {
+    try {
+      await _repository.updateUserBalanceAfterDeletingTransaction(
+          userId, amount, isIncome);
+    } catch (e) {
+      throw "Error updating user's balance after creating a new transaction: $e";
+    }
+  }
 }

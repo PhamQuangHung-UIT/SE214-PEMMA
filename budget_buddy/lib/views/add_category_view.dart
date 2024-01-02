@@ -128,7 +128,7 @@ class _AddCategoryViewState extends State<AddCategoryView> {
           iconTheme: IconThemeData(color: Colors.white, size: 28.adaptSize),
           title: Text(
             AppLocalizations.of(context)!.categories_title,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20.fSize, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Color(0xff03a700),
           actions: [

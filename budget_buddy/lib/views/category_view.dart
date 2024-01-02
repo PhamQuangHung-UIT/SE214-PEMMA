@@ -1,5 +1,7 @@
 import 'package:budget_buddy/data_sources/category_model.dart';
+import 'package:budget_buddy/presenters/budget_presenter.dart';
 import 'package:budget_buddy/presenters/category_presenter.dart';
+import 'package:budget_buddy/presenters/transaction_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/views/add_category_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +17,7 @@ class CategoryView extends StatefulWidget {
 class _CategoryViewState extends State<CategoryView>
     with SingleTickerProviderStateMixin {
   final CategoryPresenter _categoryPresenter = CategoryPresenter();
+  final BudgetPresenter _budgetPresenter = BudgetPresenter();
   late TabController _tabController;
   List<MyCategory> categoryList = [];
   List<MyCategory> cIncome = [];
@@ -167,6 +170,8 @@ class CustomCategoryWidget extends StatelessWidget {
 
   void _deleteCategory(BuildContext context) {
     CategoryPresenter _categoryPresenter = CategoryPresenter();
+    BudgetPresenter _budgetPresenter = BudgetPresenter();
+    TransactionPresenter _transactionPresenter = TransactionPresenter();
     _categoryPresenter.deleteCategory(
       category.categoryID,
       () {
@@ -185,6 +190,10 @@ class CustomCategoryWidget extends StatelessWidget {
         );
       },
     );
+    _budgetPresenter.deleteBudget(
+        category.categoryID, () => null, (p0) => null);
+    _transactionPresenter
+        .deleteTransactionWhenDeleteCategory(category.categoryID);
   }
 
   @override

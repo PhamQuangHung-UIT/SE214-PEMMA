@@ -24,9 +24,14 @@ class CategoryPresenter {
     }
   }
 
-  void fetchCategoryData(String userId, String categoryId,
+  void fetchCategoryData(String userId, String? categoryId,
       Function(String, String) onDataFetched, Function(String) onError) {
     _repository.fetchCategoryData(userId, categoryId, onDataFetched, onError);
+  }
+
+  void fetchCategoryType(String userId, String? categoryId,
+      Function(bool) onDataFetched, Function(String) onError) {
+    _repository.fetchCategoryType(userId, categoryId, onDataFetched, onError);
   }
 
   Future<void> deleteCategory(String? categoryId, Function() onDeleteSuccess,

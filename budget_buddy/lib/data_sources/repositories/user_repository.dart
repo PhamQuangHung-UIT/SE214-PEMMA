@@ -84,4 +84,60 @@ class UserRepository {
       throw "Error updating user's balance: $error";
     }
   }
+
+  Future<void> updateUserBalanceAfterCreatingTransaction(
+      String userId, double amount, bool isIncome) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await _firestore.collection("users").doc(userId).get();
+
+      if (userSnapshot.exists) {
+        double newBalance;
+        double currentBalance =
+            (userSnapshot.data()!['balance'] as num).toDouble();
+        if (isIncome) {
+          //nếu là thu nhập
+          newBalance = currentBalance + amount;
+        } else {
+          // nếu là chi tiêu
+          newBalance = currentBalance - amount;
+        }
+        await _firestore.collection("users").doc(userId).update({
+          'balance': newBalance,
+        });
+      } else {
+        throw 'User not found';
+      }
+    } catch (error) {
+      throw "Error updating user's balance after creating a new transaction: $error";
+    }
+  }
+
+  Future<void> updateUserBalanceAfterDeletingTransaction(
+      String userId, double amount, bool isIncome) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await _firestore.collection("users").doc(userId).get();
+
+      if (userSnapshot.exists) {
+        double newBalance;
+        double currentBalance =
+            (userSnapshot.data()!['balance'] as num).toDouble();
+        if (isIncome) {
+          //nếu là thu nhập
+          newBalance = currentBalance - amount;
+        } else {
+          // nếu là chi tiêu
+          newBalance = currentBalance + amount;
+        }
+        await _firestore.collection("users").doc(userId).update({
+          'balance': newBalance,
+        });
+      } else {
+        throw 'User not found';
+      }
+    } catch (error) {
+      throw "Error updating user's balance after creating a new transaction: $error";
+    }
+  }
 }
