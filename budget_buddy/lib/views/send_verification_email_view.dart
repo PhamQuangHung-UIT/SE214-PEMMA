@@ -4,6 +4,7 @@ import 'package:budget_buddy/resources/utils/firebase_options.dart';
 import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
 import 'package:budget_buddy/views/auth_view.dart';
 import 'package:budget_buddy/views/login_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 
@@ -12,7 +13,9 @@ class SendVerificationEmailView extends StatefulWidget {
 
   final String? email;
 
-  const SendVerificationEmailView({key, required this.authType, this.email})
+  final User? user;
+
+  const SendVerificationEmailView({key, required this.authType, this.email, this.user})
       : super(key: key);
 
   @override
@@ -71,13 +74,13 @@ class _SendVerificationEmailViewState extends State<SendVerificationEmailView> {
                 child: Text(
                   widget.authType == AuthType.signUp
                       ? AppLocalizations.of(context)!
-                          .email_verification_msg(widget.email!)
+                          .email_verification_msg(widget.user!.email!)
                       : widget.authType == AuthType.changeEmail
                           ? AppLocalizations.of(context)!
                               .update_email_verification_msg(widget.email!)
                           : AppLocalizations.of(context)!.reset_password_msg,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  textAlign: TextAlign.justify,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(height: 40.h),
@@ -95,7 +98,7 @@ class _SendVerificationEmailViewState extends State<SendVerificationEmailView> {
 
   void resend() => switch (widget.authType) {
         AuthType.signUp => _presenter.sendVerificationEmail(
-            widget.email!,
+            widget.user!,
             continueUrl.toString(),
             ProfilePresenter().currentLocale.languageCode),
         AuthType.changeEmail => _presenter.sendUpdateEmailVerification(

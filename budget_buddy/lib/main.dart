@@ -51,7 +51,7 @@ class _MainAppState extends State<MainApp> implements MainAppViewContract {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        routerConfig: AppRoutes.routes());
+        routerConfig: AppRoutes.routes);
   }
 
   @override

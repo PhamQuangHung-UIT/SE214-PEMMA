@@ -28,6 +28,10 @@ class _EditProfileViewState extends State<EditProfileView>
 
   final TextEditingController emailController = TextEditingController();
 
+  final fullnameFocusNode = FocusNode();
+
+  final emailFocusNode = FocusNode();
+
   late EditProfilePresenter _presenter;
 
   @override
@@ -97,6 +101,8 @@ class _EditProfileViewState extends State<EditProfileView>
                 Padding(
                   padding: EdgeInsets.only(right: 21.h),
                   child: CustomTextFormField(
+                    focusNode: fullnameFocusNode,
+                    onTap: fullnameFocusNode.requestFocus,
                     controller: nameController,
                     hintText: AppLocalizations.of(context)!.full_name,
                   ),
@@ -113,6 +119,8 @@ class _EditProfileViewState extends State<EditProfileView>
                 Padding(
                   padding: EdgeInsets.only(right: 21.h),
                   child: CustomTextFormField(
+                    focusNode: emailFocusNode,
+                    onTap: emailFocusNode.requestFocus,
                     controller: emailController,
                     hintText: "Email",
                     textInputAction: TextInputAction.done,

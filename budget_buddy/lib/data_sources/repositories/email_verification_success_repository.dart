@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' hide User;
 
 class EmailVerificationSuccessRepository {
   Future<String> verifyEmail(String actionCode) async {
-        await FirebaseAuth.instance.applyActionCode(actionCode);
+    await FirebaseAuth.instance.applyActionCode(actionCode);
     String email = await ReadCache.getString(key: 'verifyEmail');
     String password = await ReadCache.getString(key: 'password');
     var credential =

@@ -70,7 +70,7 @@
     "please_enter":"Please enter",
     "your_email":"your email",
     "to_reset_your_password":"to reset your password.",
-    "email_verification_msg":"To complete your sign up, please verify your email address. We’ve sent a verification email to {email}. If you don’t receive the email within a few minutes, make sure to check your spam or junk folder.",
+    "email_verification_msg":"To complete your sign up, please verify your email address. We’ve sent a verification email to \n{email}\n. If you don’t receive the email within a few minutes, make sure to check your spam or junk folder.",
     "@email_verification_msg":{
         "placeholders":{
             "email":{}

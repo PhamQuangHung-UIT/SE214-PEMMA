@@ -32,7 +32,7 @@ class SignUpViewState extends State<SignUpView> implements SignUpViewContract {
   final confirmPasswordController = TextEditingController();
 
   final fullNameFocus = FocusNode();
-  
+
   final emailFocus = FocusNode();
 
   final passwordFocus = FocusNode();
@@ -117,9 +117,9 @@ class SignUpViewState extends State<SignUpView> implements SignUpViewContract {
                                   controller: fullNameController,
                                   hintText:
                                       AppLocalizations.of(context)!.full_name,
-                                    errorText: fullNameError,
-                                    focusNode: fullNameFocus,
-                                    onTap: fullNameFocus.requestFocus,
+                                  errorText: fullNameError,
+                                  focusNode: fullNameFocus,
+                                  onTap: fullNameFocus.requestFocus,
                                 ),
                               ),
                               SizedBox(height: 32.v),
@@ -224,7 +224,7 @@ class SignUpViewState extends State<SignUpView> implements SignUpViewContract {
                                         AppLocalizations.of(context)!.or,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleMedium!
+                                            .labelLarge!
                                             .copyWith(color: AppTheme.grey400),
                                       ),
                                     ),
@@ -339,6 +339,18 @@ class SignUpViewState extends State<SignUpView> implements SignUpViewContract {
     var password = passwordController.text;
     var confirmPassword = confirmPasswordController.text;
 
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => Center(
+        child: Container(
+            width: 100.adaptSize,
+            height: 100.adaptSize,
+            padding: EdgeInsets.all(16.h),
+            color: Colors.white,
+            child: const CircularProgressIndicator(color: AppTheme.green800)),
+      ),
+    );
     _presenter.signUp(fullname, email, password, confirmPassword);
   }
 
@@ -380,11 +392,12 @@ class SignUpViewState extends State<SignUpView> implements SignUpViewContract {
   }
 
   @override
-  void onCreateSignUpInfoSuccess() {
+  void onCreateSignUpInfoSuccess(User user) {
+    Navigator.pop(context);
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => SendVerificationEmailView(
               authType: AuthType.signUp,
-              email: emailController.text,
+              user: user,
             )));
   }
 
