@@ -1,5 +1,6 @@
 import 'package:budget_buddy/views/add_transaction_view.dart';
 import 'package:budget_buddy/views/profile_view.dart';
+import 'package:budget_buddy/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/resources/widget/custom_bottom_bar.dart';
@@ -20,7 +21,7 @@ class MainNavigationView extends StatefulWidget {
   static final routeList = [
     GoRoute(
       path: '/home',
-      builder: (_, state) => const ProfileView(),
+      builder: (_, state) => const HomeView(),
     ),
     GoRoute(
       path: '/report',
