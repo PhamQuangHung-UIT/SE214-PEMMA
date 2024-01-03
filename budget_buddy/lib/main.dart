@@ -27,7 +27,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> implements MainAppViewContract {
-  late Locale currentLocale;
+  Locale? currentLocale;
 
   late ProfilePresenter _presenter;
 
@@ -43,6 +43,7 @@ class _MainAppState extends State<MainApp> implements MainAppViewContract {
   Widget build(BuildContext context) {
     return MaterialApp.router(
         theme: AppTheme.lightTheme,
+        debugShowCheckedModeBanner: false,
         locale: currentLocale,
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: const [

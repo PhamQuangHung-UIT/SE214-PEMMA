@@ -89,5 +89,11 @@ class AppTheme {
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w700,
       ),
+      titleSmall: TextStyle(
+          color: Colors.black87,
+          fontSize: 14.fSize,
+          fontFamily: 'Montserrat',
+          fontWeight: FontWeight.w500,
+        ),
     );
 }

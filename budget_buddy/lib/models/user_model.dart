@@ -20,6 +20,12 @@ class User {
       balance: map['balance'],
       currency: map['currency']);
 
+  User.onlyNameAndBalance(
+      {required this.userId,
+      required this.fullname,
+      required this.balance,
+      this.currency = 'usd'});
+
   @override
   String toString() => 'User: $userId'
       '\n+ fullname: $fullname'

@@ -7,6 +7,7 @@ environment:
     sdk: ">=3.1.2 <4.0.0"
 
 dependencies:
+  firebase_storage: ^11.5.3
   email_validator: ^2.1.17
   firebase_auth: ^4.12.1
   firebase_core: ^2.21.0
@@ -24,6 +25,7 @@ dependencies:
   cache_manager: ^1.0.0+4
   url_strategy: ^0.2.0
   go_router: ^12.1.3
+  fl_chart: ^0.65.0
 
 dev_dependencies:
     flutter_test:

@@ -52,7 +52,7 @@ class MainNavigationViewState extends State<MainNavigationView> {
                 CustomBottomBar(getCurrentItem(widget.path), onChanged: (type) {
               if (type == BottomBarEnum.add) {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const AddTransactionView()));
+                    builder: (_) => AddTransactionView()));
               } else {
                 MainNavigationView.navigatorKey.currentContext!
                     .go(getCurrentRoute(type));
