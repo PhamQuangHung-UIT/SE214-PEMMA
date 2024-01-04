@@ -123,7 +123,7 @@ class _CategoryViewState extends State<CategoryView>
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
+          Navigator.of(context, rootNavigator: true).push(
               MaterialPageRoute(builder: (context) => AddCategoryView()));
         },
         backgroundColor: Colors.green,
@@ -151,14 +151,14 @@ class CustomCategoryWidget extends StatelessWidget {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context, rootNavigator: true).pop();
               },
               child: Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
                 _deleteCategory(context);
-                Navigator.of(context).pop();
+                Navigator.of(context, rootNavigator: true).pop();
               },
               child: Text('Delete'),
             ),
@@ -191,7 +191,7 @@ class CustomCategoryWidget extends StatelessWidget {
       },
     );
     _budgetPresenter.deleteBudget(
-        category.categoryID, () => null, (p0) => null);
+        category.categoryID, () {}, (p0) => null);
     _transactionPresenter
         .deleteTransactionWhenDeleteCategory(category.categoryID);
   }

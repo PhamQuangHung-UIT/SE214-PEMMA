@@ -75,7 +75,13 @@ class AppTheme {
         color: grey400,
         fontSize: 14.fSize,
         fontFamily: 'Montserrat',
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
+      ),
+      labelMedium: TextStyle(
+        color: Colors.black87,
+        fontSize: 12.fSize,
+        fontFamily: 'Montserrat',
+        fontWeight: FontWeight.w400,
       ),
       titleLarge: TextStyle(
         color: Colors.black87,

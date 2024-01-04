@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:budget_buddy/data_sources/category_model.dart';
 import 'package:budget_buddy/presenters/category_presenter.dart';
 import 'package:budget_buddy/presenters/transaction_presenter.dart';
@@ -32,7 +30,7 @@ class _HomeViewState extends State<HomeView>
   final UserPresenter _userPresenter = UserPresenter();
   final TransactionPresenter _transactionPresenter = TransactionPresenter();
   final CategoryPresenter _categoryPresenter = CategoryPresenter();
-  var formatter = NumberFormat('#,000');
+  late NumberFormat formatter;
   late Stream<User.User> userDataStream;
   String fullName = "";
   double balance = 0;
@@ -43,9 +41,10 @@ class _HomeViewState extends State<HomeView>
   List<MyCategory> cIncome = [];
   List<MyCategory> cOutcome = [];
 
+  bool isLoading = true;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     isVisible = true;
     _loadUserData();
@@ -98,6 +97,9 @@ class _HomeViewState extends State<HomeView>
               userData = user;
               fullName = userData.fullname;
               balance = userData.balance.toDouble();
+              var currencyLanguage = user.currency == 'VND' ? 'vi' : 'en';
+              formatter = NumberFormat.simpleCurrency(locale: currencyLanguage);
+              isLoading = false;
             });
           },
           (String error) {
@@ -108,8 +110,9 @@ class _HomeViewState extends State<HomeView>
         print("Error: $e");
         throw e;
       }
+    } else {
+      throw 'User not found';
     }
-    throw 'User not found';
   }
 
   void _toggleVisibility() {
@@ -120,6 +123,11 @@ class _HomeViewState extends State<HomeView>
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(
+          body: Center(
+              child: CircularProgressIndicator(color: AppTheme.green800)));
+    }
     return SafeArea(
         child: DefaultTabController(
       length: 2,
@@ -139,7 +147,7 @@ class _HomeViewState extends State<HomeView>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('👋 ' + AppLocalizations.of(context)!.hello,
+                            Text('👋 ${AppLocalizations.of(context)!.hello}',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 16.fSize,
@@ -206,15 +214,13 @@ class _HomeViewState extends State<HomeView>
                               children: [
                                 Text(
                                   isVisible == true
-                                      ? formatter.format(balance) +
-                                          " " +
-                                          AppLocalizations.of(context)!
-                                              .currency_icon
+                                      ? formatter.format(balance)
                                       : "••••••••••••",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w500),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium!
+                                      .copyWith(
+                                          color: Colors.white, fontSize: 24),
                                 ),
                                 SizedBox(
                                   width: 8.h,
@@ -307,10 +313,9 @@ class _HomeViewState extends State<HomeView>
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
+                            Navigator.of(context, rootNavigator: true).push(
                                 MaterialPageRoute(
-                                    builder: (context) =>
+                                    builder: (_) =>
                                         const CategoryView()));
                           },
                           child: Text(

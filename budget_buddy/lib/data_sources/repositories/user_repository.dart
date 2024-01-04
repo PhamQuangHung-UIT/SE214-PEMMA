@@ -34,26 +34,27 @@ class UserRepository {
           .snapshots()
           .map((snapshot) {
         if (snapshot.docs.isNotEmpty) {
-          var userData = snapshot.docs.first.data() as Map<String, dynamic>;
-          double storedBalance = 0.0;
-          String fullName = '';
+          var userData = snapshot.docs.first.data();
+          // double storedBalance = 0.0;
+          // String fullName = '';
 
-          dynamic balanceData = userData['balance'];
-          dynamic fullNameData = userData['fullname'];
+          // dynamic balanceData = userData['balance'];
+          // dynamic fullNameData = userData['fullname'];
 
-          if (balanceData is num) {
-            storedBalance = balanceData.toDouble();
-          }
+          // if (balanceData is num) {
+          //   storedBalance = balanceData.toDouble();
+          // }
 
-          if (fullNameData is String) {
-            fullName = fullNameData;
-          }
+          // if (fullNameData is String) {
+          //   fullName = fullNameData;
+          // }
 
-          return User.onlyNameAndBalance(
-            userId: userId,
-            fullname: fullName,
-            balance: storedBalance,
-          );
+          // return User.onlyNameAndBalance(
+          //   userId: userId,
+          //   fullname: fullName,
+          //   balance: storedBalance,
+          // );
+          return User.fromMap(userData);
         } else {
           throw 'No matching document found';
         }

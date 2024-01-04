@@ -75,8 +75,8 @@ class _TransactionTileState extends State<TransactionTile> {
       },
       child: Container(
         width: double.infinity,
-        height: 37.v,
-        child: Row(children: [
+        height: 50.v,
+        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
           SmallCategoryIcon(imagePath: imagePath),
           SizedBox(
             width: 9.h,
@@ -90,7 +90,7 @@ class _TransactionTileState extends State<TransactionTile> {
                     TextStyle(fontSize: 14.fSize, fontWeight: FontWeight.w500),
               ),
               SizedBox(
-                height: 3.v,
+                height: 2.v,
               ),
               Text(
                 widget.transaction.date,

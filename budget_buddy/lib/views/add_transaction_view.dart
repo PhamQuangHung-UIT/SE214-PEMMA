@@ -213,7 +213,8 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               time: time,
               note: _noteController.text);
 
-          if (double.parse(_amountController.text) > balance) {
+          if (double.parse(_amountController.text) > balance &&
+              !selectedCategory.isIncome) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -227,8 +228,12 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               ),
             );
           } else {
-            _transactionPresenter.addTransaction(
-                newTransaction, () => null, (p0) => null);
+            _transactionPresenter.addTransaction(newTransaction, () {
+              
+            },
+                (p0) {
+              debugPrint(p0);
+            });
 
             //cap nhat xong
             if (widget.existingTransaction == null) {
@@ -279,7 +284,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               );
             }
 
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
           }
         } catch (e) {}
       }
@@ -410,7 +415,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: 80.v,
+              height: 88.v,
               width: double.infinity,
               decoration: BoxDecoration(color: Color(0xff03A700)),
               child: Column(

@@ -7,11 +7,11 @@ import 'package:budget_buddy/presenters/user_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/models/goal_model.dart';
 import 'package:budget_buddy/resources/widget/budget_tile.dart';
+import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
 import 'package:budget_buddy/resources/widget/goal_tile.dart';
 import 'package:budget_buddy/views/add_goal_view.dart';
 import 'package:budget_buddy/views/category_view.dart';
 import 'package:budget_buddy/views/fund_goal_view.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -28,7 +28,7 @@ class _BudgetViewState extends State<BudgetView> {
   final BudgetPresenter _budgetPresenter = BudgetPresenter();
   final UserPresenter _userPresenter = UserPresenter();
   double balance = 0;
-  var formatter = NumberFormat('#,000');
+  var formatter = NumberFormat.decimalPattern();
   List<Budget> budgetList = [];
   List<Goal> goalList = [];
 
@@ -124,9 +124,7 @@ class _BudgetViewState extends State<BudgetView> {
                         child: Container(
                           margin: EdgeInsets.fromLTRB(0.h, 0.v, 0.h, 10.v),
                           child: Text(
-                            formatter.format(balance) +
-                                " " +
-                                AppLocalizations.of(context)!.currency_icon,
+                            "${formatter.format(balance)} ${AppLocalizations.of(context)!.currency_icon}",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 20.fSize,
@@ -137,12 +135,10 @@ class _BudgetViewState extends State<BudgetView> {
                       Container(
                           margin: EdgeInsets.fromLTRB(0.h, 0.v, 8.h, 0.v),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Center(
                                 child: Container(
-                                  margin:
-                                      EdgeInsets.fromLTRB(0.h, 0.v, 203.h, 0.v),
+
                                   child: Text(
                                     AppLocalizations.of(context)!.goal,
                                     textAlign: TextAlign.center,
@@ -152,51 +148,34 @@ class _BudgetViewState extends State<BudgetView> {
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
+                              Spacer(),
+                              CustomElevatedButton(
+                                width: 80.h,
+                                onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => AddGoalView()),
                                   );
                                 },
-                                child: Container(
-                                    margin: EdgeInsets.fromLTRB(
-                                        0.h, 0.5.v, 0.h, 0.v),
-                                    width: 63.h,
-                                    height: 34.v,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Color(0xff03a700)),
-                                        color: Color(0xff03a700),
-                                        borderRadius: BorderRadius.circular(7)),
-                                    child: Center(
-                                      child: Text(
-                                        AppLocalizations.of(context)!
+                                text: AppLocalizations.of(context)!
                                             .add_button_title,
-                                        style: TextStyle(
-                                            fontSize: 16.fSize,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                    )),
                               )
                             ],
                           )),
                       goalList.isEmpty
-                          ? Container(
+                          ? SizedBox(
                               height: 250.v,
                               child: Center(
                                 child: Text(
-                                  "Có vẻ bạn chưa thêm mục tiêu nào cả, hãy thêm mục tiêu để theo dõi nhé!",
+                                  AppLocalizations.of(context)!.empty_goal_msg,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 16,
+                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontWeight: FontWeight.w500),
                                 ),
                               ),
                             )
-                          : Container(
+                          : SizedBox(
                               height: 250.v,
                               child: ListView.builder(
                                 shrinkWrap: true,
@@ -239,7 +218,7 @@ class _BudgetViewState extends State<BudgetView> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "Có vẻ bạn chưa thêm loại chi tiêu nào cả, hãy thêm loại chi tiêu để có thể đặt giới hạn nhé!",
+                                      AppLocalizations.of(context)!.empty_budget_msg,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 16.fSize,

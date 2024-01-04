@@ -129,5 +129,7 @@
     "salary":"Thu nhập",
     "income":"Khoảng thu",
     "expense":"Khoảng chi",
-    "nearest_7_days":"Báo cáo 7 ngày gần nhất"
+    "nearest_7_days":"Báo cáo 7 ngày gần nhất",
+    "empty_goal_msg":"Có vẻ bạn chưa thêm mục tiêu nào cả, hãy thêm mục tiêu để theo dõi nhé!",
+    "empty_budget_msg":"Có vẻ bạn chưa thêm loại chi tiêu nào cả, hãy thêm loại chi tiêu để có thể đặt giới hạn nhé!"
 }

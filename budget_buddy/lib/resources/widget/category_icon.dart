@@ -3,7 +3,7 @@ import 'package:budget_buddy/resources/app_export.dart';
 
 class CategoryIcon extends StatelessWidget {
   final String imagePath;
-  CategoryIcon({super.key, required this.imagePath});
+  const CategoryIcon({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class CategoryIcon extends StatelessWidget {
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(360)),
       child: imagePath == ""
-          ? SizedBox()
+          ? const SizedBox()
           : Center(
               child: SizedBox(
                   child: Image.asset(

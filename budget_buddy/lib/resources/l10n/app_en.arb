@@ -138,6 +138,7 @@
     "salary":"Salary",
     "income":"Incomes",
     "expense":"Expenses",
-    "nearest_7_days":"Report of the last 7 days"
-
+    "nearest_7_days":"Report of the last 7 days",
+    "empty_goal_msg":"It seems like you haven''t added any goals yet. Start your new future goal now!",
+    "empty_budget_msg":"It seems like you haven''t added any expense limits yet. Start your expense limits for better management!"
 }

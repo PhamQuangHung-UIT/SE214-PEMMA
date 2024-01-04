@@ -22,7 +22,7 @@ class _AddCategoryViewState extends State<AddCategoryView> {
   final BudgetPresenter _budgetPresenter = BudgetPresenter();
   late String userID;
   bool _isIncome = true;
-  TextEditingController _cName = TextEditingController();
+  final TextEditingController _cName = TextEditingController();
   List<String> iconIPList = [
     "assets/images/restaurant.png",
     "assets/images/fuel.png",
@@ -106,17 +106,14 @@ class _AddCategoryViewState extends State<AddCategoryView> {
         }
       }
       print("Added new Category");
-      Navigator.pop(context);
+      Navigator.of(context, rootNavigator: true).pop();
     }
   }
 
   void addNewCategory(MyCategory newCategory) {
-    _categoryPresenter.addCategories(
-        newCategory,
-        () => {},
-        (error) => {
-              //Xu li loi
-            });
+    _categoryPresenter.addCategories(newCategory, () => {}, (error) {
+      debugPrint(error);
+    });
   }
 
   @override
