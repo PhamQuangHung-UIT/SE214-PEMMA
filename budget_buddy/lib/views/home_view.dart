@@ -5,12 +5,9 @@ import 'package:budget_buddy/presenters/user_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/resources/widget/home_category_item.dart';
 import 'package:budget_buddy/resources/widget/transaction_tile.dart';
-import 'package:budget_buddy/views/add_transaction_view.dart';
 import 'package:budget_buddy/views/category_view.dart';
-import 'package:budget_buddy/views/goal_budget_view.dart';
 import 'package:budget_buddy/views/recent_transaction_view.dart';
 import 'package:budget_buddy/models/transaction_model.dart' as model;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:budget_buddy/models/user_model.dart' as User;
@@ -163,20 +160,6 @@ class _HomeViewState extends State<HomeView>
                             )
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddTransactionView()));
-                          },
-                          child: Image.asset(
-                            'assets/images/bell.png',
-                            width: 25.adaptSize,
-                            height: 25.adaptSize,
-                          ),
-                        )
                       ],
                     ),
                     SizedBox(height: 15.v),
@@ -256,8 +239,7 @@ class _HomeViewState extends State<HomeView>
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
+                            Navigator.of(context, rootNavigator: true).push(
                                 MaterialPageRoute(
                                     builder: (context) => RecentTransaction()));
                           },
