@@ -19,7 +19,7 @@ class ProfilePresenter {
   MainAppViewContract? _mainAppViewContract;
   ProfileViewContract? _profileViewContract;
 
-  late Locale currentLocale;
+  Locale? currentLocale;
 
   late bool firstRun;
 

@@ -2,16 +2,24 @@ import 'package:budget_buddy/resources/app_export.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomBar extends StatefulWidget {
-  const CustomBottomBar({super.key, this.onChanged});
+  const CustomBottomBar(this.currentItem, {super.key, this.onChanged});
 
   final Function(BottomBarEnum)? onChanged;
+
+  final BottomBarEnum currentItem;
 
   @override
   State<CustomBottomBar> createState() => _CustomBottomBarState();
 }
 
 class _CustomBottomBarState extends State<CustomBottomBar> {
-  int selectedIndex = 0;
+  late BottomBarEnum selectedItem;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedItem = widget.currentItem;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,93 +55,96 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
         type: BottomBarEnum.profile,
       )
     ];
-    
+
     return Container(
-        height: 72.v,
-        decoration: BoxDecoration(
-          color: AppTheme.lightTheme.colorScheme.background,
-          boxShadow: [
-            BoxShadow(
-              color: AppTheme.lightTheme.colorScheme.primary,
-              spreadRadius: 2.h,
-              blurRadius: 2.h,
-              offset: const Offset(0, -4),
-            ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          selectedFontSize: 0,
-          elevation: 0,
-          currentIndex: selectedIndex,
-          type: BottomNavigationBarType.fixed,
-          items: List.generate(5, (index) {
-            if (bottomMenuList[index].isCircle) {
-              return BottomNavigationBarItem(
-                icon: Image.asset(
-                  bottomMenuList[index].icon,
-                  height: 65.adaptSize,
-                  width: 65.adaptSize,
-                ),
-                label: '',
-              );
-            }
+      height: 72.v,
+      decoration: BoxDecoration(
+        color: AppTheme.lightTheme.colorScheme.background,
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.lightTheme.colorScheme.primary,
+            spreadRadius: 2.h,
+            blurRadius: 2.h,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: BottomNavigationBar(
+        backgroundColor: Colors.transparent,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        selectedFontSize: 0,
+        elevation: 0,
+        currentIndex: selectedItem.index,
+        type: BottomNavigationBarType.fixed,
+        items: List.generate(5, (index) {
+          if (bottomMenuList[index].isCircle) {
             return BottomNavigationBarItem(
-              icon: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    bottomMenuList[index].icon,
-                    height: 31.adaptSize,
-                    width: 31.adaptSize,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 5.v),
-                    child: Text(
-                      bottomMenuList[index].title ?? "",
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.grey[700]),
-                    ),
-                  ),
-                ],
-              ),
-              activeIcon: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    bottomMenuList[index].activeIcon,
-                    height: 31.adaptSize,
-                    width: 31.adaptSize,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 5.v),
-                    child: Text(
-                      bottomMenuList[index].title ?? "",
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                            color: AppTheme.green800,
-                          ),
-                    ),
-                  ),
-                ],
+              icon: Image.asset(
+                bottomMenuList[index].icon,
+                height: 65.adaptSize,
+                width: 65.adaptSize,
               ),
               label: '',
             );
-          }),
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-            widget.onChanged?.call(bottomMenuList[index].type);
-          },
-        ),
+          }
+          return BottomNavigationBarItem(
+            icon: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  bottomMenuList[index].icon,
+                  height: 31.adaptSize,
+                  width: 31.adaptSize,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 5.v),
+                  child: Text(
+                    bottomMenuList[index].title ?? "",
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge!
+                        .copyWith(color: Colors.grey[700]),
+                  ),
+                ),
+              ],
+            ),
+            activeIcon: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  bottomMenuList[index].activeIcon,
+                  height: 31.adaptSize,
+                  width: 31.adaptSize,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 5.v),
+                  child: Text(
+                    bottomMenuList[index].title ?? "",
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: AppTheme.green800,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+            label: '',
+          );
+        }),
+        onTap: (index) {
+          setState(() {
+            selectedItem = BottomBarEnum.values[index];
+          });
+          widget.onChanged?.call(bottomMenuList[index].type);
+        },
+      ),
     );
   }
 }
 
-enum BottomBarEnum { home, report, budget, profile, add }
+enum BottomBarEnum { home, report, add, budget, profile }
 
 class BottomMenuModel {
   BottomMenuModel({

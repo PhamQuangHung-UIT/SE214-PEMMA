@@ -74,7 +74,6 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
                         SizedBox(height: 43.v),
                         SizedBox(
                           height: 235.v,
-                          width: 249.h,
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
@@ -84,7 +83,6 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
                                   AppLocalizations.of(context)!.login_title,
                                   style: AppTheme
                                       .lightTheme.textTheme.headlineMedium!
-                                      .copyWith(fontSize: 36.fSize),
                                 ),
                               ),
                               Image.asset(
@@ -108,7 +106,7 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
                           textInputType: TextInputType.emailAddress,
                           onTap: () => _emailFocus.requestFocus(),
                         ),
-                        SizedBox(height: 36.v),
+                        SizedBox(height: 12.v),
                         CustomTextFormField(
                           controller: passwordController,
                           focusNode: _passwordFocus,
@@ -175,7 +173,7 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
                               child: Text(
                                 AppLocalizations.of(context)!.or,
                                 style: AppTheme
-                                    .lightTheme.textTheme.titleMedium!
+                                    .lightTheme.textTheme.labelLarge!
                                     .copyWith(color: AppTheme.grey400),
                               ),
                             ),

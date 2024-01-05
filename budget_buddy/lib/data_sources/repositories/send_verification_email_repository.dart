@@ -2,12 +2,12 @@ import 'package:cache_manager/cache_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SendVerificationEmailRepository {
-  Future<void> sendVerificationEmail(String email, String continueUrl,
+  Future<void> sendVerificationEmail(User currentUser, String continueUrl,
       [String? languageCode]) async {
     var auth = FirebaseAuth.instance;
 
     // Save the current email to cache
-    WriteCache.setString(key: 'verifyEmail', value: email);
+    WriteCache.setString(key: 'verifyEmail', value: currentUser.email!);
 
     // Create an action code settings
     var settings = ActionCodeSettings(
@@ -21,8 +21,7 @@ class SendVerificationEmailRepository {
     await auth.setLanguageCode(languageCode);
 
     // Send the verification email
-    await auth.sendSignInLinkToEmail(
-        email: email, actionCodeSettings: settings);
+    await currentUser.sendEmailVerification(settings);
   }
 
   Future<void> sendResetPasswordEmail(String email, String continueUrl,

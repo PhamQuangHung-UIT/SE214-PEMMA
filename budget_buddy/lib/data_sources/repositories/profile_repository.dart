@@ -27,12 +27,12 @@ class ProfileRepository {
     await prefs.setString('language', newLocale.languageCode);
   }
 
-  Future<Locale> currentLocale() async {
+  Future<Locale?> currentLocale() async {
     var prefs = await SharedPreferences.getInstance();
     String? languageCode = prefs.getString('language');
     if (languageCode == null) {
       // return the default app locale
-      return const Locale('en');
+      return null;
     }
     return Locale(languageCode);
   }

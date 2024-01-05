@@ -3,7 +3,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class SignUpViewContract {
-  void onCreateSignUpInfoSuccess();
+  void onCreateSignUpInfoSuccess(User currentUser);
   void onCreateSignUpInfoFailed(FirebaseAuthException e);
 }
 
@@ -19,7 +19,7 @@ class SignUpPresenter {
     _assertPassword(password, confirmPassword);
     _repos
         .signUp(fullname, email, password)
-        .then((value) => _viewContract.onCreateSignUpInfoSuccess())
+        .then((value) => _viewContract.onCreateSignUpInfoSuccess(value.firebaseUser!))
         .catchError((e) => _viewContract.onCreateSignUpInfoFailed(e as FirebaseAuthException));
   }
 

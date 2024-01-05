@@ -1,3 +1,4 @@
+import 'package:cache_manager/cache_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -6,7 +7,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 class LoginRepository {
   Future<void> loginWithPassword(String email, String password) async {
     var auth = FirebaseAuth.instance;
-    await auth.signInWithEmailAndPassword(email: email, password: password);
+    var credential =
+        await auth.signInWithEmailAndPassword(email: email, password: password);
+    if (!credential.user!.emailVerified) {
+      WriteCache.setString(key: 'password', value: password);
+    }
   }
 
   Future<void> loginWithGoogle() async {
@@ -37,10 +42,12 @@ class LoginRepository {
     var result = await FacebookAuth.instance.login();
     if (result.accessToken != null) {
       //Create a new credential
-      var credential = FacebookAuthProvider.credential(result.accessToken!.token);
+      var credential =
+          FacebookAuthProvider.credential(result.accessToken!.token);
 
       // Sign in using the credential
-      var user = (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+      var user =
+          (await FirebaseAuth.instance.signInWithCredential(credential)).user;
 
       var userData = await FacebookAuth.instance.getUserData();
 

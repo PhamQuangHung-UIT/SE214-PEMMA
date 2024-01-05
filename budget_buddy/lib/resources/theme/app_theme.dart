@@ -22,7 +22,7 @@ class AppTheme {
             horizontal: -4,
           ),
           padding: EdgeInsets.zero,
-          textStyle: textTheme.titleMedium!.copyWith(color: Colors.white)
+          textStyle: textTheme.labelLarge!.copyWith(color: Colors.white)
         ),
       ),
       dividerTheme: DividerThemeData(
@@ -43,51 +43,63 @@ class AppTheme {
   static final TextTheme textTheme = TextTheme(
       bodyLarge: TextStyle(
         color: Colors.black,
-        fontSize: 20.fSize,
+        fontSize: 18.fSize,
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w400,
       ),
       bodyMedium: TextStyle(
         color: Colors.black,
-        fontSize: 16.fSize,
+        fontSize: 14.fSize,
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w400,
       ),
       headlineLarge: TextStyle(
         color: Colors.black,
-        fontSize: 32.fSize,
+        fontSize: 30.fSize,
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w700,
       ),
       headlineMedium: TextStyle(
         color: Colors.black,
-        fontSize: 28.fSize,
+        fontSize: 26.fSize,
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w500,
       ),
       headlineSmall: TextStyle(
         color: Colors.black,
-        fontSize: 24.fSize,
+        fontSize: 20.fSize,
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w600,
       ),
       labelLarge: TextStyle(
         color: grey400,
-        fontSize: 16.fSize,
+        fontSize: 14.fSize,
         fontFamily: 'Montserrat',
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
+      ),
+      labelMedium: TextStyle(
+        color: Colors.black87,
+        fontSize: 12.fSize,
+        fontFamily: 'Montserrat',
+        fontWeight: FontWeight.w400,
       ),
       titleLarge: TextStyle(
         color: Colors.black87,
-        fontSize: 24.fSize,
+        fontSize: 20.fSize,
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w400,
       ),
       titleMedium: TextStyle(
         color: grey400,
-        fontSize: 20.fSize,
+        fontSize: 18.fSize,
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w700,
       ),
+      titleSmall: TextStyle(
+          color: Colors.black87,
+          fontSize: 14.fSize,
+          fontFamily: 'Montserrat',
+          fontWeight: FontWeight.w500,
+        ),
     );
 }

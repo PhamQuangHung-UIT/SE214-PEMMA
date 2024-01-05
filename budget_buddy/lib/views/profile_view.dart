@@ -1,6 +1,7 @@
 import 'package:budget_buddy/models/user_model.dart';
 import 'package:budget_buddy/presenters/profile_presenter.dart';
 import 'package:budget_buddy/resources/app_export.dart';
+import 'package:budget_buddy/resources/routes/app_route.dart';
 import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
 import 'package:budget_buddy/resources/widget/custom_selectable_dialog.dart';
 import 'package:budget_buddy/views/edit_profile_view.dart';
@@ -91,7 +92,7 @@ class _ProfileViewState extends State<ProfileView>
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall!
-                    .copyWith(fontWeight: FontWeight.w500),
+                    .copyWith(fontWeight: FontWeight.w500, fontSize: 18.fSize),
               ),
             ),
           ),
@@ -328,7 +329,7 @@ class _ProfileViewState extends State<ProfileView>
 
   @override
   void onSignOutComplete() {
-    context.go(LoginView.name);
+    AppRoutes.navigatorKey.currentContext!.go(LoginView.name);
   }
 
   void _openLanguageDialog() {

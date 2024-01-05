@@ -1,14 +1,46 @@
 import 'package:budget_buddy/views/add_transaction_view.dart';
+import 'package:budget_buddy/views/goal_budget_view.dart';
 import 'package:budget_buddy/views/profile_view.dart';
+import 'package:budget_buddy/views/home_view.dart';
+import 'package:budget_buddy/views/report_view.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_buddy/resources/app_export.dart';
 import 'package:budget_buddy/resources/widget/custom_bottom_bar.dart';
+import 'package:go_router/go_router.dart';
 
-class MainNavigationView extends StatelessWidget {
-  MainNavigationView({Key? key}) : super(key: key);
+class MainNavigationView extends StatefulWidget {
+  final Widget child;
 
-  final navigatorKey = GlobalKey<NavigatorState>();
+  final String path;
 
+  const MainNavigationView(this.child, this.path, {Key? key}) : super(key: key);
+
+  static final navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  State<MainNavigationView> createState() => MainNavigationViewState();
+
+  static final routeList = [
+    GoRoute(
+      path: '/home',
+      builder: (_, state) => const HomeView(),
+    ),
+    GoRoute(
+      path: '/report',
+      builder: (_, state) => const ReportView(),
+    ),
+    GoRoute(
+      path: '/budget',
+      builder: (_, state) => const BudgetView(),
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (_, state) => const ProfileView(),
+    )
+  ];
+}
+
+class MainNavigationViewState extends State<MainNavigationView> {
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
@@ -17,19 +49,15 @@ class MainNavigationView extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: maxWidth),
         child: Scaffold(
-            body: Navigator(
-                key: navigatorKey,
-                initialRoute: '/home',
-                onGenerateRoute: (routeSetting) => PageRouteBuilder(
-                    pageBuilder: (ctx, ani, ani1) =>
-                        getCurrentPage(routeSetting.name!),
-                    transitionDuration: const Duration(milliseconds: 300))),
-            bottomNavigationBar: CustomBottomBar(onChanged: (type) {
+            body: widget.child,
+            bottomNavigationBar:
+                CustomBottomBar(getCurrentItem(widget.path), onChanged: (type) {
               if (type == BottomBarEnum.add) {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const AddTransactionView()));
+                    builder: (_) => AddTransactionView()));
               } else {
-                navigatorKey.currentState!.pushNamed(getCurrentRoute(type));
+                MainNavigationView.navigatorKey.currentContext!
+                    .go(getCurrentRoute(type));
               }
             })),
       ),
@@ -50,17 +78,10 @@ class MainNavigationView extends StatelessWidget {
     }
   }
 
-  ///Handling page based on route
-  Widget getCurrentPage(String currentRoute) {
-    switch (currentRoute) {
-      case '/home':
-        return const ProfileView();
-      case '/report':
-        return const ProfileView();
-      case '/budget':
-        return const ProfileView();
-      default:
-        return const ProfileView();
-    }
-  }
+  BottomBarEnum getCurrentItem(String path) => switch (path) {
+        '/home' => BottomBarEnum.home,
+        '/report' => BottomBarEnum.report,
+        '/budget' => BottomBarEnum.budget,
+        _ => BottomBarEnum.profile
+      };
 }

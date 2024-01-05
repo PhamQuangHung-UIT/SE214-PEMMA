@@ -8,14 +8,22 @@ import 'package:budget_buddy/views/login_view.dart';
 import 'package:budget_buddy/views/main_navigation_view.dart';
 import 'package:budget_buddy/views/requires_email_verification_view.dart';
 import 'package:budget_buddy/views/sign_up_view.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRoutes {
-  static GoRouter routes() => GoRouter(routes: [
+  static final navigatorKey = GlobalKey<NavigatorState>();
+
+  static GoRouter routes = GoRouter(navigatorKey: navigatorKey, routes: [
         GoRoute(
             path: '/',
-            builder: (_, state) => MainNavigationView(),
             redirect: (context, state) => getInitialRoute()),
+        ShellRoute(
+          navigatorKey: MainNavigationView.navigatorKey,
+          builder: (context, state, child) 
+            => MainNavigationView(child, state.fullPath!),
+          routes: MainNavigationView.routeList
+        ),
         GoRoute(
             path: LandingView.name, builder: (_, state) => const LandingView()),
         GoRoute(path: LoginView.name, builder: (_, state) => const LoginView()),
@@ -44,7 +52,7 @@ class AppRoutes {
         GoRoute(
             path: RequireEmailVerificationView.name,
             builder: (_, state) =>
-                RequireEmailVerificationView(ProfilePresenter().user!.email!))
+                RequireEmailVerificationView(ProfilePresenter().user!))
       ], debugLogDiagnostics: true);
 
   static String? getInitialRoute() {
@@ -54,6 +62,6 @@ class AppRoutes {
     if (!presenter.user!.emailVerified) {
       return RequireEmailVerificationView.name;
     }
-    return null;
+    return '/home';
   }
 }

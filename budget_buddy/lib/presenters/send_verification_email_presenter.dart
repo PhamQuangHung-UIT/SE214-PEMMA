@@ -1,11 +1,12 @@
 import 'package:budget_buddy/data_sources/repositories/send_verification_email_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SendVerificationEmailPresenter {
   final _repos = SendVerificationEmailRepository();
 
   Future<void> sendVerificationEmail(
-      String email, String continueUrl, String? languageCode) async {
-    await _repos.sendVerificationEmail(email, continueUrl, languageCode);
+      User user, String continueUrl, String? languageCode) async {
+    await _repos.sendVerificationEmail(user, continueUrl, languageCode);
   }
 
   Future<void> sendResetPasswordEmail(
