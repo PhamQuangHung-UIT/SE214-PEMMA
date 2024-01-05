@@ -204,7 +204,7 @@ class SignUpViewState extends State<SignUpView> implements SignUpViewContract {
                               ),
                               SizedBox(height: 40.v),
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 40.h),
+                                padding: EdgeInsets.symmetric(horizontal: 30.h),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -356,6 +356,7 @@ class SignUpViewState extends State<SignUpView> implements SignUpViewContract {
 
   @override
   void onCreateSignUpInfoFailed(FirebaseAuthException e) {
+    Navigator.pop(context);
     switch (e.code) {
       case 'empty-fullname':
         setState(() {
@@ -393,12 +394,12 @@ class SignUpViewState extends State<SignUpView> implements SignUpViewContract {
 
   @override
   void onCreateSignUpInfoSuccess(User user) {
-    Navigator.pop(context);
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) => SendVerificationEmailView(
-              authType: AuthType.signUp,
-              user: user,
-            )));
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => SendVerificationEmailView(
+                  authType: AuthType.signUp,
+                  user: user,
+                ))));
   }
 
   void fullNameListener() => setState(() => fullNameError = null);

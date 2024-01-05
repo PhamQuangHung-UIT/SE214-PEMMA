@@ -352,7 +352,7 @@ class _HomeViewState extends State<HomeView>
                               child: TabBar(
                                 unselectedLabelColor: Color(0xff5B5B5B),
                                 indicator: BoxDecoration(
-                                    color: Color(0xff00BD40),
+                                    color: AppTheme.green800,
                                     borderRadius: BorderRadius.circular(8)),
                                 tabs: [
                                   Tab(

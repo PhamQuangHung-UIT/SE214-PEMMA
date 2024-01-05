@@ -86,7 +86,7 @@ class _ReportViewState extends State<ReportView> implements ReportViewContract {
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: EdgeInsets.only(
-                      left: 26.h,
+                      left: 22.h,
                       right: 17.h,
                       top: 10.v,
                       bottom: 10.v,
@@ -148,7 +148,7 @@ class _ReportViewState extends State<ReportView> implements ReportViewContract {
                             titlesData: FlTitlesData(
                               leftTitles: AxisTitles(
                                   sideTitles: SideTitles(
-                                      reservedSize: 50.h,
+                                      reservedSize: 55.h,
                                       showTitles: true,
                                       getTitlesWidget: getLeftTitleWidget)),
                               bottomTitles: AxisTitles(
@@ -247,7 +247,7 @@ class _ReportViewState extends State<ReportView> implements ReportViewContract {
                           height: 109.adaptSize,
                           alignment: Alignment.center,
                           child: PieChart(PieChartData(
-                            startDegreeOffset: 90,
+                            startDegreeOffset: -90,
                             sectionsSpace: 0,
                             sections: getExpenseSectionList(),
                           )),
@@ -358,7 +358,7 @@ class _ReportViewState extends State<ReportView> implements ReportViewContract {
               bottom: 6.v,
             ),
             child: Text(
-              AppLocalizations.of(context)!.salary,
+              transaction.note,
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
@@ -393,7 +393,7 @@ class _ReportViewState extends State<ReportView> implements ReportViewContract {
       return const Text('');
     }
     return Transform.translate(
-      offset: Offset(10.h - value * 0.85, 20.v),
+      offset: Offset(2.h, 20.v),
       child: Transform.rotate(
         angle: -pi * 45 / 180,
         child: Text(dateList[value.toInt()],
@@ -417,7 +417,7 @@ class _ReportViewState extends State<ReportView> implements ReportViewContract {
   List<PieChartSectionData> getExpenseSectionList() =>
       List.generate(colorList.length, (index) {
         double percentage =
-            (incomeColorMap[colorList[index]] ?? 0) / income * 100;
+            (expenseColorMap[colorList[index]] ?? 0) / expense * 100;
         return PieChartSectionData(
           title: '',
           value: percentage,

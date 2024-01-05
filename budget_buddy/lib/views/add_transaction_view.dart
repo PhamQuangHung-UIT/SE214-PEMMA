@@ -229,9 +229,8 @@ class _AddTransactionViewState extends State<AddTransactionView> {
             );
           } else {
             _transactionPresenter.addTransaction(newTransaction, () {
-              
-            },
-                (p0) {
+              Navigator.of(context, rootNavigator: true).pop();
+            }, (p0) {
               debugPrint(p0);
             });
 
@@ -284,9 +283,11 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               );
             }
 
-            Navigator.of(context, rootNavigator: true).pop();
+           // hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
           }
-        } catch (e) {}
+        } catch (e) {
+          debugPrint(e.toString());
+        }
       }
     }
   }
@@ -463,7 +464,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                 controller: _amountController,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Amount",
+                                    hintText: AppLocalizations.of(context)!.amount_hint,
                                     hintStyle:
                                         TextStyle(color: Color(0xffC1C1C1)))),
                           ),

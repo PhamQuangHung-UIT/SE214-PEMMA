@@ -123,6 +123,7 @@
     "category_delete_fail":"Failed to delete category",
     "budget_confirm_delete_title":"Delete budget",
     "budget_confirm_delete":"Are you sure you want to delete this budget?",
+    "amount_hint":"Amount",
     "transaction_title":"Transaction",
     "transaction_note_hint_text":"Add note",
     "add_more_category":"Add more category to use!",
