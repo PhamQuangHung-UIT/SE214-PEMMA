@@ -53,10 +53,13 @@ class _InputEmailViewState extends State<InputEmailView>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  'assets/images/arrow.png',
-                  height: 23.adaptSize,
-                  width: 23.adaptSize,
+                InkWell(
+                  onTap: Navigator.of(context, rootNavigator: true).pop,
+                  child: Image.asset(
+                    'assets/images/arrow.png',
+                    height: 23.adaptSize,
+                    width: 23.adaptSize,
+                  ),
                 ),
                 SizedBox(height: 52.v),
                 Padding(

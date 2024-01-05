@@ -67,8 +67,7 @@ class _TransactionTileState extends State<TransactionTile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
+        Navigator.of(context, rootNavigator: true).push(
             MaterialPageRoute(
                 builder: (context) =>
                     TransactionInfo(transaction: widget.transaction)));
