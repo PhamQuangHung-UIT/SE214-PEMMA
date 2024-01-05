@@ -45,7 +45,7 @@ class SendVerificationEmailRepository {
   }
 
   Future<void> sendUpdateEmailVerification(
-      String newEmail, String continueUrl, String languageCode) async {
+      String newEmail, String continueUrl, String? languageCode) async {
     var auth = FirebaseAuth.instance;
     var user = auth.currentUser!;
 

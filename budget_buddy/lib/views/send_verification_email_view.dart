@@ -1,3 +1,4 @@
+import 'package:budget_buddy/presenters/profile_presenter.dart';
 import 'package:budget_buddy/presenters/send_verification_email_presenter.dart';
 import 'package:budget_buddy/resources/utils/firebase_options.dart';
 import 'package:budget_buddy/resources/widget/custom_elevated_button.dart';
@@ -99,14 +100,14 @@ class _SendVerificationEmailViewState extends State<SendVerificationEmailView> {
         AuthType.signUp => _presenter.sendVerificationEmail(
             widget.user!,
             continueUrl.toString(),
-            Localizations.localeOf(context).languageCode),
+            ProfilePresenter().currentLocale?.languageCode),
         AuthType.changeEmail => _presenter.sendUpdateEmailVerification(
             widget.email!,
             continueUrl.toString(),
-            Localizations.localeOf(context).languageCode),
+            ProfilePresenter().currentLocale?.languageCode),
         _ => _presenter.sendResetPasswordEmail(
             widget.email!,
             continueUrl.toString(),
-            Localizations.localeOf(context).languageCode)
+            ProfilePresenter().currentLocale?.languageCode)
       };
 }

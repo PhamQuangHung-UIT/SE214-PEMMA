@@ -273,7 +273,7 @@ class _ProfileViewState extends State<ProfileView>
                 style: Theme.of(context).textTheme.bodyLarge),
             actions: [
               CustomElevatedButton(
-                width: 70.h,
+                width: 100.h,
                 text: AppLocalizations.of(context)!.log_out,
                 buttonTextStyle: Theme.of(context)
                     .textTheme

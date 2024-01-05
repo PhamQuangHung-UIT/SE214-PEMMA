@@ -15,7 +15,7 @@ class SendVerificationEmailPresenter {
   }
 
   Future<void> sendUpdateEmailVerification(
-      String email, String continueUrl, String languageCode) async {
+      String email, String continueUrl, String? languageCode) async {
     await _repos.sendUpdateEmailVerification(
         email, continueUrl, languageCode);
   }
